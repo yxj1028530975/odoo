@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_websocket_client_tree" model="ir.ui.view">
+            <field name="name">websocket.client.tree</field>
+            <field name="model">websocket.client</field>
+            <field name="arch" type="xml">
+                <tree string="Websocket Client">
+                    <field name="websocket_client_name"/>
+                    <field name="websocket_client_host"/>
+                    <field name="websocket_client_port"/>
+                    <field name="user_id"/>
+                    <field name="states" widget="badge" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_websocket_client_form" model="ir.ui.view">
+            <field name="name">websocket.client.form</field>
+            <field name="model">websocket.client</field>
+            <field name="arch" type="xml">
+                <form string="Websocket Client">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="websocket_client_name"/>
+                                <field name="websocket_client_host"/>
+                                <field name="websocket_client_port"/>
+                                <field name="states"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_websocket_client" model="ir.actions.act_window">
+            <field name="name">Websocket Client</field>
+            <field name="res_model">websocket.client</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>
