@@ -2,7 +2,7 @@
 {
     'name': "websocket_serve",
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': "客户端管理",
 
     'description': 
         """
@@ -21,6 +21,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
+        'data/websocket_client_sequence_data.xml',
         'views/websocket_client_views.xml',
         'views/websocket_menu.xml',
     ],

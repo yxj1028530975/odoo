@@ -11,14 +11,9 @@ class WebsocketServeControllers(http.Controller):
         logging.info(f"请求内容：{json_data}")
         # {'ip': websocket.remote_address[0],'port': websocket.remote_address[1],'user': user, 'password': password}
         # 检查用户是否存在并且密码正确
-        user_id = http.request.env['res.users'].sudo().search([('login', '=', json_data.get('user'))])
+        user_id = http.request.env['res.users'].sudo().browse(json_data.get('user_id'))
         if not user_id:
-            return '用户不存在'
-        try:
-            user_agent_env = http.request.httprequest.environ
-            user_id.sudo()._check_credentials(json_data.get('password'), user_agent_env)
-        except AccessDenied:
-            return '密码错误'
+            return '{"code": 400, "msg": "用户不存在"}'
         ip = json_data.get('ip')
         port = json_data.get('port')
         if (
@@ -26,9 +21,10 @@ class WebsocketServeControllers(http.Controller):
             .sudo()
             .search([('websocket_client_host', '=', ip), ('websocket_client_port', '=', port)])
         ):
-            websocket_client_id.sudo().write({'websocket_client_host': ip, 'websocket_client_port': port, 'status': 'connected', 'user_id': user_id.id})
+            websocket_client_id.sudo().write({'websocket_client_host': ip, 'websocket_client_port': port, 'states': 'connected', 'user_id': user_id.id})
         else:
-            http.request.env['websocket.client'].sudo().create({'ip': ip, 'port': port, 'status': 'connected', 'user_id': user_id.id})
+            http.request.env['websocket.client'].sudo().create({'websocket_client_host': ip, 'websocket_client_port': port, 'states': 'connected', 'user_id': user_id.id})
+        return '{"code": 200, "msg": "连接成功"}'
         
         
 
