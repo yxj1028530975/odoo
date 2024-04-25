@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-        <menuitem name="Websocket" id="websocket_serve.wechat_root_menu" web_icon="websocket_serve,static/description/icon.png" sequence="2">
-            <menuitem name="Websocket Client" id="websocket_serve.wechat_account_menu" action="websocket_serve.action_websocket_client" sequence="0"/>
-         </menuitem>
-</odoo>
-            

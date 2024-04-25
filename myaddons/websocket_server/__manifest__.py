@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "websocket_serve",
+    'name': "websocket_server",
 
     'summary': "客户端管理",
 
     'description': 
         """
-            Long description of module's purpose
+            客户端管理
         """,
 
     "author": "木不易成楊！",

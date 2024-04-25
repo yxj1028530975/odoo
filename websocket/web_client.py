@@ -1,6 +1,5 @@
 import websocket
 import _thread
-import time
 import rel
 
 def on_message(ws, message):
@@ -17,7 +16,7 @@ def on_open(ws):
 
 if __name__ == "__main__":
     websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("ws://localhost:8765?user=1&password=1",
+    ws = websocket.WebSocketApp("ws://localhost:8765?origin=client&user=1&password=1",
                               on_open=on_open,
                               on_message=on_message,
                               on_error=on_error,

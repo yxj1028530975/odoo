@@ -12,7 +12,7 @@
                     <field name="websocket_client_name"/>
                     <field name="websocket_client_host"/>
                     <field name="websocket_client_port"/>
-                    <field name="websocket_remote_address"/>
+                    <field name="websocket_remote_address" invisible="1"/>
                     <field name="user_id"/>
                     <field name="states" widget="badge" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'"/>
                 </tree>
@@ -25,12 +25,15 @@
             <field name="arch" type="xml">
                 <form string="Websocket Client">
                     <sheet>
+                        <header>
+                            <field name="states" widget="statusbar" statusbar_visible="disconnected,connected" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'" clickable="0"/> 
+                        </header>
                         <group>
                             <group>
                                 <field name="websocket_client_name"/>
                                 <field name="websocket_client_host"/>
                                 <field name="websocket_client_port"/>
-                                <field name="websocket_remote_address"/>
+                                <field name="websocket_remote_address" invisible="1"/>
                                 <field name="states"/>
                                 <field name="user_id"/>
                             </group>

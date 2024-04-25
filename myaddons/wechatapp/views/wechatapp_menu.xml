@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Wechat" id="wechatapp.wechat_root_menu" web_icon="wechatapp,static/description/icon.png" sequence="1">
+        <menuitem name="微信客户端" id="wechatapp.wechat_websocket_client_menu" action="wechatapp.action_wechat_websocket_client" sequence="0"/>
+        <menuitem name="微信账号" id="wechatapp.wechat_account_menu" action="wechatapp.action_wechat_account" sequence="1"/>
+    </menuitem>
+</odoo>
+            

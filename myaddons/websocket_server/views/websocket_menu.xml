@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Websocket" id="websocket_server.websocket_root_menu" web_icon="websocket_server,static/description/icon.png" sequence="2">
+        <menuitem name="Websocket Client" id="websocket_server.websocket_client_menu" action="websocket_server.action_websocket_client" sequence="0"/>
+    </menuitem>
+</odoo>
+            

@@ -7,19 +7,19 @@ class WebsocketClient(models.Model):
     _description = "Websocket Client"
     _rec_name = "websocket_client_name"
 
-    websocket_client_name = fields.Char(string="Name")
-    websocket_client_host = fields.Char(string="Host", required=True)
-    websocket_client_port = fields.Char(string="Port", required=True)
-    websocket_remote_address = fields.Char(string="Remote Address")
+    websocket_client_name = fields.Char(string="客户端名称")
+    websocket_client_host = fields.Char(string="IP", required=True)
+    websocket_client_port = fields.Char(string="端口", required=True)
+    websocket_remote_address = fields.Char(string="远程地址")
     states = fields.Selection(
         [
-            ("connected", "Connected"),
-            ("disconnected", "Disconnected"),
+            ("connected", "在线"),
+            ("disconnected", "离线"),
         ],
         string="States",
         default="disconnected",
     )
-    user_id = fields.Many2one("res.users", string="User")
+    user_id = fields.Many2one("res.users", string="关联用户")
 
     @api.model
     def create(self, vals):
@@ -38,12 +38,12 @@ class WebsocketClient(models.Model):
             .search(
                 [   
                     ("websocket_client_host", "=", ip),
-                    ("websocket_client_port", "=", port),
+                    # ("websocket_client_port", "=", port),
                     ("user_id", "=", uid),
                 ]
             )
         ):
-            websocket_client_id.sudo().write({"states": "connected"})
+            websocket_client_id.sudo().write({"states": "connected", "websocket_client_port": port, "websocket_remote_address": addr})
         else:
             websocket_client_id = (
                 self.env["websocket.client"]

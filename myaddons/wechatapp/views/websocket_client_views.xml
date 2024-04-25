@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_wechat_websocket_client_tree" model="ir.ui.view">
+            <field name="name">websocket.client.tree</field>
+            <field name="model">websocket.client</field>
+            <field name="arch" type="xml">
+                <tree string="Websocket Client">
+                    <header>
+                        <button name="send_client_message" type="object" string="消息通信"/>
+                    </header>
+                    <field name="websocket_client_name"/>
+                    <field name="websocket_client_host"/>
+                    <field name="websocket_client_port"/>
+                    <field name="websocket_remote_address" invisible="1"/>
+                    <field name="user_id"/>
+                    <field name="states" widget="badge" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wechat_websocket_client_form" model="ir.ui.view">
+            <field name="name">websocket.client.form</field>
+            <field name="model">websocket.client</field>
+            <field name="arch" type="xml">
+                <form string="Websocket Client">
+                    <sheet>
+                        <header>
+                            <field name="states" widget="statusbar" statusbar_visible="disconnected,connected" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'" clickable="0"/> 
+                        </header>
+                        <group>
+                            <group>
+                                <field name="websocket_client_name"/>
+                                <field name="websocket_client_host"/>
+                                <field name="websocket_client_port"/>
+                                <field name="websocket_remote_address" invisible="1"/>
+                                <field name="states"/>
+                                <field name="user_id"/>
+                            </group>
+                            <notebook>
+                                <page name="wechat_account_one2many_list" string="微信账号列表">
+                                    <field name="wechat_account_ids" widget="one2many_list">
+                                        <tree string="微信账号列表" editable="bottom">
+                                            <field name="name"/>
+                                            <field name="wechat_account_port"/>
+                                            <field name="wechat_process_id"/>
+                                            <field name="websocket_client_id" invisible="1"/>
+                                            <field name="wechat_states" widget="badge" decoration-danger="wechat_states == 'offline'" decoration-success="wechat_states == 'online'"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_wechat_websocket_client" model="ir.actions.act_window">
+            <field name="name">Websocket Client</field>
+            <field name="res_model">websocket.client</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('view_wechat_websocket_client_tree')}),(0, 0, {'view_mode': 'form', 'view_id': ref('view_wechat_websocket_client_form')})]"/>
+        </record>
+
+
+    </data>
+</odoo>
