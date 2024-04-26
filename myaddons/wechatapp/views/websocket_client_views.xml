@@ -34,7 +34,7 @@
                                 <field name="websocket_client_host"/>
                                 <field name="websocket_client_port"/>
                                 <field name="websocket_remote_address" invisible="1"/>
-                                <field name="states"/>
+                                <field name="states" invisible="1"/>
                                 <field name="user_id"/>
                             </group>
                             <notebook>

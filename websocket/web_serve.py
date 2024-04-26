@@ -22,7 +22,7 @@ class WebSocketServer:
             # 请求http并将websocket连接传递给http请求
             print(f"New connection from {addr}. Total connections: {len(self.connected)}")
             url = 'http://127.0.0.1:8069'
-            db = 'wechat_server'
+            db = 'test_server'
             common = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/common')
             uid = common.authenticate(db, user, password, {})
             if not uid:
