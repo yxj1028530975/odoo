@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+
+
+    <div t-name="ks_pager_template" class="ks_pager">
+        <span class="ks_counter">
+            <span class="ks_value">
+                <t t-esc="count"/>
+            </span>
+        </span>
+        <span class="btn-group" aria-atomic="true" t-att-data-next_offset="intial_count"
+              t-att-data-prev-offset="offset">
+            <button type="button"
+                    class="fa fa-chevron-left btn  ks_load_previous ks_event_offer_list"
+                    t-att-data-item-id="item_id" title="Previous"/>
+            <button type="button" class="fa fa-chevron-right btn  ks_load_next"
+                    t-att-data-item-id="item_id" title="Next"/>
+        </span>
+    </div>
+
+
+
+
+
+
+</templates>

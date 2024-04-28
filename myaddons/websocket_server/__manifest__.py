@@ -23,7 +23,7 @@
         'views/res_config_settings_views.xml',
         'data/websocket_client_sequence_data.xml',
         'views/websocket_client_views.xml',
-        'views/websocket_menu.xml',
+        # 'views/websocket_menu.xml',
     ],
     # only loaded in demonstration mode
     "application": True,

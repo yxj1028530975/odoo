@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="任务管理" id="task_queue.task_queue_root_menu" web_icon="task_queue,static/description/icon.png" sequence="3">
+        <menuitem name="任务管理" id="task_queue.task_queue_menu" action="task_queue.action_task_queue" sequence="0"/>
+    </menuitem>
+</odoo>
+            

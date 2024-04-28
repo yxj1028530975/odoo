@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_task_queue_tree" model="ir.ui.view">
+            <field name="name">task.queue.tree</field>
+            <field name="model">task.queue</field>
+            <field name="arch" type="xml">
+                <tree string="Task Queue">
+                    <header>
+                        <button name="execute_tasks" type="object" string="执行任务"/>
+                    </header>
+                    <field name="task_name"/>
+                    <field name="task_content"/>
+                    <field name="task_function_type"/>
+                    <field name="websocket_client_id"/>
+                    <field name="task_context_type"/>
+                    <field name="user_id"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'fail'" decoration-success="state == 'success'" decoration-warning="state == 'doing'" decoration-primary="state == 'todo'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_task_queue_form" model="ir.ui.view">
+            <field name="name">task.queue.form</field>
+            <field name="model">task.queue</field>
+            <field name="arch" type="xml">
+                <form string="Task Queue">
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" statusbar_visible="todo,doing,success,fail" decoration-danger="state == 'fail'" decoration-success="state == 'success'" decoration-warning="state == 'doing'" decoration-primary="state == 'todo'" clickable="0"/> 
+                        </header>
+                        <group>
+                            <group>
+                                <field name="task_name"/>
+                                <field name="task_content"/>
+                                <field name="task_function_type"/>
+                                <field name="websocket_client_id"/>
+                                <field name="task_context_type"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_task_queue" model="ir.actions.act_window">
+            <field name="name">Task Queue</field>
+            <field name="res_model">task.queue</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

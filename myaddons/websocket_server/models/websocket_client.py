@@ -1,7 +1,5 @@
 from odoo import fields, models, api
-from websocket import create_connection
-import time
-import json
+
 class WebsocketClient(models.Model):
     _name = "websocket.client"
     _description = "Websocket Client"
@@ -71,29 +69,3 @@ class WebsocketClient(models.Model):
             return {"code": 400, "msg": "客户端不存在"}
         return {"code": 200, "msg": "客户端状态更新成功"}
 
-    def send_client_message(self):
-        """
-            给客户端发送消息
-        """
-        # 获取websocket客户端的host和port
-        url = self.get_websocket_url()
-        ws = create_connection("ws://localhost:8765/?origin=server&user=1&password=1")
-        data = {
-            "type": "message",
-            "message": "Hello, World!",
-            "ip": 1,
-            "origin": "server",
-            "address": self.websocket_remote_address
-        }
-        ws.send(json.dumps(data))
-        time.sleep(2)
-        ws.close()
-        
-    def get_websocket_url(self):
-        """
-            获取websocket客户端
-        """
-        websocket_host = self.env["ir.config_parameter"].sudo().get_param("websocket_host")
-        websocket_port = self.env["ir.config_parameter"].sudo().get_param("websocket_port")
-            
-        return f"ws://{websocket_host}:{websocket_port}?user=1&password=1"

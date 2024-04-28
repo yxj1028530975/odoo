@@ -12,7 +12,7 @@ Long description of module's purpose
     "website": "http://livetools.top/",
     "category": "wechat/wechatapp",
     'version': '0.1',
-    'depends': ['base','websocket_server'],
+    'depends': ['base','websocket_server','task_queue'],
     'data': [
         'security/ir.model.access.csv',
         'views/wechat_account_views.xml',

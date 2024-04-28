@@ -1,6 +1,7 @@
 import websocket
 import _thread
 import rel
+import python_jc
 
 def on_message(ws, message):
     print(message)
