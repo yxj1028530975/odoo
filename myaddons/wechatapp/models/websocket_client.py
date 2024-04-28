@@ -9,12 +9,16 @@ class WebsocketClient(models.Model):
     
     # 获取websocket客户端启用的微信列表
     def get_wechat_list(self):
+        data_list = []
         for client in self:
             data = {
                 "task_name": "获取微信列表",
                 "task_content": {},
                 "task_function_type": "client_get_wechat_list",
                 "task_context_type": "client",
-                "websocket_client_id": self.id,
+                "websocket_client_id": client.id,
                 "orderID": str(uuid.uuid1())
                 }
+            
+            data_list.append(data)
+        task_queue_id = self.env["task.queue"].create(data_list)

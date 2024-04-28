@@ -17,12 +17,14 @@ class WebSocketServer:
         if  origin == 'client':
             user = path.split('&')[1].split('=')[1]
             password = path.split('&')[2].split('=')[1]
+            mac_address = path.split('&')[3].split('=')[1]
+            username = path.split('&')[4].split('=')[1]
             # if origin != 'server':
             print(user,password)
             # 请求http并将websocket连接传递给http请求
             print(f"New connection from {addr}. Total connections: {len(self.connected)}")
-            url = 'http://127.0.0.1:8067'
-            db = 'wechat_box'
+            url = 'http://127.0.0.1:8069'
+            db = 'wechat_server'
             common = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/common')
             uid = common.authenticate(db, user, password, {})
             if not uid:
@@ -34,7 +36,7 @@ class WebSocketServer:
             ip = websocket.remote_address[0]
             port = websocket.remote_address[1]
             print(addr)
-            return_data = models.execute_kw(db, uid, password, 'websocket.client', 'create_websocket_client', [addr,ip,port,uid],{})
+            return_data = models.execute_kw(db, uid, password, 'websocket.client', 'create_websocket_client', [addr,ip,port,uid,mac_address,username],{})
             websocket_client_id = return_data.get('websocket_client_id')
         # if origin == 'server':
         #     # 接收open函数发送的消息

@@ -9,6 +9,8 @@ class WebsocketClient(models.Model):
     websocket_client_host = fields.Char(string="IP", required=True)
     websocket_client_port = fields.Char(string="端口", required=True)
     websocket_remote_address = fields.Char(string="远程地址")
+    mac_address = fields.Char(string="MAC地址")
+    username = fields.Char(string="设备用户名")
     states = fields.Selection(
         [
             ("connected", "在线"),
@@ -28,20 +30,19 @@ class WebsocketClient(models.Model):
         return super(WebsocketClient, self).create(vals)
 
     @api.model
-    def create_websocket_client(self, addr, ip, port, uid):
+    def create_websocket_client(self, addr, ip, port, uid,mac_address,username):
         # TODO 按ip和用户分类，端口暂时不考虑
         if (
             websocket_client_id := self.env["websocket.client"]
             .sudo()
             .search(
                 [   
-                    ("websocket_client_host", "=", ip),
-                    # ("websocket_client_port", "=", port),
+                    ("mac_address", "=", mac_address),
                     ("user_id", "=", uid),
                 ]
             )
         ):
-            websocket_client_id.sudo().write({"states": "connected", "websocket_client_port": port, "websocket_remote_address": addr})
+            websocket_client_id.sudo().write({"states": "connected", "websocket_client_port": port, "websocket_remote_address": addr, "websocket_client_host": ip, "username": username})
         else:
             websocket_client_id = (
                 self.env["websocket.client"]
@@ -53,6 +54,8 @@ class WebsocketClient(models.Model):
                         "websocket_remote_address": addr,
                         "states": "connected",
                         "user_id": uid,
+                        "mac_address": mac_address,
+                        "username": username
                     }
                 )
             )

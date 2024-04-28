@@ -50,26 +50,25 @@ class TaskQueue(models.Model):
     user_id = fields.Many2one("res.users", string="关联用户",default=lambda self: self.env.user)
     
     orderID = fields.Char(string="任务ID")
-
-    def execute_tasks(self, message):
-        ...
         
-    def send_client_message(self):
+    def execute_tasks(self):
         """
             给客户端发送消息
         """
-        # 获取websocket客户端的host和port
         url = self.get_websocket_url()
         ws = create_connection("ws://localhost:8765/?origin=server&user=1&password=1")
-        data = {
-            "type": "message",
-            "message": "Hello, World!",
-            "ip": 1,
-            "origin": "server",
-            "address": self.websocket_remote_address
-        }
-        ws.send(json.dumps(data))
-        time.sleep(2)
+        for task in self:
+            # 获取websocket客户端的host和port
+            data = {
+                "task_name": task.task_name,
+                "type": task.task_function_type,
+                "message": task.task_content,
+                "origin": "server",
+                'address': task.websocket_client_id.websocket_remote_address,
+                "orderID": task.orderID,
+            }
+            ws.send(json.dumps(data))
+        time.sleep(1)
         ws.close()
     
     def get_websocket_url(self):

@@ -7,12 +7,14 @@
             <field name="arch" type="xml">
                 <tree string="Websocket Client">
                     <header>
-                        <button name="send_client_message" type="object" string="消息通信"/>
+                        <button name="get_wechat_list" type="object" string="消息通信"/>
                     </header>
                     <field name="websocket_client_name"/>
                     <field name="websocket_client_host"/>
                     <field name="websocket_client_port"/>
-                    <field name="websocket_remote_address" invisible="1"/>
+                    <field name="mac_address"/>
+                    <field name="username"/>
+                    <!-- <field name="websocket_remote_address" invisible="1"/> -->
                     <field name="user_id"/>
                     <field name="states" widget="badge" decoration-danger="states == 'disconnected'" decoration-success="states == 'connected'"/>
                 </tree>
@@ -33,7 +35,9 @@
                                 <field name="websocket_client_name"/>
                                 <field name="websocket_client_host"/>
                                 <field name="websocket_client_port"/>
-                                <field name="websocket_remote_address" invisible="1"/>
+                                <field name="mac_address"/>
+                                <field name="username"/>
+                                <field name="websocket_remote_address"/>
                                 <field name="states" invisible="1"/>
                                 <field name="user_id"/>
                             </group>
