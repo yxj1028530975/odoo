@@ -201,7 +201,7 @@ class MailActivity(models.Model):
             # Date.context_today is correct because date_deadline is a Date and is meant to be
             # expressed in user TZ
             base = force_base_date
-        elif activity_type.delay_from == 'previous_activity' and 'activity_previous_deadline' in self.env.context:
+        elif activity_type.delay_from == 'previous_activity' and self.env.context.get('activity_previous_deadline'):
             base = fields.Date.from_string(self.env.context.get('activity_previous_deadline'))
         else:
             base = fields.Date.context_today(self)
@@ -674,7 +674,7 @@ class MailActivity(models.Model):
         activity_domain = [('res_model', '=', res_model)]
         is_filtered = domain or limit or offset
         if is_filtered:
-            activity_domain.append(('res_id', 'in', DocModel._search(domain or [], offset, limit) if is_filtered else []))
+            activity_domain.append(('res_id', 'in', DocModel._search(domain or [], offset, limit, DocModel._order) if is_filtered else []))
         all_activities = Activity.with_context(active_test=not fetch_done).search(
             activity_domain, order='date_done DESC, date_deadline ASC')
         all_ongoing = all_activities.filtered('active')

@@ -89,6 +89,12 @@ class Web_Editor(http.Controller):
         if icon.isdigit():
             if int(icon) == 57467:
                 font = "/web/static/fonts/tiktok_only.woff"
+            elif int(icon) == 61593:  # F099
+                icon = "59392"  # E800
+                font = "/web/static/fonts/twitter_x_only.woff"
+            elif int(icon) == 61569:  # F081
+                icon = "59395"  # E803
+                font = "/web/static/fonts/twitter_x_only.woff"
 
         size = max(width, height, 1) if width else size
         width = width or size
@@ -120,11 +126,17 @@ class Web_Editor(http.Controller):
         image = Image.new("RGBA", (width, height), color)
         draw = ImageDraw.Draw(image)
 
-        box = draw.textbbox((0, 0), icon, font=font_obj)
-        boxw = box[2] - box[0]
-        boxh = box[3] - box[1]
+        if hasattr(draw, 'textbbox'):
+            box = draw.textbbox((0, 0), icon, font=font_obj)
+            left = box[0]
+            top = box[1]
+            boxw = box[2] - box[0]
+            boxh = box[3] - box[1]
+        else:  # pillow < 8.00 (Focal)
+            left, top, _right, _bottom = image.getbbox()
+            boxw, boxh = draw.textsize(icon, font=font_obj)
+
         draw.text((0, 0), icon, font=font_obj)
-        left, top, right, bottom = image.getbbox()
 
         # Create an alpha mask
         imagemask = Image.new("L", (boxw, boxh), 0)
@@ -228,11 +240,12 @@ class Web_Editor(http.Controller):
     def video_url_data(self, video_url, autoplay=False, loop=False,
                        hide_controls=False, hide_fullscreen=False, hide_yt_logo=False,
                        hide_dm_logo=False, hide_dm_share=False):
+        # TODO: In Master, remove the parameter "hide_yt_logo" (the parameter is
+        # no longer supported in the YouTube API.)
         return get_video_url_data(
             video_url, autoplay=autoplay, loop=loop,
             hide_controls=hide_controls, hide_fullscreen=hide_fullscreen,
-            hide_yt_logo=hide_yt_logo, hide_dm_logo=hide_dm_logo,
-            hide_dm_share=hide_dm_share
+            hide_dm_logo=hide_dm_logo, hide_dm_share=hide_dm_share
         )
 
     @http.route('/web_editor/attachment/add_data', type='json', auth='user', methods=['POST'], website=True)
@@ -305,6 +318,7 @@ class Web_Editor(http.Controller):
         """This route is used to determine the original of an attachment so that
         it can be used as a base to modify it again (crop/optimization/filters).
         """
+        self._clean_context()
         attachment = None
         if src.startswith('/web/image'):
             with contextlib.suppress(werkzeug.exceptions.NotFound, MissingError):
@@ -451,7 +465,7 @@ class Web_Editor(http.Controller):
 
         # Compile regex outside of the loop
         # This will used to exclude library scss files from the result
-        excluded_url_matcher = re.compile("^(.+/lib/.+)|(.+import_bootstrap.+\.scss)$")
+        excluded_url_matcher = re.compile(r"^(.+/lib/.+)|(.+import_bootstrap.+\.scss)$")
 
         # First check the t-call-assets used in the related views
         url_infos = dict()
@@ -544,6 +558,9 @@ class Web_Editor(http.Controller):
         Creates a modified copy of an attachment and returns its image_src to be
         inserted into the DOM.
         """
+        self._clean_context()
+        attachment = request.env['ir.attachment'].browse(attachment.id)
+
         fields = {
             'original_id': attachment.id,
             'datas': data,
@@ -558,11 +575,27 @@ class Web_Editor(http.Controller):
             fields['res_id'] = res_id
         if fields['mimetype'] == 'image/webp':
             fields['name'] = re.sub(r'\.(jpe?g|png)$', '.webp', fields['name'], flags=re.I)
+
         existing_attachment = get_existing_attachment(request.env['ir.attachment'], fields)
         if existing_attachment and not existing_attachment.url:
             attachment = existing_attachment
         else:
-            attachment = attachment.copy(fields)
+            # Restricted editors can handle attachments related to records to
+            # which they have access.
+            # Would user be able to read fields of original record?
+            if attachment.res_model and attachment.res_id:
+                request.env[attachment.res_model].browse(attachment.res_id).check_access_rights('read')
+
+            # Would user be able to write fields of target record?
+            # Rights check works with res_id=0 because browse(0) returns an
+            # empty record set.
+            request.env[fields['res_model']].browse(fields['res_id']).check_access_rights('write')
+
+            # Sudo and SUPERUSER_ID because restricted editor will not be able
+            # to copy the record and the mimetype will be forced to plain text.
+            attachment = attachment.with_user(SUPERUSER_ID).sudo().copy(fields)
+            attachment = attachment.with_user(request.env.user.id).sudo(False)
+
         if alt_data:
             for size, per_type in alt_data.items():
                 reference_id = attachment.id
@@ -585,6 +618,7 @@ class Web_Editor(http.Controller):
                         'res_model': 'ir.attachment',
                         'mimetype': 'image/jpeg',
                     }])
+
         if attachment.url:
             # Don't keep url if modifying static attachment because static images
             # are only served from disk and don't fallback to attachments.
@@ -597,12 +631,25 @@ class Web_Editor(http.Controller):
                 url_fragments = attachment.url.split('/')
                 url_fragments.insert(-1, str(attachment.id))
                 attachment.url = '/'.join(url_fragments)
+
         if attachment.public:
             return attachment.image_src
+
         attachment.generate_access_token()
         return '%s?access_token=%s' % (attachment.image_src, attachment.access_token)
 
     def _get_shape_svg(self, module, *segments):
+        Module = request.env['ir.module.module'].sudo()
+        # Avoid creating a bridge module just for this check.
+        if 'imported' in Module._fields and Module.search([('name', '=', module)]).imported:
+            attachment = request.env['ir.attachment'].sudo().search([
+                ('url', '=', f"/{module.replace('.', '_')}/static/{'/'.join(segments)}"),
+                ('public', '=', True),
+                ('type', '=', 'binary'),
+            ], limit=1)
+            if attachment:
+                return b64decode(attachment.datas)
+            raise werkzeug.exceptions.NotFound()
         shape_path = opj(module, 'static', *segments)
         try:
             with file_open(shape_path, 'r', filter_ext=('.svg',)) as file:
@@ -705,6 +752,15 @@ class Web_Editor(http.Controller):
         img = binary_to_image(image)
         width, height = tuple(str(size) for size in img.size)
         root = etree.fromstring(svg)
+
+        if root.attrib.get("data-forced-size"):
+            # Adjusts the SVG height to ensure the image fits properly within
+            # the SVG (e.g. for "devices" shapes).
+            svgHeight = float(root.attrib.get("height"))
+            svgWidth = float(root.attrib.get("width"))
+            svgAspectRatio = svgWidth / svgHeight
+            height = str(float(width) / svgAspectRatio)
+
         root.attrib.update({'width': width, 'height': height})
         # Update default color palette on shape SVG.
         svg, _ = self._update_svg_colors(kwargs, etree.tostring(root, pretty_print=True).decode('utf-8'))
@@ -757,16 +813,20 @@ class Web_Editor(http.Controller):
         for id, url in response.json().items():
             req = requests.get(url)
             name = '_'.join([media[id]['query'], url.split('/')[-1]])
-            # Need to bypass security check to write image with mimetype image/svg+xml
-            # ok because svgs come from whitelisted origin
-            attachment = request.env['ir.attachment'].with_user(SUPERUSER_ID).create({
+            IrAttachment = request.env['ir.attachment']
+            attachment_data = {
                 'name': name,
                 'mimetype': req.headers['content-type'],
                 'public': True,
                 'raw': req.content,
                 'res_model': 'ir.ui.view',
                 'res_id': 0,
-            })
+            }
+            attachment = get_existing_attachment(IrAttachment, attachment_data)
+            # Need to bypass security check to write image with mimetype image/svg+xml
+            # ok because svgs come from whitelisted origin
+            if not attachment:
+                attachment = IrAttachment.with_user(SUPERUSER_ID).create(attachment_data)
             if media[id]['is_dynamic_svg']:
                 colorParams = werkzeug.urls.url_encode(media[id]['dynamic_colors'])
                 attachment['url'] = '/web_editor/shape/illustration/%s?%s' % (slug(attachment), colorParams)
@@ -802,15 +862,18 @@ class Web_Editor(http.Controller):
         try:
             IrConfigParameter = request.env['ir.config_parameter'].sudo()
             olg_api_endpoint = IrConfigParameter.get_param('web_editor.olg_api_endpoint', DEFAULT_OLG_ENDPOINT)
+            database_id = IrConfigParameter.get_param('database.uuid')
             response = iap_tools.iap_jsonrpc(olg_api_endpoint + "/api/olg/1/chat", params={
                 'prompt': prompt,
                 'conversation_history': conversation_history or [],
-                'version': release.version,
+                'database_id': database_id,
             }, timeout=30)
             if response['status'] == 'success':
                 return response['content']
             elif response['status'] == 'error_prompt_too_long':
                 raise UserError(_("Sorry, your prompt is too long. Try to say it in fewer words."))
+            elif response['status'] == 'limit_call_reached':
+                raise UserError(_("You have reached the maximum number of requests for this service. Try again later."))
             else:
                 raise UserError(_("Sorry, we could not generate a response. Please try again later."))
         except AccessError:

@@ -86,6 +86,7 @@ export class ListDataSource extends OdooViewsDataSource {
                     spec[field.currency_field] = {
                         fields: {
                             ...spec[field.currency_field]?.fields,
+                            display_name: {},
                             name: {}, // currency code
                             symbol: {},
                             decimal_places: {},
@@ -104,7 +105,7 @@ export class ListDataSource extends OdooViewsDataSource {
                     };
                     break;
                 default:
-                    spec[field.name] = field;
+                    spec[field.name] = {};
                     break;
             }
         }
@@ -224,17 +225,15 @@ export class ListDataSource extends OdooViewsDataSource {
 
     _formatDateTime(dateValue) {
         const date = deserializeDateTime(dateValue);
-        return formatDateTime(date, {
+        return formatDateTime(date.reconfigure({ numberingSystem: "latn" }), {
             format: "yyyy-MM-dd HH:mm:ss",
-            numberingSystem: "latn",
         });
     }
 
     _formatDate(dateValue) {
         const date = deserializeDate(dateValue);
-        return formatDate(date, {
+        return formatDate(date.reconfigure({ numberingSystem: "latn" }), {
             format: "yyyy-MM-dd",
-            numberingSystem: "latn",
         });
     }
 

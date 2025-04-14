@@ -19,16 +19,20 @@
 # alenafairy, 2023
 # Martin Trigaux, 2023
 # Ivan Kropotkin <yelizariev@itpp.dev>, 2024
-# Wil Odoo, 2024
 # Collex100, 2024
+# Nadia Martynova, 2024
+# Anton Kaligin, 2024
+# Wil Odoo, 2024
+# Larissa Manderfeld, 2024
+# Ilya Rozhkov, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 12:31+0000\n"
+"POT-Creation-Date: 2024-08-13 10:26+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Collex100, 2024\n"
+"Last-Translator: Ilya Rozhkov, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,8 +116,8 @@ msgid ""
 " When different than 0, inventory count date for products stored at this "
 "location will be automatically set at the defined frequency."
 msgstr ""
-" Если значение отлично от 0, дата инвентаризации для продуктов, хранящихся в"
-" этом месте, будет автоматически устанавливаться с заданной периодичностью."
+"При значении, отличном от 0, дата инвентаризации продукции, хранящейся в "
+"данном месте, будет автоматически устанавливаться с заданной периодичностью."
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking__return_count
@@ -402,11 +406,6 @@ msgstr "4 x 7 с ценой"
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode
 msgid "54326786758"
 msgstr "54326786758"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_inventory
-msgid "98"
-msgstr "98"
 
 #. module: stock
 #. odoo-python
@@ -844,7 +843,7 @@ msgstr "<strong>Куда вы хотите отправить продукцию
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_scrap_form_view
 msgid "? This may lead to inconsistencies in your inventory."
-msgstr "? Это может привести к несоответствиям в вашем запасе."
+msgstr "? Это может привести к несоответствиям на складе."
 
 #. module: stock
 #: model:ir.model.constraint,message:stock.constraint_stock_package_type_barcode_uniq
@@ -1071,6 +1070,15 @@ msgid "All at once"
 msgstr "Все сразу"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"All our contractual relations will be governed exclusively by United States "
+"law."
+msgstr ""
+"Все наши договорные отношения будут регулироваться исключительно "
+"законодательством США."
+
+#. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__returned_move_ids
 msgid "All returned moves"
 msgstr "Все возвращенные ходы"
@@ -1211,6 +1219,11 @@ msgstr "Апрель"
 #: model_terms:ir.ui.view,arch_db:stock.warehouse_orderpoint_search
 msgid "Archived"
 msgstr "Архивировано"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "Are you sure you want to cancel this transfer?"
+msgstr "Вы уверены, что хотите отменить это перемещение?"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking__move_type__direct
@@ -1463,6 +1476,15 @@ msgid "Before scheduled date"
 msgstr "До назначенной даты"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Below text serves as a suggestion and doesn’t engage Odoo S.A. "
+"responsibility."
+msgstr ""
+"Приведенный ниже текст служит предложением и не влечет за собой "
+"ответственности Odoo S.A."
+
+#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__res_partner__picking_warn__block
 msgid "Blocking Message"
 msgstr "Блокирующее сообщение"
@@ -1605,6 +1627,26 @@ msgid "Category Routes"
 msgstr "Категория Маршруты"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Certain countries apply withholding at source on the amount of invoices, in "
+"accordance with their internal legislation. Any withholding at source will "
+"be paid by the client to the tax authorities. Under no circumstances can My "
+"Company (Chicago) become involved in costs related to a country's "
+"legislation. The amount of the invoice will therefore be due to My Company "
+"(Chicago) in its entirety and does not include any costs relating to the "
+"legislation of the country in which the client is located."
+msgstr ""
+"Некоторые страны в соответствии со своим внутренним законодательством "
+"удерживают налог у источника на сумму счетов-фактур. Любые удержания у "
+"источника выплачиваются клиентом налоговым органам. Ни при каких "
+"обстоятельствах My Company (Chicago) не может быть вовлечена в расходы, "
+"связанные с законодательством той или иной страны. Таким образом, сумма "
+"счета будет причитаться My Company (Chicago) в полном объеме и не будет "
+"включать в себя расходы, связанные с законодательством страны, в которой "
+"находится клиент."
+
+#. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_return_picking__move_dest_exists
 msgid "Chained Move Exists"
 msgstr "Цепное перемещение существует"
@@ -1614,6 +1656,15 @@ msgstr "Цепное перемещение существует"
 #: model:ir.model,name:stock.model_stock_change_product_qty
 msgid "Change Product Quantity"
 msgstr "Изменить количество продукта"
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+#, python-format
+msgid ""
+"Changing the Lot/Serial number for move lines with different products is not"
+" allowed."
+msgstr "Нельзя менять партию или серийный номер для строк с разными товарами."
 
 #. module: stock
 #. odoo-python
@@ -1649,7 +1700,7 @@ msgstr "Изменение продукта допускается только 
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
 msgid "Check Availability"
-msgstr "Проверить наличие свободных мест"
+msgstr "Проверить наличие"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking__has_packages
@@ -1863,7 +1914,7 @@ msgstr "Подтверждено"
 #. module: stock
 #: model:ir.model,name:stock.model_stock_inventory_conflict
 msgid "Conflict in Inventory"
-msgstr "Конфликт в инвентаре"
+msgstr "Несоответствие в инвентаризации товаров"
 
 #. module: stock
 #. odoo-python
@@ -2377,7 +2428,8 @@ msgstr "Дата резервирования"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
 msgid "Day and month that annual inventory counts should occur."
-msgstr "День и месяц, когда должны проводиться ежегодные инвентаризации."
+msgstr ""
+"День и месяц, когда должна проводиться ежегодная инвентаризацая товаров."
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_company__annual_inventory_day
@@ -2743,7 +2795,7 @@ msgstr "Описание для Внутренних Перемещений"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_template_property_form
 msgid "Description for Receipts"
-msgstr "Описание к квитанциям"
+msgstr "Описание к Поступлению товаров"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__description_picking
@@ -3042,8 +3094,8 @@ msgid ""
 "excessive stock . Check the Forecasted Report  before reordering"
 msgstr ""
 "Из-за поступлений, запланированных на будущее, у вас может оказаться "
-"избыточный запас. Проверьте отчет о прогнозах, прежде чем делать повторный "
-"заказ"
+"избыточный запас товаров. Проверьте Отчет о Прогнозах, прежде чем делать "
+"повторный заказ"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.duplicated_sn_warning
@@ -3284,7 +3336,7 @@ msgstr "Шрифт, отличный значок, например. к.-а.-з�
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_category__removal_strategy_id
 msgid "Force Removal Strategy"
-msgstr "Стратегия удаления силы"
+msgstr "Cтратегия отпуска товаров"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__qty_forecast
@@ -3440,12 +3492,12 @@ msgstr "Свободные запасы в пути"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_product__free_qty
 msgid "Free To Use Quantity "
-msgstr "Бесплатно использовать количество "
+msgstr "Незабронированное количество"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 msgid "Free to Use"
-msgstr "Бесплатное использование"
+msgstr "В наличии"
 
 #. module: stock
 #. odoo-javascript
@@ -3527,7 +3579,7 @@ msgstr "Генерация серийных номеров"
 #: code:addons/stock/static/src/widgets/lots_dialog.xml:0
 #, python-format
 msgid "Generate Serials/Lots"
-msgstr ""
+msgstr "Сгенерировать серийные номера/партии"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
@@ -3747,6 +3799,19 @@ msgstr "Иконка"
 #: model:ir.model.fields,help:stock.field_stock_picking__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Значок, обозначающий исключение Дела."
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"If a payment is still outstanding more than sixty (60) days after the due "
+"payment date, My Company (Chicago) reserves the right to call on the "
+"services of a debt recovery company. All legal expenses will be payable by "
+"the client."
+msgstr ""
+"Если платеж остается непогашенным более шестидесяти (60) дней после "
+"наступления даты платежа, My Company (Chicago) оставляет за собой право "
+"обратиться к услугам компании по возврату долгов. Все судебные издержки "
+"оплачивает клиент."
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_storage_category__allow_new_product__same
@@ -3996,13 +4061,6 @@ msgid "Immediate Transfer"
 msgstr "Немедленное перемещение"
 
 #. module: stock
-#. odoo-python
-#: code:addons/stock/models/stock_quant.py:0
-#, python-format
-msgid "Import"
-msgstr "Импорт"
-
-#. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/generate_serial.js:0
 #, python-format
@@ -4014,7 +4072,7 @@ msgstr "Импортные партии"
 #: code:addons/stock/static/src/widgets/lots_dialog.xml:0
 #, python-format
 msgid "Import Serials/Lots"
-msgstr ""
+msgstr "Импорт серийных номеров/партий"
 
 #. module: stock
 #. odoo-python
@@ -4032,6 +4090,19 @@ msgstr "В наличии"
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__in_type_id
 msgid "In Type"
 msgstr "В тип"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"In order for it to be admissible, My Company (Chicago) must be notified of "
+"any claim by means of a letter sent by recorded delivery to its registered "
+"office within 8 days of the delivery of the goods or the provision of the "
+"services."
+msgstr ""
+"Для того чтобы претензия могла быть принята, \"Моя компания\" (Чикаго) "
+"должна быть уведомлена о ней письмом, отправленным заказным письмом на ее "
+"зарегистрированный офис в течение 8 дней с момента поставки товара или "
+"оказания услуг."
 
 #. module: stock
 #. odoo-javascript
@@ -4227,7 +4298,7 @@ msgstr "Инвентаризированное количество"
 #: model_terms:ir.ui.view,arch_db:stock.view_partner_stock_form
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_pivot
 msgid "Inventory"
-msgstr "Инвентарь"
+msgstr "Склад"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.action_stock_inventory_adjustement_name
@@ -4827,7 +4898,7 @@ msgstr "Местоположение"
 #: code:addons/stock/models/stock_picking.py:0
 #, python-format
 msgid "Locations to update"
-msgstr ""
+msgstr " Места хранения для обновления"
 
 #. module: stock
 #: model:ir.actions.server,name:stock.action_toggle_is_locked
@@ -5219,7 +5290,7 @@ msgstr "Операции"
 #: model:ir.ui.menu,name:stock.stock_move_line_menu
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_move_line_pivot
 msgid "Moves History"
-msgstr "История переездов"
+msgstr "История перемещений"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_warehouse_orderpoint__group_id
@@ -5257,6 +5328,23 @@ msgstr "Несколько правил вместимости для одног
 #: model:ir.model.fields,field_description:stock.field_stock_picking__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Крайний срок моей активности"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"My Company (Chicago) undertakes to do its best to supply performant services"
+" in due time in accordance with the agreed timeframes. However, none of its "
+"obligations can be considered as being an obligation to achieve results. My "
+"Company (Chicago) cannot under any circumstances, be required by the client "
+"to appear as a third party in the context of any claim for damages filed "
+"against the client by an end consumer."
+msgstr ""
+"Моя компания (Chicago) обязуется сделать все возможное для своевременного "
+"оказания услуг в соответствии с оговоренными сроками. Однако ни одно из "
+"обязательств не может рассматриваться как обязательство по достижению "
+"результата. My Company (Chicago) ни при каких обстоятельствах не может быть "
+"обязана клиентом выступать в качестве третьей стороны в контексте любого "
+"иска о возмещении ущерба, поданного против клиента конечным потребителем."
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.quant_search_view
@@ -5341,6 +5429,12 @@ msgstr "Изменить количество в наличии"
 #: model:ir.actions.act_window,name:stock.action_picking_form
 msgid "New Transfer"
 msgstr "Новый Трансфер"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_lot__activity_calendar_event_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Следующее событие календаря активности"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_lot__activity_date_deadline
@@ -5442,6 +5536,13 @@ msgid "No operations found. Let's create a transfer!"
 msgstr "Операции не найдены. Давайте создадим перевод!"
 
 #. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+#, python-format
+msgid "No product found to generate Serials/Lots for."
+msgstr "Не найдено товара для генерации серийных номеров/партий."
+
+#. module: stock
 #: model_terms:ir.actions.act_window,help:stock.product_template_action_product
 msgid "No product found. Let's create one!"
 msgstr "Продукт не найден. Давайте создадим его!"
@@ -5465,7 +5566,7 @@ msgstr "Правило для откладывания не найдено. Да
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_picking_tree_incoming
 msgid "No receipt found. Let's create one!"
-msgstr "Квитанция не найдена. Давайте создадим его!"
+msgstr "Поступление товаров пока не запланировано. Давайте запланируем!"
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_orderpoint
@@ -5873,6 +5974,23 @@ msgid "Other Information"
 msgstr "Другая информация"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Our invoices are payable within 21 working days, unless another payment "
+"timeframe is indicated on either the invoice or the order. In the event of "
+"non-payment by the due date, My Company (Chicago) reserves the right to "
+"request a fixed interest payment amounting to 10% of the sum remaining due. "
+"My Company (Chicago) will be authorized to suspend any provision of services"
+" without prior warning in the event of late payment."
+msgstr ""
+"Наши счета подлежат оплате в течение 21 рабочего дня, если в счете или "
+"заказе не указаны другие сроки оплаты. В случае неуплаты в установленный "
+"срок My Company (Chicago) оставляет за собой право потребовать уплаты "
+"фиксированного процента в размере 10% oот суммы, оставшейся к оплате. В "
+"случае просрочки платежа My Company (Chicago) будет вправе приостановить "
+"предоставление услуг без предварительного предупреждения."
+
+#. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__out_type_id
 msgid "Out Type"
 msgstr "Тип выбытия"
@@ -6008,6 +6126,11 @@ msgid "Package A"
 msgstr "Пакет A"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.report_picking
+msgid "Package B"
+msgstr "Упаковка B"
+
+#. module: stock
 #: model:ir.actions.report,name:stock.action_report_quant_package_barcode_small
 msgid "Package Barcode (PDF)"
 msgstr "Штрихкод упаковки (PDF)"
@@ -6060,7 +6183,7 @@ msgstr "Идентификаторы уровня пакета Подробне�
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.quant_package_search_view
 msgid "Package Name"
-msgstr "Название пакета"
+msgstr "Название упаковки"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_quant_package__name
@@ -6093,29 +6216,29 @@ msgstr "Тип упаковки Демо"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_small
 msgid "Package Type:"
-msgstr "Тип тарифа:"
+msgstr "Тип упаковки:"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.action_package_type_view
 #: model:ir.ui.menu,name:stock.menu_packaging_types
 #: model_terms:ir.ui.view,arch_db:stock.stock_package_type_tree
 msgid "Package Types"
-msgstr "Типы пакетов"
+msgstr "Типы упаковок"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_quant_package__package_use
 msgid "Package Use"
-msgstr "Использование пакета"
+msgstr "Использование упаковки"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_quant_package__valid_sscc
 msgid "Package name is valid SSCC"
-msgstr "Имя пакета является действительным SSCC"
+msgstr "Название упаковки является действительным SSCC"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_putaway_list
 msgid "Package type"
-msgstr "Тип пакета"
+msgstr "Тип упаковки"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.action_package_view
@@ -6126,7 +6249,7 @@ msgstr "Тип пакета"
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
 msgid "Packages"
-msgstr "Пакеты"
+msgstr "Упаковки"
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_package_view
@@ -6134,8 +6257,8 @@ msgid ""
 "Packages are usually created via transfers (during pack operation) and can contain different products.\n"
 "                Once created, the whole package can be moved at once, or products can be unpacked and moved as single units again."
 msgstr ""
-"Пакеты обычно создаются путем перемещения (во время операции упаковки) и могут содержать различные продукты.\n"
-"                После создания пакет может быть перемещен сразу целиком, либо продукты могут быть распакованы и снова перемещены как отдельные единицы."
+"Упаковки обычно создаются при перемещениях и могут содержать разные товары. \n"
+"                  После создания упаковку можно переместить целиком или распаковать и перемещать товары по отдельности."
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__product_packaging_id
@@ -6205,7 +6328,7 @@ msgstr "Частичный"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_quant_relocate__partial_package_names
 msgid "Partial Package Names"
-msgstr "Частичные имена пакетов"
+msgstr "Частичные названия упаковок"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_move__state__partially_available
@@ -6353,11 +6476,9 @@ msgstr "Присутствие зависит от типа операции."
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid ""
-"Press the CREATE button to define quantity for each product in your stock or"
-" import them from a spreadsheet throughout Favorites"
+"Press the \"New\" button to define the quantity for a product in your stock "
+"or import quantities from a spreadsheet via the Actions menu"
 msgstr ""
-"Нажмите кнопку CREATE, чтобы определить количество каждого продукта на "
-"складе или импортировать их из электронной таблицы в Избранное"
 
 #. module: stock
 #. odoo-javascript
@@ -7120,12 +7241,19 @@ msgid "RETURN OF"
 msgstr "ВОЗВРАЩЕНИЕ"
 
 #. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_lot__rating_ids
+#: model:ir.model.fields,field_description:stock.field_stock_picking__rating_ids
+#: model:ir.model.fields,field_description:stock.field_stock_scrap__rating_ids
+msgid "Ratings"
+msgstr "Рейтинги"
+
+#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking__state__assigned
 #: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Ready"
-msgstr "Готово"
+msgstr "Подтверждение"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__product_qty
@@ -7148,12 +7276,12 @@ msgstr "Причина переезда"
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__code__incoming
 #, python-format
 msgid "Receipt"
-msgstr "Квитанция"
+msgstr "Поступления"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__reception_route_id
 msgid "Receipt Route"
-msgstr "Маршрут получения"
+msgstr "Маршрут поступления"
 
 #. module: stock
 #. odoo-python
@@ -7165,12 +7293,12 @@ msgstr "Маршрут получения"
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 #, python-format
 msgid "Receipts"
-msgstr "Квитанции"
+msgstr "Поступления"
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_picking_tree_incoming
 msgid "Receipts allow you to get products from a partner."
-msgstr "Расписки позволяют получать товары от партнера."
+msgstr "Поставки (Поступления товаров) - это получение товаров от партнеров. "
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
@@ -7791,6 +7919,11 @@ msgid "SSCC:"
 msgstr "SSCC:"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid "STANDARD TERMS AND CONDITIONS OF SALE"
+msgstr "СТАНДАРТНЫЕ ПОЛОЖЕНИЯ И УСЛОВИЯ ПРОДАЖИ"
+
+#. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
@@ -8143,11 +8276,6 @@ msgid "Settings"
 msgstr "Настройки"
 
 #. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_picking
-msgid "Shelf 1"
-msgstr "Полка 1"
-
-#. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_inventory
 msgid "Shelf A"
 msgstr "Полка A"
@@ -8416,12 +8544,12 @@ msgstr "Имя источника"
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 #: model_terms:ir.ui.view,arch_db:stock.view_move_line_form
 msgid "Source Package"
-msgstr "Пакет \"Источник"
+msgstr "Исходная упаковка"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.message_body
 msgid "Source Package:"
-msgstr "Исходный пакет:"
+msgstr "Исходная упаковка:"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
@@ -8527,12 +8655,12 @@ msgstr "Операции с запасами"
 #. module: stock
 #: model:ir.model,name:stock.model_stock_package_destination
 msgid "Stock Package Destination"
-msgstr "Пакет акций Назначение"
+msgstr "Место назначения упаковки"
 
 #. module: stock
 #: model:ir.model,name:stock.model_stock_package_level
 msgid "Stock Package Level"
-msgstr "Уровень пакета акций"
+msgstr "Уровень складской упаковки"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_partner__picking_warn
@@ -8626,7 +8754,7 @@ msgstr "Перемещение запасов, которые были обра�
 #. module: stock
 #: model:ir.model,name:stock.model_stock_package_type
 msgid "Stock package type"
-msgstr "Тип комплекта поставки"
+msgstr "Тип складской упаковки"
 
 #. module: stock
 #: model:ir.model,name:stock.model_report_stock_report_stock_rule
@@ -8802,6 +8930,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
+msgid "The Lot/Serial number (%s) is linked to another product."
+msgstr "Партия/серийный номер (%s) связан с другим товаром."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_picking.py:0
+#, python-format
+msgid ""
+"The Picking Operations report has been deleted so you cannot print at this "
+"time unless the report is restored."
+msgstr ""
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_quant.py:0
+#, python-format
 msgid ""
 "The Serial Number (%s) is already used in these location(s): %s.\n"
 "\n"
@@ -8809,7 +8953,7 @@ msgid ""
 msgstr ""
 "Серийный номер (%s) уже используется в этих местах: %s.\n"
 "\n"
-"Ожидается ли это? Например, это может произойти, если операция доставки проверяется до проверки соответствующей операции получения. В этом случае проблема будет решена автоматически после завершения всех этапов. В противном случае необходимо исправить серийный номер, чтобы избежать несогласованности данных."
+"Так и было запланировано? Так может произойти, если операция доставки была подтверждена раньше соответствующей операции приемки товаров. В этом случае проблема будет решена автоматически после завершения всех этапов. В противном случае необходимо исправить серийный номер, чтобы избежать несогласованности данных."
 
 #. module: stock
 #. odoo-python
@@ -8822,6 +8966,19 @@ msgstr "Обратный заказ %s был создан."
 #: model:ir.model.constraint,message:stock.constraint_stock_location_barcode_company_uniq
 msgid "The barcode for a location must be unique per company!"
 msgstr "Штрих-код места должен быть уникальным для каждой компании!"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"The client explicitly waives its own standard terms and conditions, even if "
+"these were drawn up after these standard terms and conditions of sale. In "
+"order to be valid, any derogation must be expressly agreed to in advance in "
+"writing."
+msgstr ""
+"Клиент однозначно отказывается от своих собственных стандартных условий, "
+"даже если они были составлены после настоящих стандартных условий продажи. "
+"Для того чтобы любое отступление было действительным, оно должно быть "
+"предварительно согласовано в письменном виде."
 
 #. module: stock
 #. odoo-python
@@ -8928,7 +9085,7 @@ msgstr ""
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_quant__package_id
 msgid "The package containing this quant"
-msgstr "Пакет, содержащий этот квант"
+msgstr "Упаковка, содержащая это количество"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_location__location_id
@@ -8964,8 +9121,8 @@ msgid ""
 "The quantities selected do not all belong to the same location.\n"
 "                    You may not assign them a package without moving them to a common location."
 msgstr ""
-"Выбранные количества не все относятся к одному местоположению.\n"
-"                    Вы не можете назначить им пакет, не переместив их в общее местоположение."
+"Выбранные количества находятся в разных местах. \n"
+"                      Переместите их в одно место для упаковки."
 
 #. module: stock
 #. odoo-python
@@ -9103,11 +9260,12 @@ msgid ""
 "on-demand flow. The requested delivery address will be the customer delivery"
 " address and not your warehouse."
 msgstr ""
-"Это добавляет маршрут прямой поставки, применяемый к ТМЦ для доставки "
-"поставщиками вашим клиентам. ТМЦ на прямую поставку будет генерировать "
-"запрос на закупку для предложения после подтверждения заказа на продажу. Это"
-" поток по требованию. Запрашиваемый адрес доставки будет адресом доставки "
-"клиента, а не вашим складом."
+"Это добавляет маршрут прямой поставки (dropshipping), применяемый к товарам "
+"для доставки поставщиками напрямую к вашим клиентам. Заказ на прямую "
+"поставку (поставщик - клиент) создаст запрос на закупку у поставщиков после "
+"подтверждения заказа на продажу. Работа начинается после запроса клиента. "
+"Запрашиваемый адрес доставки будет адресом доставки клиента, а не вашим "
+"складом."
 
 #. module: stock
 #. odoo-python
@@ -9257,8 +9415,7 @@ msgid ""
 "This note is added to receipt orders (e.g. where to store the product in the"
 " warehouse)."
 msgstr ""
-"Это примечание добавляется в приходные ордера (например, где хранить товар "
-"на складе)."
+"Примечание для поступления товаров (например, где хранить товар на складе)"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_return_picking_form
@@ -9452,7 +9609,7 @@ msgstr "Порядок"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_quant_relocate_view_form
 msgid "To Package"
-msgstr "В пакет"
+msgstr "Для упаковки"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
@@ -9489,7 +9646,7 @@ msgstr "Итого Прогноз"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 msgid "Total Free to Use"
-msgstr "Всего бесплатно"
+msgstr "Всего в наличии"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
@@ -9944,6 +10101,7 @@ msgid "Used to order the 'All Operations' kanban view"
 msgstr "Используется для упорядочивания представления канбан \"Все операции\""
 
 #. module: stock
+#: model:ir.model,name:stock.model_res_users
 #: model:ir.model.fields,field_description:stock.field_stock_request_count__user_id
 #: model:res.groups,name:stock.group_stock_user
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_inventory_editable
@@ -9960,14 +10118,14 @@ msgstr "Пользователь, которому поручено вести �
 #: model_terms:ir.ui.view,arch_db:stock.stock_scrap_form_view
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 msgid "Validate"
-msgstr "Проверка"
+msgstr "Подтверждение"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/xml/inventory_lines.xml:0
 #, python-format
 msgid "Validate Inventory"
-msgstr "Удостоверение инвентаризации"
+msgstr "Подтвердите информацию по складу"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_change_product_qty__product_variant_count
@@ -10247,7 +10405,7 @@ msgstr "Вес"
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_package_type__base_weight
 msgid "Weight of the package type"
-msgstr "Вес типа упаковки"
+msgstr "Вес упаковки"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_storage_category__weight_uom_name
@@ -10440,8 +10598,8 @@ msgid ""
 "You are about to move quantities in a package without moving the full package.\n"
 "                    Those quantities will be removed from the following package(s):"
 msgstr ""
-"Вы собираетесь переместить количество в пакете, не перемещая весь пакет.\n"
-"                    Эти количества будут удалены из следующего пакета(ов):"
+"Вы перемещаете товары из упаковки без перемещения всей упаковки. \n"
+"                      Эти товары будут удалены из следующих упаковок:"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_form
@@ -10548,6 +10706,14 @@ msgstr "Вы не можете изменить тип продукта, кот�
 
 #. module: stock
 #. odoo-python
+#: code:addons/stock/models/stock_orderpoint.py:0
+#, python-format
+msgid ""
+"You can not create a snoozed orderpoint that is not manually triggered."
+msgstr "Нельзя создать отложенный пункт заказа без ручного запуска."
+
+#. module: stock
+#. odoo-python
 #: code:addons/stock/models/stock_move.py:0
 #, python-format
 msgid "You can not delete moves linked to another operation"
@@ -10608,6 +10774,17 @@ msgid "You can only process 1.0 %s of products with unique serial number."
 msgstr ""
 "Вы можете обрабатывать только 1.0 %s продуктов с уникальным серийным "
 "номером."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_orderpoint.py:0
+#, python-format
+msgid ""
+"You can only snooze manual orderpoints. You should rather archive 'auto-"
+"trigger' orderpoints if you do not want them to be triggered."
+msgstr ""
+"Откладывать можно только ручные пункты заказа. Автоматические лучше "
+"архивировать, если вы не хотите их запускать."
 
 #. module: stock
 #. odoo-python
@@ -10723,6 +10900,25 @@ msgstr "Вы не можете удалить отходы которые дел
 
 #. module: stock
 #. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+#, python-format
+msgid ""
+"You cannot directly pack quantities from different transfers into the same "
+"package through this view. Try adding them to a batch picking and pack it "
+"there."
+msgstr ""
+"Нельзя упаковать товары из разных перемещений в одну упаковку. Попробуйте "
+"объединить их в одну партию и упаковать там."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_quant.py:0
+#, python-format
+msgid "You cannot duplicate stock quants."
+msgstr "Вы не можете дублировать складские остатки."
+
+#. module: stock
+#. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "You cannot modify inventory loss quantity"
@@ -10736,8 +10932,8 @@ msgid ""
 "You cannot move the same package content more than once in the same transfer"
 " or split the same package into two location."
 msgstr ""
-"Вы не можете перемещать одно и то же содержимое упаковки более одного раза в"
-" одном перемещении или разделять одну и ту же упаковку на два места."
+"Нельзя перемещать содержимое одной и той же упаковки более одного раза в "
+"одном перемещении или разделять одну и ту же упаковку на два места."
 
 #. module: stock
 #. odoo-python
@@ -10942,13 +11138,6 @@ msgstr "Вам нужно выбрать маршрут для пополнен�
 
 #. module: stock
 #. odoo-python
-#: code:addons/stock/models/stock_move.py:0
-#, python-format
-msgid "You need to set a Serial Number before generating more."
-msgstr "Нужно установить серийный номер, прежде чем генерировать еще."
-
-#. module: stock
-#. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
 #, python-format
 msgid ""
@@ -10964,6 +11153,11 @@ msgstr ""
 #, python-format
 msgid "You need to supply a Lot/Serial number for products %s."
 msgstr "Вам необходимо указать номер партии/серийный номер для продукции %s."
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid "You should update this document to reflect your T&amp;C."
+msgstr "Вам следует обновить этот документ в соответствии с вашими Т&amp;С."
 
 #. module: stock
 #. odoo-python
@@ -11004,6 +11198,15 @@ msgstr ""
 "Здесь вы найдете умные предложения по пополнению запасов, основанные на прогнозах товарных запасов.\n"
 "            Выберите количество для закупки или производства и запускайте заказы одним щелчком мыши.\n"
 "            Чтобы сэкономить время в будущем, установите правила как «автоматические»."
+
+#. module: stock
+#: model_terms:res.company,lunch_notify_message:stock.res_company_1
+msgid ""
+"Your lunch has been delivered.\n"
+"Enjoy your meal!"
+msgstr ""
+"Ваш обед доставлен.\n"
+"Наслаждайтесь едой!"
 
 #. module: stock
 #. odoo-python
@@ -11055,7 +11258,7 @@ msgstr "ниже инвентарного"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__module_delivery_bpost
 msgid "bpost Connector"
-msgstr "коннектор bpost"
+msgstr "Коннектор bpost"
 
 #. module: stock
 #: model:product.removal,method:stock.removal_closest
@@ -11155,7 +11358,7 @@ msgstr "является"
 #. module: stock
 #: model:product.removal,method:stock.removal_least_packages
 msgid "least_packages"
-msgstr "наименьшее количество_пакетов"
+msgstr "least_packages"
 
 #. module: stock
 #: model:product.removal,method:stock.removal_lifo

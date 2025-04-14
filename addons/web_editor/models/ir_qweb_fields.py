@@ -109,9 +109,10 @@ class IrQWeb(models.AbstractModel):
             if not module or module.state == 'installed':
                 return []
             name = el.attrib.get('string') or 'Snippet'
-            div = '<div name="%s" data-oe-type="snippet" data-module-id="%s" data-oe-thumbnail="%s"><section/></div>' % (
+            div = '<div name="%s" data-oe-type="snippet" data-module-id="%s" data-module-display-name="%s" data-oe-thumbnail="%s"><section/></div>' % (
                 escape(pycompat.to_text(name)),
                 module.id,
+                module.display_name,
                 escape(pycompat.to_text(thumbnail))
             )
             self._append_text(div, compile_context)
@@ -447,6 +448,7 @@ class Image(models.AbstractModel):
     _inherit = 'ir.qweb.field.image'
 
     local_url_re = re.compile(r'^/(?P<module>[^]]+)/static/(?P<rest>.+)$')
+    redirect_url_re = re.compile(r'\/web\/image\/\d+-redirect\/')
 
     @api.model
     def from_html(self, model, field, element):
@@ -470,6 +472,8 @@ class Image(models.AbstractModel):
                 oid = query.get('id', fragments[4])
                 field = query.get('field', fragments[5])
             item = self.env[model].browse(int(oid))
+            if self.redirect_url_re.match(url_object.path):
+                return self.load_remote_url(item.url)
             return item[field]
 
         if self.local_url_re.match(url_object.path):
@@ -622,7 +626,7 @@ def _collapse_whitespace(text):
     """ Collapses sequences of whitespace characters in ``text`` to a single
     space
     """
-    return re.sub('\s+', ' ', text)
+    return re.sub(r'\s+', ' ', text)
 
 
 def _realize_padding(it):

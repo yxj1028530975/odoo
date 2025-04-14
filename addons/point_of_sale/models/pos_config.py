@@ -6,6 +6,7 @@ from uuid import uuid4
 import pytz
 
 from odoo import api, fields, models, _, Command
+from odoo.http import request
 from odoo.osv.expression import OR, AND
 from odoo.exceptions import AccessError, ValidationError, UserError
 
@@ -182,7 +183,7 @@ class PosConfig(models.Model):
     auto_validate_terminal_payment = fields.Boolean(default=True, help="Automatically validates orders paid with a payment terminal.")
     trusted_config_ids = fields.Many2many("pos.config", relation="pos_config_trust_relation", column1="is_trusting",
                                           column2="is_trusted", string="Trusted Point of Sale Configurations",
-                                          domain="[('id', '!=', pos_config_id), ('module_pos_restaurant', '=', False)]")
+                                          domain="[('id', '!=', pos_config_id), ('module_pos_restaurant', '=', False), ('company_id', '=', company_id)]")
 
     @api.depends('payment_method_ids')
     def _compute_cash_control(self):
@@ -211,6 +212,7 @@ class PosConfig(models.Model):
     def _compute_current_session(self):
         """If there is an open session, store it to current_session_id / current_session_State.
         """
+        self.session_ids.fetch(["state"])
         for pos_config in self:
             opened_sessions = pos_config.session_ids.filtered(lambda s: s.state != 'closed')
             rescue_sessions = opened_sessions.filtered('rescue')
@@ -303,7 +305,7 @@ class PosConfig(models.Model):
                 if pm.journal_id and pm.journal_id.currency_id and pm.journal_id.currency_id != config.currency_id:
                     raise ValidationError(_("All payment methods must be in the same currency as the Sales Journal or the company currency if that is not set."))
 
-            if config.use_pricelist and config.pricelist_id and any(config.available_pricelist_ids.mapped(lambda pricelist: pricelist.currency_id != config.currency_id)):
+            if config.use_pricelist and any(config.available_pricelist_ids.mapped(lambda pricelist: pricelist.currency_id != config.currency_id)):
                 raise ValidationError(_("All available pricelists must be in the same currency as the company or"
                                         " as the Sales Journal set on this point of sale if you use"
                                         " the Accounting application."))
@@ -570,9 +572,13 @@ class PosConfig(models.Model):
         if not self.current_session_id:
             self.env['pos.session'].create({'user_id': self.env.uid, 'config_id': self.id})
         path = '/pos/web' if self._force_http() else '/pos/ui'
+        pos_url = path + '?config_id=%d' % self.id
+        debug = request and request.session.debug
+        if debug:
+            pos_url += '&debug=%s' % debug
         return {
             'type': 'ir.actions.act_url',
-            'url': path + '?config_id=%d' % self.id,
+            'url': pos_url,
             'target': 'self',
         }
 

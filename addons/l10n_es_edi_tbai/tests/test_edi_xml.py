@@ -43,6 +43,18 @@ class TestEdiTbaiXmls(TestEsEdiTbaiCommon):
             xml_expected = etree.fromstring(super().L10N_ES_TBAI_SAMPLE_XML_POST)
             self.assertXmlTreeEqual(xml_doc, xml_expected)
 
+    def test_xml_tree_post_generic_sequence(self):
+        """Test TBAI on moves whose sequence does not contain a '/'"""
+        with freeze_time(self.frozen_today):
+            invoice = self.out_invoice.copy({
+                'name': 'INV01',
+                'invoice_date': date(2022, 1, 1),
+            })
+            xml_doc = self.edi_format._get_l10n_es_tbai_invoice_xml(invoice, cancel=False)[invoice]['xml_file']
+            xml_doc.remove(xml_doc.find("Signature", namespaces=NS_MAP))
+            xml_expected = etree.fromstring(super().L10N_ES_TBAI_SAMPLE_XML_POST)
+            self.assertXmlTreeEqual(xml_doc, xml_expected)
+
     def test_xml_tree_post_multicurrency(self):
         """Test of Customer Invoice XML. The invoice is not in company currency and has a line with a 100% discount"""
 
@@ -138,6 +150,7 @@ class TestEdiTbaiXmls(TestEsEdiTbaiCommon):
             self.in_invoice = self.env['account.move'].create({
                 'name': 'INV/01',
                 'move_type': 'in_invoice',
+                'ref': 'INV/5234',
                 'invoice_date': datetime.now(),
                 'partner_id': self.partner_a.id,
                 'invoice_line_ids': [(0, 0, {
@@ -152,12 +165,33 @@ class TestEdiTbaiXmls(TestEsEdiTbaiCommon):
             xml_expected = etree.fromstring(super().L10N_ES_TBAI_SAMPLE_XML_POST_IN)
             self.assertXmlTreeEqual(xml_doc, xml_expected)
 
+    def test_xml_tree_no_deducible_tax(self):
+        """Test XML of vendor bill with non deductible tax"""
+        with freeze_time(self.frozen_today):
+            self.in_invoice = self.env['account.move'].create({
+                'name': 'INV/01',
+                'move_type': 'in_invoice',
+                'ref': 'INV/5234',
+                'invoice_date': datetime.now(),
+                'partner_id': self.partner_a.id,
+                'invoice_line_ids': [(0, 0, {
+                    'product_id': self.product_a.id,
+                    'price_unit': 1000.0,
+                    'quantity': 1,
+                    'tax_ids': [(6, 0, self._get_tax_by_xml_id('p_iva10_nd').ids)],
+                })],
+            })
+            xml_doc = etree.fromstring(self.edi_format._l10n_es_tbai_get_invoice_content_edi(self.in_invoice))
+            xml_expected = etree.fromstring(super().L10N_ES_TBAI_SAMPLE_XML_POST_IN_ND)
+            self.assertXmlTreeEqual(xml_doc, xml_expected)
+
     def test_xml_tree_in_ic_post(self):
         """Test XML of vendor bill for LROE Batuz intra-community"""
         with freeze_time(self.frozen_today):
             self.in_invoice = self.env['account.move'].create({
                 'name': 'INV/01',
                 'move_type': 'in_invoice',
+                'ref': 'INV/5234',
                 'invoice_date': datetime.now(),
                 'partner_id': self.partner_b.id,
                 'invoice_line_ids': [(0, 0, {

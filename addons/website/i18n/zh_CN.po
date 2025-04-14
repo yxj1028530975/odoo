@@ -3,21 +3,22 @@
 # 	* website
 # 
 # Translators:
-# Jeffery CHEN <jeffery9@gmail.com>, 2023
 # 山西清水欧度(QQ:54773801) <54773801@qq.com>, 2024
 # Yazi Tian, 2024
 # Martin Trigaux, 2024
-# Wil Odoo, 2024
-# Chloe Wang, 2024
 # 湘子 南 <1360857908@qq.com>, 2024
+# Chloe Wang, 2024
+# Jeffery CHEN <jeffery9@gmail.com>, 2025
+# Wil Odoo, 2025
+# 何彬 <vnsoft.he@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 10:44+0000\n"
+"POT-Creation-Date: 2025-02-10 10:33+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: 湘子 南 <1360857908@qq.com>, 2024\n"
+"Last-Translator: 何彬 <vnsoft.he@gmail.com>, 2025\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,6 +58,23 @@ msgstr "\"来源网址\" 不能为空。"
 #, python-format
 msgid "\"URL to\" can not be empty."
 msgstr "“链接”不能为空"
+
+#. module: website
+#. odoo-python
+#: code:addons/website/models/website_rewrite.py:0
+#, python-format
+msgid ""
+"\"URL to\" cannot be set to \"/\". To change the homepage content, use the "
+"\"Homepage URL\" field in the website settings or the page properties on any"
+" custom page."
+msgstr "不能将 “前往网址” 设置为 “/”。若要更改主页内容，请使用网站设置中的“主页网址”字段，或任何自定义页面上的页面属性。"
+
+#. module: website
+#. odoo-python
+#: code:addons/website/models/website_rewrite.py:0
+#, python-format
+msgid "\"URL to\" cannot be set to an existing page."
+msgstr "“前往网址” 不可设为现有页面。"
 
 #. module: website
 #. odoo-python
@@ -217,19 +235,13 @@ msgstr "+ 新网站"
 #: model_terms:ir.ui.view,arch_db:website.template_footer_contact
 #: model_terms:ir.ui.view,arch_db:website.template_footer_descriptive
 #: model_terms:ir.ui.view,arch_db:website.template_footer_headline
+msgid "+1 555-555-5556"
+msgstr "+1 555-555-5556"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_links
-msgid "+1 (650) 555-0111"
-msgstr "+1 (650) 555-0111"
-
-#. module: website
-#: model_terms:ir.ui.view,arch_db:website.searchbar_input_snippet_options
-msgid ", .s_searchbar_input"
-msgstr ", .s_searchbar_input"
-
-#. module: website
-#: model_terms:ir.ui.view,arch_db:website.s_website_form_options
-msgid ", .s_website_form"
-msgstr ", .s_website_form"
+msgid "+1 555-555-5556\""
+msgstr "+1 555-555-5556\""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.show_website_info
@@ -687,10 +699,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
 msgid ""
 "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>\n"
-"                        <span class=\"o_force_ltr\"><small>+1 (650) 555-0111</small></span>"
+"                        <span class=\"o_force_ltr\"><small>+1 555-555-5556</small></span>"
 msgstr ""
 "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>\n"
-"                        <span class=\"o_force_ltr\"><small>+1 (650) 555-0111</small></span>"
+"                        <span class=\"o_force_ltr\"><small>+1 555-555-5556</small></span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
@@ -787,11 +799,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.contactus
 #: model_terms:ir.ui.view,arch_db:website.contactus_thanks_ir_ui_view
 msgid ""
-"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 (650) "
-"555-0111</span>"
+"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 "
+"555-555-5556</span>"
 msgstr ""
-"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 (650) "
-"555-0111</span>"
+"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 "
+"555-555-5556</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -1146,8 +1158,8 @@ msgstr "<span class=\"o_footer_copyright_name me-2\">版权 &amp;copy; 公司名
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
-msgid "<span class=\"o_force_ltr\">+1 (650) 555-0111</span>"
-msgstr "<span class=\"o_force_ltr\">+1 (650) 555-0111</span>"
+msgid "<span class=\"o_force_ltr\">+1 555-555-5556</span>"
+msgstr "<span class=\"o_force_ltr\">+1 555-555-5556</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_form
@@ -1828,8 +1840,8 @@ msgstr "添加语言"
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/options.js:0
 #, python-format
-msgid "Add new %s"
-msgstr "添加新的 %s"
+msgid "Add option"
+msgstr "增加选项"
 
 #. module: website
 #. odoo-javascript
@@ -2387,6 +2399,7 @@ msgstr "后端"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: code:addons/website/static/src/xml/website.editor.xml:0
 #: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.s_chart_options
@@ -2999,6 +3012,13 @@ msgid "Checkbox"
 msgstr "复选框"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Checkbox List"
+msgstr "复选框列表"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "Cheese Onion Rings"
 msgstr "芝士洋葱圈"
@@ -3142,6 +3162,7 @@ msgstr "客户"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/resource_editor/resource_editor.xml:0
+#: code:addons/website/static/src/components/views/theme_preview.xml:0
 #: code:addons/website/static/src/components/views/theme_preview.xml:0
 #: code:addons/website/static/src/snippets/s_image_gallery/000.xml:0
 #: code:addons/website/static/src/xml/website.xml:0
@@ -3728,6 +3749,14 @@ msgstr "客户编码"
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Custom Key"
 msgstr "自定义键"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Custom Text"
+msgstr "自定义文本"
 
 #. module: website
 #. odoo-javascript
@@ -4562,6 +4591,13 @@ msgstr "无论如何编辑 HTML"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/components/edit_head_body_dialog/edit_head_body_dialog.xml:0
+#, python-format
+msgid "Edit Head and Body Code"
+msgstr "编辑 Head 及 Body 程式代码"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/components/dialog/edit_menu.js:0
 #: code:addons/website/static/src/js/widgets/link_popover_widget.js:0
 #: model:ir.ui.menu,name:website.custom_menu_edit_menu
@@ -4618,7 +4654,7 @@ msgstr "编辑视频"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.layout
 msgid "Editor"
-msgstr "编辑"
+msgstr "编辑器"
 
 #. module: website
 #: model:res.groups,name:website.group_website_designer
@@ -4841,6 +4877,13 @@ msgstr "例子"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Existing Fields"
+msgstr "现有字段"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/components/resource_editor/utils.js:0
 #, python-format
 msgid "Expected "
@@ -5045,6 +5088,13 @@ msgstr "特色功能列表"
 #: model_terms:ir.ui.view,arch_db:website.s_dynamic_snippet_options_template
 msgid "Fetched elements"
 msgstr "获取元素"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Field"
+msgstr "字段"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_snippet_filter__field_names
@@ -5798,6 +5848,7 @@ msgstr "标题1"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/js/editor/snippets.editor.js:0
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #, python-format
 msgid "Headings"
 msgstr "标题"
@@ -5808,27 +5859,42 @@ msgid "Headings 1"
 msgstr "标题1"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 2"
 msgstr "标题2"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 3"
 msgstr "标题3"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 4"
 msgstr "标题4"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 5"
 msgstr "标题5"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 6"
 msgstr "标题6"
 
@@ -5893,6 +5959,13 @@ msgstr "隐藏"
 #: model_terms:ir.ui.view,arch_db:website.s_popup_options
 msgid "Hide For"
 msgstr "隐藏"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_popup/000.js:0
+#, python-format
+msgid "Hide the cookies bar"
+msgstr "隐藏 cookies 通知列"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_page_properties_view_form
@@ -6164,15 +6237,6 @@ msgid ""
 "If you need to add analytics or marketing tags, inject code in your <head> "
 "or <body> instead."
 msgstr "如果你需要添加分析或营销标签，在你的 <head> 或 <body> 中注入代码."
-
-#. module: website
-#. odoo-javascript
-#: code:addons/website/static/src/components/resource_editor/resource_editor_warning.xml:0
-#, python-format
-msgid ""
-"If you need to add analytics or marketing tags, inject code in your header "
-"or body instead."
-msgstr "如果需要添加分析或营销标签，请在页眉或正文中注入代码。"
 
 #. module: website
 #. odoo-javascript
@@ -7183,7 +7247,10 @@ msgid "Linkedin"
 msgstr "领英"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
+#, python-format
 msgid "Links"
 msgstr "链接"
 
@@ -7721,7 +7788,7 @@ msgstr "模型页面"
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_snippet_filter__model_name
 msgid "Model name"
-msgstr "型号名称"
+msgstr "模型名称"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_controller_page__model_id
@@ -7963,7 +8030,7 @@ msgstr "网络"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.neutralize_ribbon
 msgid "Neutralized"
-msgstr "中立化的 "
+msgstr "中和"
 
 #. module: website
 #. odoo-javascript
@@ -8443,6 +8510,13 @@ msgid "Option 3"
 msgstr "选项 3"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Option List"
+msgstr "选项列表"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 msgid "Optional"
 msgstr "可选的"
@@ -8686,7 +8760,10 @@ msgid "Page Layout"
 msgstr "网页布局"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/components/dialog/page_properties.xml:0
 #: model_terms:ir.ui.view,arch_db:website.website_page_properties_view_form
+#, python-format
 msgid "Page Name"
 msgstr "网页名称"
 
@@ -8992,6 +9069,11 @@ msgid "Popup"
 msgstr "弹出"
 
 #. module: website
+#: model:ir.model,name:website.model_portal_wizard_user
+msgid "Portal User Config"
+msgstr "门户用户配置"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_big_icons_subtitles
 msgid "Portfolio"
 msgstr "文件夹"
@@ -9028,6 +9110,13 @@ msgstr "前缀"
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
 msgid "Preset"
 msgstr "预制"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/components/fullscreen_indication/fullscreen_indication.js:0
+#, python-format
+msgid "Press %(key)s to exit full screen"
+msgstr "按 %(key)s 离开全屏幕"
 
 #. module: website
 #. odoo-javascript
@@ -9097,6 +9186,13 @@ msgstr "价格方案"
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Primary"
 msgstr "首要的"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
+#, python-format
+msgid "Primary Buttons"
+msgstr "主要按钮"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -9325,6 +9421,13 @@ msgid "Radar"
 msgstr "雷达"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Radio Button List"
+msgstr "单选按钮列表"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 msgid "Radio Buttons"
 msgstr "单选按钮"
@@ -9442,7 +9545,7 @@ msgstr "相关菜单"
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_menu__controller_page_id
 msgid "Related Model Page"
-msgstr "相关型号页面"
+msgstr "相关模型页面"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_menu__page_id
@@ -9926,6 +10029,13 @@ msgid "Secondary"
 msgstr "次要的"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
+#, python-format
+msgid "Secondary Buttons"
+msgstr "次要按钮"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Secondary Style"
 msgstr "次要风格"
@@ -10239,6 +10349,13 @@ msgstr "显示验证码政策"
 #: model_terms:ir.ui.view,arch_db:website.view_view_form_extend
 msgid "Show site map"
 msgstr "显示网站地图"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_popup/000.js:0
+#, python-format
+msgid "Show the cookies bar"
+msgstr "显示 Cookies 通知栏"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -10885,10 +11002,13 @@ msgid "Test your robots.txt with Google Search Console"
 msgstr "使用 Google 搜索控制台测试您的robots.txt"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.grid_layout_options
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 #: model_terms:ir.ui.view,arch_db:website.snippets
+#, python-format
 msgid "Text"
 msgstr "文本"
 
@@ -11262,8 +11382,8 @@ msgstr "第三个菜单"
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/page_properties.xml:0
 #, python-format
-msgid "This URL is contained in the '%s' of the following '%s'"
-msgstr "这个URL包含在以下“%s”的“%s”中。"
+msgid "This URL is contained in the “%(field)s” of the following “%(model)s”"
+msgstr "这个URL包含在模块%(model)s的%(field)s字段中。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.new_page_template_services_0_s_three_columns
@@ -11436,7 +11556,7 @@ msgstr "此视图结构已修改"
 
 #. module: website
 #. odoo-javascript
-#: code:addons/website/static/src/systray_items/website_switcher.xml:0
+#: code:addons/website/static/src/systray_items/website_switcher.js:0
 #, python-format
 msgid "This website does not have a domain configured."
 msgstr "该网站未设置网域名称。"
@@ -12324,7 +12444,7 @@ msgstr "访客浏览历史"
 #: model:ir.ui.menu,name:website.website_visitor_menu
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_graph
 msgid "Visitors"
-msgstr "访问者"
+msgstr "访客"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_form
@@ -12412,6 +12532,13 @@ msgid ""
 "understanding your fitness aspirations, your current lifestyle, and any "
 "challenges you face."
 msgstr "我们相信，每一段健身旅程都是独一无二的。我们的方法首先是了解您的健身愿望、您目前的生活方式以及您面临的任何挑战。"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_facebook_page/options.js:0
+#, python-format
+msgid "We couldn't find the Facebook page"
+msgstr "未能找到该 Facebook 页面"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy
@@ -12926,6 +13053,13 @@ msgstr "年"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/xml/website_form_editor.xml:0
+#, python-format
+msgid "Yes"
+msgstr "是"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/website_preview.js:0
 #, python-format
 msgid ""
@@ -12998,6 +13132,15 @@ msgid ""
 msgstr "无法删除默认网站%s。尝试更改默认网站的设置"
 
 #. module: website
+#. odoo-python
+#: code:addons/website/models/website_menu.py:0
+#, python-format
+msgid ""
+"You cannot delete this website menu as this serves as the default parent "
+"menu for new websites (e.g., /shop, /event, ...)."
+msgstr "不能删除此网站菜单，因为它用作新网站（例如 /shop、/event...）的默认上级菜单。"
+
+#. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/options.js:0
 #, python-format
@@ -13005,12 +13148,11 @@ msgid "You cannot duplicate this field."
 msgstr "该字段不可重复。"
 
 #. module: website
-#: code:addons/website/models/website_menu.py:0
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_facebook_page/options.js:0
 #, python-format
-msgid ""
-"You cannot delete this website menu as this serves as the default parent "
-"menu for new websites (e.g., /shop, /event, ...)."
-msgstr ""
+msgid "You didn't provide a valid Facebook link"
+msgstr "您未有提供有效的 Facebook 连结"
 
 #. module: website
 #. odoo-python
@@ -13034,13 +13176,6 @@ msgid ""
 "You have hidden this page from search results. It won't be indexed by search"
 " engines."
 msgstr "您已从搜索结果中隐藏此网页。它不会被搜索引擎索引。"
-
-#. module: website
-#. odoo-python
-#: code:addons/website/models/res_config_settings.py:0
-#, python-format
-msgid "You haven't defined your domain"
-msgstr "您还没有定义您的域名"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy

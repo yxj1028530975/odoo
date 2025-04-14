@@ -99,6 +99,7 @@ export function useActiveActions({
         // We need to take care of tags "control" and "create" to set create stuff
         result.create = !readonly && evalAction("create");
         result.createEdit = !readonly && result.create && crudOptions.createEdit; // always a boolean
+        result.edit = crudOptions.edit;
         result.delete = !readonly && evalAction("delete");
 
         if (isMany2Many) {
@@ -252,6 +253,9 @@ export class Many2XAutocomplete extends Component {
         if (!this.props.value || this.props.value !== inputValue) {
             this.props.setInputFloats(true);
         }
+    }
+    onCancel() {
+        this.props.setInputFloats(false);
     }
 
     onSelect(option, params = {}) {
@@ -534,15 +538,13 @@ export class X2ManyFieldDialog extends Component {
         this.canCreate = !this.record.resId;
 
         if (this.archInfo.xmlDoc.querySelector("footer:not(field footer)")) {
+            this.archInfo = { ...this.archInfo, xmlDoc: this.archInfo.xmlDoc.cloneNode(true) };
             this.footerArchInfo = Object.assign({}, this.archInfo);
             this.footerArchInfo.xmlDoc = createElement("t");
             this.footerArchInfo.xmlDoc.append(
-                ...[...this.archInfo.xmlDoc.querySelectorAll("footer:not(field footer)")]
+                ...this.archInfo.xmlDoc.querySelectorAll("footer:not(field footer)")
             );
             this.footerArchInfo.arch = this.footerArchInfo.xmlDoc.outerHTML;
-            [...this.archInfo.xmlDoc.querySelectorAll("footer:not(field footer)")].forEach((x) =>
-                x.remove()
-            );
             this.archInfo.arch = this.archInfo.xmlDoc.outerHTML;
         }
 
@@ -694,6 +696,7 @@ export function useOpenX2ManyRecord({
     const viewService = useService("view");
     const userService = useService("user");
     const env = useEnv();
+    const component = useComponent();
 
     const addDialog = useOwnedDialogs();
     const viewMode = activeField.viewMode;
@@ -713,6 +716,9 @@ export function useOpenX2ManyRecord({
             userService,
             env,
         });
+        if (!component.props.record.isInEdition) {
+            archInfo.activeActions.edit = false;
+        }
 
         const { activeFields, fields } = extractFieldsFromArchInfo(archInfo, _fields);
 
@@ -796,9 +802,7 @@ export function useX2ManyCrud(getList, isMany2Many) {
                 return list.addAndRemove({ add: object });
             } else {
                 // object instanceof Record
-                if (!object.resId || object.isDirty) {
-                    await object.save();
-                }
+                await object.save({ reload: false });
                 return list.linkTo(object.resId);
             }
         };

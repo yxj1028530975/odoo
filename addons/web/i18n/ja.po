@@ -5,16 +5,16 @@
 # Translators:
 # Ryoko Tsuda <ryoko@quartile.co>, 2024
 # Martin Trigaux, 2024
-# Wil Odoo, 2024
-# Junko Augias, 2024
+# Junko Augias, 2025
+# Wil Odoo, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 10:46+0000\n"
+"POT-Creation-Date: 2025-02-10 10:35+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Junko Augias, 2024\n"
+"Last-Translator: Wil Odoo, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -889,6 +889,7 @@ msgstr "アクションID:"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/search/action_menus/action_menus.xml:0
+#: code:addons/web/static/src/search/cog_menu/cog_menu.xml:0
 #, python-format
 msgid "Actions"
 msgstr "アクション"
@@ -909,7 +910,6 @@ msgstr "テストアセットのデバッグを有効化"
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/core/debug/debug_providers.js:0
 #: code:addons/web/static/src/core/debug/debug_providers.js:0
 #, python-format
 msgid "Activate debug mode (with assets)"
@@ -1003,7 +1003,7 @@ msgstr "値を追加する"
 #: code:addons/web/static/src/views/list/list_renderer.xml:0
 #, python-format
 msgid "Add a line"
-msgstr "明細を追加"
+msgstr "明細追加"
 
 #. module: web
 #. odoo-javascript
@@ -1015,6 +1015,7 @@ msgstr "ブランチ追加"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
 #: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
 #, python-format
 msgid "Add column"
@@ -1301,6 +1302,7 @@ msgstr "値が設定されていない場合のデフォルトテキスト"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Ascending"
 msgstr "昇順"
@@ -1324,6 +1326,7 @@ msgstr "割当"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #, python-format
 msgid "Attach"
@@ -1408,6 +1411,13 @@ msgid "BACK arrow"
 msgstr "戻る矢印"
 
 #. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/search/control_panel/control_panel.js:0
+#, python-format
+msgid "Back to “%s”"
+msgstr "“%s” に戻る"
+
+#. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__layout_background_image
 msgid "Background Image"
 msgstr "背景画像"
@@ -1435,6 +1445,7 @@ msgstr "バッジ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Bar Chart"
@@ -1795,7 +1806,10 @@ msgstr "クロース"
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/view_dialogs/select_create_dialog.xml:0
 #, python-format
@@ -1811,12 +1825,12 @@ msgstr "クリック可能な"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/datetime/datetime_picker_popover.xml:0
 #: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/core/domain_selector_dialog/domain_selector_dialog.xml:0
-#: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
@@ -1932,7 +1946,6 @@ msgstr "会社名"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.external_layout_bold
-#: model_terms:ir.ui.view,arch_db:web.external_layout_boxed
 #: model_terms:ir.ui.view,arch_db:web.external_layout_standard
 #: model_terms:ir.ui.view,arch_db:web.external_layout_striped
 msgid "Company tagline"
@@ -2109,7 +2122,6 @@ msgstr "Copyright © 2004"
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/views/fields/image/image_field.js:0
 #: code:addons/web/static/src/views/fields/signature/signature_field.js:0
 #, python-format
 msgid "Could not display the selected image"
@@ -2124,10 +2136,10 @@ msgstr "選択されたpdfを表示できませんでした"
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/views/fields/image_url/image_url_field.js:0
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.js:0
 #, python-format
-msgid "Could not display the specified image url."
-msgstr "指定された画像urlを表示できませんでした。"
+msgid "Could not display the selected spreadsheet"
+msgstr "選択されたスプレッドシートを表示できませんでした"
 
 #. module: web
 #. odoo-javascript
@@ -2196,7 +2208,7 @@ msgstr " <strong>%s</strong> を新規 %sとして作成しますか？"
 #: code:addons/web/static/src/views/fields/relational_utils.js:0
 #, python-format
 msgid "Create and edit..."
-msgstr "作成して編集"
+msgstr "作成と編集"
 
 #. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__create_uid
@@ -2224,6 +2236,7 @@ msgstr "作成ユーザ:"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Cumulative"
@@ -2493,6 +2506,7 @@ msgstr "行を削除する"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Descending"
 msgstr "降順"
@@ -2576,6 +2590,7 @@ msgstr "破棄"
 #. odoo-javascript
 #: code:addons/web/static/src/views/form/form_error_dialog/form_error_dialog.xml:0
 #: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
 #, python-format
 msgid "Discard changes"
 msgstr "変更を破棄"
@@ -2622,6 +2637,13 @@ msgstr "ファセットを使ってドメインを表示"
 #, python-format
 msgid "Displays a warning icon if the input dates are in the future."
 msgstr "未来の日付が入力された場合は警告アイコンを表示します。"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
+#, python-format
+msgid "Displays or hides the time in the datetime value."
+msgstr " datetime値の時刻を表示または非表示にします。"
 
 #. module: web
 #. odoo-javascript
@@ -2696,6 +2718,7 @@ msgstr "しばしご辛抱を。"
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #, python-format
 msgid "Download"
@@ -2713,6 +2736,7 @@ msgstr "PDFプレビューをダウンロード"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Download xlsx"
@@ -2774,7 +2798,10 @@ msgstr "最短受取日"
 #: code:addons/web/static/src/views/calendar/calendar_common/calendar_common_popover.xml:0
 #: code:addons/web/static/src/views/calendar/quick_create/calendar_quick_create.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/kanban/kanban_header.js:0
 #: code:addons/web/static/src/views/kanban/kanban_record_quick_create.xml:0
@@ -2935,6 +2962,7 @@ msgstr "すべて"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Expand all"
@@ -3139,7 +3167,7 @@ msgstr "項目："
 #: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
 #, python-format
 msgid "Fields to export"
-msgstr "エクスポートする項目"
+msgstr "エクスポートするフィールド"
 
 #. module: web
 #. odoo-javascript
@@ -3157,6 +3185,7 @@ msgstr "フィルタ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Flip axis"
@@ -3358,9 +3387,18 @@ msgstr "Odoo企業版では、この機能やその他多数の機能がご利�
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/url/url_field.xml:0
+#: code:addons/web/static/src/views/fields/url/url_field.xml:0
 #, python-format
 msgid "Go to URL"
 msgstr "URLへ移動"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.js:0
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.xml:0
+#, python-format
+msgid "Google Slide Viewer"
+msgstr "Googleスライドビュワー"
 
 #. module: web
 #. odoo-javascript
@@ -3532,7 +3570,7 @@ msgstr "ILY"
 #: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
 #, python-format
 msgid "ISO-formatted date (e.g. \"2018-12-31\") or \"%s\"."
-msgstr ""
+msgstr "ISOフォーマット済日付 (例:  \"2018-12-31\")または \"%s\"。"
 
 #. module: web
 #. odoo-javascript
@@ -3647,6 +3685,8 @@ msgstr "整数"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
+#: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
+#: code:addons/web/static/src/views/fields/properties/property_value.xml:0
 #: code:addons/web/static/src/views/fields/properties/property_value.xml:0
 #, python-format
 msgid "Internal link"
@@ -4215,6 +4255,7 @@ msgstr "天秤座"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Line Chart"
 msgstr "折れ線グラフ"
@@ -4232,6 +4273,13 @@ msgstr "ロード"
 #, python-format
 msgid "Load demo data"
 msgstr "デモデータをロード"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#, python-format
+msgid "Load everything anyway."
+msgstr "とにかく全てを読込みます。"
 
 #. module: web
 #. odoo-javascript
@@ -4334,6 +4382,13 @@ msgstr "メインアクション"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/search/custom_favorite_item/custom_favorite_item.xml:0
+#, python-format
+msgid "Make this filter available to other users"
+msgstr "このフィルタを他のユーザが利用できるようにします。"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/debug_items.js:0
 #, python-format
 msgid "Manage Attachments"
@@ -4381,6 +4436,13 @@ msgstr "Many2one"
 #, python-format
 msgid "Match"
 msgstr "突合"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/gauge/gauge_field.js:0
+#, python-format
+msgid "Max value"
+msgstr "最高値"
 
 #. module: web
 #. odoo-javascript
@@ -4543,6 +4605,13 @@ msgstr "条件を変更する"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#, python-format
+msgid "Modify filter"
+msgstr "フィルタ変更"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/widgets/week_days/week_days.js:0
 #, python-format
 msgid "Mon"
@@ -4569,6 +4638,14 @@ msgstr "月"
 #: code:addons/web/static/src/views/form/button_box/button_box.xml:0
 #, python-format
 msgid "More"
+msgstr "さらに"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#, python-format
+msgid "More..."
 msgstr "さらに"
 
 #. module: web
@@ -4777,6 +4854,7 @@ msgstr "新規：%s"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
+#: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
@@ -5032,7 +5110,7 @@ msgstr "有効ステータスではありません。クリックして変更し
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.js:0
 #, python-format
 msgid "Number of files"
-msgstr ""
+msgstr "ファイル数"
 
 #. module: web
 #. odoo-javascript
@@ -5487,6 +5565,7 @@ msgstr "電話"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Pie Chart"
 msgstr "円グラフ"
@@ -5658,6 +5737,7 @@ msgstr "ロゴプレビュー"
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector_popover.xml:0
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector_popover.xml:0
+#: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
@@ -6290,12 +6370,14 @@ msgstr "デフォルト値保存"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
 #, python-format
 msgid "Save manually"
 msgstr "手動で保存"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #, python-format
@@ -6477,6 +6559,13 @@ msgstr "全て選択"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/list/list_controller.xml:0
+#, python-format
+msgid "Select all records matching the search"
+msgstr "検索条件に一致するレコードを全て選択"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/core/datetime/datetime_picker.js:0
 #, python-format
 msgid "Select century"
@@ -6542,6 +6631,7 @@ msgstr "選択:"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/email/email_field.xml:0
 #: code:addons/web/static/src/views/fields/email/email_field.xml:0
 #, python-format
 msgid "Send Email"
@@ -6653,11 +6743,25 @@ msgstr "%sビューを表示"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#, python-format
+msgid "Show matching records"
+msgstr "一致するレコードを表示"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
 #: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
 #, python-format
 msgid "Show sub-fields"
 msgstr "サブフィールを表示"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
+#, python-format
+msgid "Show time"
+msgstr "時間を表示"
 
 #. module: web
 #. odoo-javascript
@@ -6723,6 +6827,8 @@ msgstr "特別："
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Stacked"
 msgstr "積み上げグラフ"
@@ -6778,6 +6884,13 @@ msgstr "自由の女神"
 #, python-format
 msgid "Status"
 msgstr "状態"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#, python-format
+msgid "Statusbar"
+msgstr "ステータスバー"
 
 #. module: web
 #. odoo-javascript
@@ -6868,6 +6981,7 @@ msgstr "Tシャツ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
 #: code:addons/web/static/src/webclient/user_menu/user_menu_items.xml:0
 #, python-format
 msgid "TIP"
@@ -6967,7 +7081,7 @@ msgstr "牡牛座"
 #: model_terms:ir.ui.view,arch_db:web.external_layout_standard
 #: model_terms:ir.ui.view,arch_db:web.external_layout_striped
 msgid "Tax ID"
-msgstr "適格請求書発行事業者番号"
+msgstr "登録番号"
 
 #. module: web
 #. odoo-javascript
@@ -7061,13 +7175,12 @@ msgstr ""
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/core/errors/error_dialogs.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid ""
-"The style compilation failed, see the error below. This is an administrator "
-"or developer error that must be fixed for the entire database before "
-"continuing working."
-msgstr "スタイルのコンパイルに失敗しました。これは管理者または開発者のエラーであり、作業を続行する前にデータベース全体を修正する必要があります。"
+"There are too many data. The graph only shows a sample. Use the filters to "
+"refine the scope."
+msgstr "データが多すぎます。グラフはサンプルのみを表示しています。フィルタを使用して範囲を絞り込んで下さい。"
 
 #. module: web
 #. odoo-python
@@ -7461,6 +7574,13 @@ msgstr "システムにWkhtmltopdfが見つかりません。レポートはHTML
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#, python-format
+msgid "Unable to save. Correct the issue or discard changes"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/form/form_controller.js:0
 #: code:addons/web/static/src/views/list/list_controller.js:0
 #, python-format
@@ -7631,6 +7751,13 @@ msgstr "読みやすいフォーマットを使用する (例: 500G instead of 5
 msgid ""
 "Use it with the 'User-friendly format' option to customize the formatting."
 msgstr "書式をカスタマイズするには、'ユーザフレンドリー書式'オプションを使用します。"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/search/custom_favorite_item/custom_favorite_item.xml:0
+#, python-format
+msgid "Use this filter by default when opening this view"
+msgstr "このビューを開くと、デフォルトでこのフィルタが使用されます。"
 
 #. module: web
 #. odoo-javascript
@@ -8419,6 +8546,7 @@ msgstr "エイリアンモンスター"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #, python-format
@@ -8517,6 +8645,7 @@ msgstr "いかり"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
 #: code:addons/web/static/src/core/domain_selector/utils.js:0
 #: code:addons/web/static/src/core/tree_editor/utils.js:0
 #, python-format
@@ -9178,7 +9307,7 @@ msgstr "プリン"
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 #, python-format
 msgid "bakery"
-msgstr "パン屋"
+msgstr "製パン店"
 
 #. module: web
 #. odoo-javascript
@@ -22770,6 +22899,13 @@ msgstr "新規タブ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
+#, python-format
+msgid "new_template"
+msgstr "new_template"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 #, python-format
@@ -27394,6 +27530,13 @@ msgstr "選択済"
 #, python-format
 msgid "selected records,"
 msgstr "選択されたレコード、"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
+#, python-format
+msgid "self"
+msgstr "セルフ"
 
 #. module: web
 #. odoo-javascript
@@ -33491,10 +33634,31 @@ msgstr "ゾンビ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/view_components/column_progress.xml:0
+#, python-format
+msgid "{{ bar.count }} {{ bar.string }}"
+msgstr "{{ bar.count }} {{ bar.string }}"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
+#, python-format
+msgid "{{ relatedFieldName }}..."
+msgstr "{{ relatedFieldName }}..."
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/webclient/user_menu/user_menu_items.xml:0
 #, python-format
 msgid "— press"
 msgstr "ー押す"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
+#, python-format
+msgid "— search for"
+msgstr "— 検索"
 
 #. module: web
 #. odoo-javascript

@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Wil Odoo, 2023
-# Fernanda Alvarez, 2023
+# Fernanda Alvarez, 2024
 # Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2024
 # 
 msgid ""
@@ -31,14 +31,14 @@ msgstr "%(browser)s en %(platform)s"
 #. module: auth_totp
 #: model:ir.model,name:auth_totp.model_auth_totp_wizard
 msgid "2-Factor Setup Wizard"
-msgstr "Asistente de la configuración de la autenticación de dos factores"
+msgstr "Asistente de la configuración de la autenticación de dos pasos"
 
 #. module: auth_totp
 #. odoo-python
 #: code:addons/auth_totp/wizard/auth_totp_wizard.py:0
 #, python-format
 msgid "2-Factor authentication is now enabled."
-msgstr "Se habilitó la autenticación de dos factores."
+msgstr "Se habilitó la autenticación de dos pasos."
 
 #. module: auth_totp
 #: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_form
@@ -125,8 +125,8 @@ msgid ""
 "Are you sure? The user may be asked to enter two-factor codes again on those"
 " devices"
 msgstr ""
-"¿Está seguro? Es posible que se le pida al usuario ingresar códigos de dos "
-"factores de nuevo en esos dispositivos"
+"¿Está seguro? Es posible que se le pida al usuario ingresar el código de la "
+"autenticación de dos pasos de nuevo en esos dispositivos"
 
 #. module: auth_totp
 #: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_field
@@ -214,7 +214,7 @@ msgstr "Nombre en pantalla"
 #. module: auth_totp
 #: model_terms:ir.ui.view,arch_db:auth_totp.auth_totp_form
 msgid "Don't ask again on this device"
-msgstr "No volver a preguntar en este dispositivo"
+msgstr "Recordar este dispositivo"
 
 #. module: auth_totp
 #: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_field

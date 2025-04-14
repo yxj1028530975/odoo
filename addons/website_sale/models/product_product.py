@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class Product(models.Model):
     _inherit = "product.product"
+    _mail_post_access = 'read'
 
     website_id = fields.Many2one(related='product_tmpl_id.website_id', readonly=False)
 
@@ -105,7 +106,7 @@ class Product(models.Model):
         self.ensure_one()
         website = self.env['website'].get_current_website()
         fiscal_position_sudo = website.sudo().fiscal_position_id
-        product_taxes = self.sudo().taxes_id.filtered(lambda x: x.company_id in self.env.company.parent_ids)
+        product_taxes = self.sudo().taxes_id._filter_taxes_by_company(self.env.company)
         return self.env['product.template']._apply_taxes_to_price(
             self._get_contextual_price(),
             website.currency_id,

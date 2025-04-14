@@ -204,6 +204,8 @@ export class CalendarModel extends Model {
                             [info.filterFieldName]: active,
                         };
                         await this.orm.write(info.writeResModel, [filter.recordId], data);
+                    } else if (filter.type === "all") {
+                        this.meta.allFilter[section.label] = active;
                     }
                 }
             }
@@ -220,6 +222,9 @@ export class CalendarModel extends Model {
     }
 
     //--------------------------------------------------------------------------
+    getAllDayDates(start, end) {
+        return [start.set({ hours: 7 }), end.set({ hours: 19 })];
+    }
 
     buildRawRecord(partialRecord, options = {}) {
         const data = {};
@@ -244,8 +249,7 @@ export class CalendarModel extends Model {
         if (partialRecord.isAllDay) {
             if (!this.hasAllDaySlot && !isDateEvent && !partialRecord.id) {
                 // default hours in the user's timezone
-                start = start.set({ hours: 7 });
-                end = end.set({ hours: 19 });
+                [start, end] = this.getAllDayDates(start, end);
             }
         }
 
@@ -495,7 +499,7 @@ export class CalendarModel extends Model {
      * @param {Record<string, any>} rawRecord
      */
     normalizeRecord(rawRecord) {
-        const { fields, fieldMapping, isTimeHidden, scale } = this.meta;
+        const { fields, fieldMapping, isTimeHidden } = this.meta;
 
         const startType = fields[fieldMapping.date_start].type;
         const isAllDay =
@@ -527,7 +531,6 @@ export class CalendarModel extends Model {
 
         const showTime =
             !(fieldMapping.all_day && rawRecord[fieldMapping.all_day]) &&
-            scale === "month" &&
             startType !== "date" &&
             start.day === end.day;
 
@@ -618,7 +621,7 @@ export class CalendarModel extends Model {
         }
 
         const previousAllFilter = previousFilters.find((f) => f.type === "all");
-        filters.push(this.makeFilterAll(previousAllFilter, isUserOrPartner));
+        filters.push(this.makeFilterAll(previousAllFilter, isUserOrPartner, filterInfo.label));
 
         return {
             label: filterInfo.label,
@@ -681,7 +684,8 @@ export class CalendarModel extends Model {
         const { colorFieldName } = filterInfo;
         const shouldFetchColor =
             colorFieldName &&
-            `${fieldName}.${colorFieldName}` !== fields[fieldMapping.color].related;
+            (!fieldMapping.color ||
+                `${fieldName}.${colorFieldName}` !== fields[fieldMapping.color].related);
         let rawColors = [];
         if (shouldFetchColor) {
             const relatedIds = rawFilters.map(({ id }) => id);
@@ -832,13 +836,13 @@ export class CalendarModel extends Model {
     /**
      * @protected
      */
-    makeFilterAll(previousAllFilter, isUserOrPartner) {
+    makeFilterAll(previousAllFilter, isUserOrPartner, sectionLabel) {
         return {
             type: "all",
             recordId: null,
             value: "all",
             label: isUserOrPartner ? _t("Everybody's calendars") : _t("Everything"),
-            active: previousAllFilter ? previousAllFilter.active : false,
+            active: previousAllFilter ? previousAllFilter.active : this.meta.allFilter[sectionLabel] || false,
             canRemove: false,
             colorIndex: null,
             hasAvatar: false,

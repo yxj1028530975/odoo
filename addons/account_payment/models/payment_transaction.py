@@ -125,7 +125,7 @@ class PaymentTransaction(models.Model):
         # Create and post missing payments for transactions requiring reconciliation
         for tx in self.filtered(lambda t: t.operation != 'validation' and not t.payment_id):
             if not any(child.state in ['done', 'cancel'] for child in tx.child_transaction_ids):
-                tx._create_payment()
+                tx.with_company(tx.company_id)._create_payment()
 
     def _create_payment(self, **extra_create_values):
         """Create an `account.payment` record for the current transaction.
@@ -146,7 +146,7 @@ class PaymentTransaction(models.Model):
                     )
 
         payment_method_line = self.provider_id.journal_id.inbound_payment_method_line_ids\
-            .filtered(lambda l: l.code == self.provider_id._get_code())
+            .filtered(lambda l: l.payment_provider_id == self.provider_id)
         payment_values = {
             'amount': abs(self.amount),  # A tx may have a negative amount, but a payment must >= 0
             'payment_type': 'inbound' if self.amount > 0 else 'outbound',
@@ -159,8 +159,27 @@ class PaymentTransaction(models.Model):
             'payment_token_id': self.token_id.id,
             'payment_transaction_id': self.id,
             'ref': reference,
+            'write_off_line_vals': [],
             **extra_create_values,
         }
+
+        for invoice in self.invoice_ids:
+            next_payment_values = invoice._get_invoice_next_payment_values()
+            if next_payment_values['installment_state'] == 'epd' and self.amount == next_payment_values['amount_due']:
+                aml = next_payment_values['epd_line']
+                epd_aml_values_list = [({
+                    'aml': aml,
+                    'amount_currency': -aml.amount_residual_currency,
+                    'balance': -aml.balance,
+                })]
+                open_balance = next_payment_values['epd_discount_amount']
+                early_payment_values = self.env['account.move']._get_invoice_counterpart_amls_for_early_payment_discount(epd_aml_values_list, open_balance)
+                for aml_values_list in early_payment_values.values():
+                    if aml_values_list:
+                        aml_vl = aml_values_list[0]
+                        aml_vl['partner_id'] = self.partner_id.id
+                        payment_values['write_off_line_vals'] += [aml_vl]
+
         payment = self.env['account.payment'].create(payment_values)
         payment.action_post()
 
@@ -196,15 +215,15 @@ class PaymentTransaction(models.Model):
         :return: None
         """
         self.ensure_one()
-        self = self.with_user(SUPERUSER_ID)  # Log messages as 'OdooBot'
+        author = self.env.user.partner_id if self.env.uid == SUPERUSER_ID else self.partner_id
         if self.source_transaction_id:
             for invoice in self.source_transaction_id.invoice_ids:
-                invoice.message_post(body=message)
+                invoice.message_post(body=message, author_id=author.id)
             payment_id = self.source_transaction_id.payment_id
             if payment_id:
-                payment_id.message_post(body=message)
+                payment_id.message_post(body=message, author_id=author.id)
         for invoice in self.invoice_ids:
-            invoice.message_post(body=message)
+            invoice.message_post(body=message, author_id=author.id)
 
     #=== BUSINESS METHODS - POST-PROCESSING ===#
 

@@ -7,6 +7,7 @@
 # Jakub Smolka, 2023
 # Wil Odoo, 2024
 # Aleš Fiala <f.ales1@seznam.cz>, 2024
+# Marta Wacławek, 2025
 # 
 msgid ""
 msgstr ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-05 12:32+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Aleš Fiala <f.ales1@seznam.cz>, 2024\n"
+"Last-Translator: Marta Wacławek, 2025\n"
 "Language-Team: Czech (https://app.transifex.com/odoo/teams/41243/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +45,7 @@ msgstr "Admin"
 #: code:addons/spreadsheet_dashboard/static/src/bundle/dashboard_action/dashboard_action.xml:0
 #, python-format
 msgid "An error occured while loading the dashboard"
-msgstr ""
+msgstr "Během načítání dashboardu došlo k chybě"
 
 #. module: spreadsheet_dashboard
 #. odoo-javascript
@@ -58,7 +59,7 @@ msgstr "ZPĚT"
 #: code:addons/spreadsheet_dashboard/static/src/bundle/dashboard_action/mobile_search_panel/mobile_search_panel.js:0
 #, python-format
 msgid "Choose a dashboard...."
-msgstr ""
+msgstr "Vyberte dashboard...."
 
 #. module: spreadsheet_dashboard
 #: model:ir.ui.menu,name:spreadsheet_dashboard.spreadsheet_dashboard_menu_configuration
@@ -193,6 +194,8 @@ msgid ""
 "Only chart figures are displayed in small screens but this dashboard doesn't"
 " contain any"
 msgstr ""
+"Na malých obrazovkách se zobrazují pouze grafy, ale tento dashboard žádné "
+"neobsahuje"
 
 #. module: spreadsheet_dashboard
 #: model:spreadsheet.dashboard.group,name:spreadsheet_dashboard.spreadsheet_dashboard_group_sales
@@ -246,7 +249,7 @@ msgstr "URL"
 #. module: spreadsheet_dashboard
 #: model:ir.module.category,description:spreadsheet_dashboard.dashboard_management
 msgid "User access level for Dashboard module"
-msgstr ""
+msgstr "Úrovně přístupu pro modul Dashboard"
 
 #. module: spreadsheet_dashboard
 #: model:spreadsheet.dashboard.group,name:spreadsheet_dashboard.spreadsheet_dashboard_group_website
@@ -258,7 +261,7 @@ msgstr "Webová stránka"
 #: code:addons/spreadsheet_dashboard/models/spreadsheet_dashboard_group.py:0
 #, python-format
 msgid "You cannot delete %s as it is used in another module."
-msgstr ""
+msgstr "Nemůžete smazat %s, protože se používá v jiném modulu."
 
 #. module: spreadsheet_dashboard
 #. odoo-python

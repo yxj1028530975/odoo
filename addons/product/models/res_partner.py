@@ -18,11 +18,11 @@ class ResPartner(models.Model):
         help="This pricelist will be used, instead of the default one, for sales to the current partner")
 
     @api.depends('country_id')
-    @api.depends_context('company')
+    @api.depends_context('company', 'country_code')
     def _compute_product_pricelist(self):
-        res = self.env['product.pricelist']._get_partner_pricelist_multi(self.ids)
+        res = self.env['product.pricelist']._get_partner_pricelist_multi(self._ids)
         for partner in self:
-            partner.property_product_pricelist = res.get(partner._origin.id)
+            partner.property_product_pricelist = res.get(partner.id)
 
     def _inverse_product_pricelist(self):
         for partner in self:
@@ -47,3 +47,7 @@ class ResPartner(models.Model):
 
     def _commercial_fields(self):
         return super()._commercial_fields() + ['property_product_pricelist']
+
+    def _company_dependent_commercial_fields(self):
+        # property_product_pricelist is not a company_dependent field but technically behaves as one
+        return super()._company_dependent_commercial_fields() + ['property_product_pricelist']

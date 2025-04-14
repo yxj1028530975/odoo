@@ -47,6 +47,12 @@ class AccountMoveSend(models.TransientModel):
         for wizard in self:
             wizard.checkbox_send_peppol = wizard.enable_peppol and not wizard.peppol_warning
 
+    def _compute_checkbox_send_mail(self):
+        super()._compute_checkbox_send_mail()
+        for wizard in self:
+            if wizard.checkbox_send_mail and wizard.checkbox_send_peppol:
+                wizard.checkbox_send_mail = False
+
     @api.depends('checkbox_send_peppol')
     def _compute_checkbox_ubl_cii_xml(self):
         # extends 'account_edi_ubl_cii'
@@ -79,9 +85,10 @@ class AccountMoveSend(models.TransientModel):
             # show peppol option if either the ubl option is available or any move already has a ubl file generated
             # and moves are not processing/done and if partners have an edi format set to one that works for peppol
             invalid_partners = wizard.move_ids.partner_id.commercial_partner_id.filtered(
-                lambda partner: partner.ubl_cii_format in {False, 'facturx', 'oioubl_201'})
+                lambda partner: not partner.is_peppol_edi_format
+            )
             wizard.enable_peppol = (
-                wizard.company_id.account_peppol_proxy_state == 'active' \
+                wizard.company_id.account_peppol_proxy_state == 'active'
                 and (
                     wizard.enable_ubl_cii_xml
                     or any(m.ubl_cii_xml_id and m.peppol_move_state not in ('processing', 'done') for m in wizard.move_ids)
@@ -96,7 +103,7 @@ class AccountMoveSend(models.TransientModel):
             'demo': _('Demo'),
         }
         for wizard in self:
-            edi_user = wizard.company_id.account_edi_proxy_client_ids.filtered(
+            edi_user = wizard.company_id.sudo().account_edi_proxy_client_ids.filtered(
                 lambda usr: usr.proxy_type == 'peppol'
             )
             mode = mode_strings.get(edi_user.edi_mode)
@@ -113,6 +120,14 @@ class AccountMoveSend(models.TransientModel):
     # BUSINESS ACTIONS
     # -------------------------------------------------------------------------
 
+    @api.model
+    def _get_mail_layout(self):
+        # EXTENDS 'account'
+        # TODO remove the fallback in master
+        if self.env.ref('account_peppol.mail_notification_layout_with_responsible_signature_and_peppol', raise_if_not_found=False):
+            return 'account_peppol.mail_notification_layout_with_responsible_signature_and_peppol'
+        return super()._get_mail_layout()
+
     def action_send_and_print(self, force_synchronous=False, allow_fallback_pdf=False, **kwargs):
         # Extends 'account' to force ubl xml checkbox if sending via peppol
         self.ensure_one()
@@ -122,9 +137,22 @@ class AccountMoveSend(models.TransientModel):
         if self.checkbox_send_peppol and self.enable_peppol:
             for move in self.move_ids:
                 if not move.peppol_move_state or move.peppol_move_state == 'ready':
-                    move.peppol_move_state = 'to_send'
+                    move.sudo().peppol_move_state = 'to_send'
 
         return super().action_send_and_print(force_synchronous=force_synchronous, allow_fallback_pdf=allow_fallback_pdf, **kwargs)
+
+    def _hook_if_errors(self, moves_data, from_cron=False, allow_fallback_pdf=False):
+        # Extends account
+        # to update `peppol_move_state` as `skipped` to show users that something went wrong
+        # because those moves that failed XML/PDF files generation are not sent via Peppol
+        moves_failed_file_generation = self.env['account.move']
+        for move, move_data in moves_data.items():
+            if move_data.get('send_peppol') and move_data.get('blocking_error'):
+                moves_failed_file_generation |= move
+
+        moves_failed_file_generation.peppol_move_state = 'skipped'
+
+        return super()._hook_if_errors(moves_data, from_cron=from_cron, allow_fallback_pdf=allow_fallback_pdf)
 
     @api.model
     def _call_web_service_after_invoice_pdf_render(self, invoices_data):

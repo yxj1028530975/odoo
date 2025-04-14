@@ -116,13 +116,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/payment_mercado_pago/models/payment_transaction.py:0
 #, python-format
-msgid "Prices in the currency %s must be expressed in integer values."
-msgstr "Giá bằng loại tiền %s phải được biểu thị bằng giá trị nguyên."
-
-#. module: payment_mercado_pago
-#. odoo-python
-#: code:addons/payment_mercado_pago/models/payment_transaction.py:0
-#, python-format
 msgid "Received data with invalid status: %s"
 msgstr "Dữ liệu đã nhận với trạng thái không hợp lệ: %s"
 
@@ -189,6 +182,9 @@ msgid ""
 "We are processing your payment. Don't worry, in less than 2 business days, "
 "we will notify you by e-mail if your payment has been credited."
 msgstr ""
+"Chúng tôi đang xử lý thanh toán của bạn. Đừng lo lắng, chúng tôi sẽ thông "
+"báo cho bạn qua email trong vòng chưa đầy 2 ngày làm việc nếu thanh toán "
+"thành công."
 
 #. module: payment_mercado_pago
 #. odoo-python
@@ -199,6 +195,9 @@ msgid ""
 "will notify you by e-mail if your payment has been credited or if we need "
 "more information."
 msgstr ""
+"Chúng tôi đang xử lý thanh toán của bạn. Đừng lo lắng, chúng tôi sẽ thông "
+"báo cho bạn qua email trong vòng chưa đầy 2 ngày làm việc nếu thanh toán "
+"thành công hoặc nếu chúng tôi cần thêm thông tin."
 
 #. module: payment_mercado_pago
 #. odoo-python
@@ -263,3 +262,5 @@ msgid ""
 "Your payment has been credited. In your summary you will see the charge as a"
 " statement descriptor."
 msgstr ""
+"Thanh toán của bạn đã được xử lý thành công. Bạn sẽ thấy thông tin về khoản "
+"thanh toán này trong phần mô tả của sao kê."

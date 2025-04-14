@@ -75,6 +75,7 @@ class HrExpense(models.Model):
     product_has_tax = fields.Boolean(string="Whether tax is defined on a selected product", compute='_compute_from_product')
     quantity = fields.Float(required=True, digits='Product Unit of Measure', default=1)
     description = fields.Text(string="Internal Notes")
+    message_main_attachment_checksum = fields.Char(related='message_main_attachment_id.checksum')
     nb_attachment = fields.Integer(string="Number of Attachments", compute='_compute_nb_attachment')
     attachment_ids = fields.One2many(
         comodel_name='ir.attachment',
@@ -161,7 +162,7 @@ class HrExpense(models.Model):
         string="Is currency_id different from the company_currency_id",
         compute='_compute_is_multiple_currency',
     )
-    currency_rate = fields.Float(compute='_compute_currency_rate', digits=(12, 6), readonly=True, tracking=True)
+    currency_rate = fields.Float(compute='_compute_currency_rate', digits=(16, 9), readonly=True, tracking=True)
     label_currency_rate = fields.Char(compute='_compute_currency_rate', readonly=True)
 
     # Account fields
@@ -178,7 +179,8 @@ class HrExpense(models.Model):
         comodel_name='account.account',
         string="Account",
         compute='_compute_account_id', precompute=True, store=True, readonly=False,
-        domain="[('account_type', 'not in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card')), ('company_id', '=', company_id)]",
+        check_company=True,
+        domain="[('account_type', 'not in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card'))]",
         help="An expense account is expected",
     )
     tax_ids = fields.Many2many(
@@ -188,7 +190,8 @@ class HrExpense(models.Model):
         column2='tax_id',
         string="Included taxes",
         compute='_compute_tax_ids', precompute=True, store=True, readonly=False,
-        domain="[('company_id', '=', company_id), ('type_tax_use', '=', 'purchase')]",
+        domain="[('type_tax_use', '=', 'purchase')]",
+        check_company=True,
         help="Both price-included and price-excluded taxes will behave as price-included taxes for expenses.",
     )
     accounting_date = fields.Date(  # The date used for the accounting entries or the one we'd like to use if not yet posted
@@ -394,7 +397,7 @@ class HrExpense(models.Model):
             else:  # Mono-currency case computation shortcut
                 expense.tax_amount = expense.tax_amount_currency
 
-    @api.depends('total_amount', 'total_amount_currency', 'nb_attachment')
+    @api.depends('total_amount', 'total_amount_currency')
     def _compute_price_unit(self):
         """
            The price_unit is the unit price of the product if no product is set and no attachment overrides it.
@@ -405,7 +408,7 @@ class HrExpense(models.Model):
             if expense.state not in {'draft', 'reported'}:
                 continue
             product_id = expense.product_id
-            if product_id and expense.product_has_cost and not expense.nb_attachment:
+            if expense._needs_product_price_computation():
                 expense.price_unit = product_id._price_compute(
                     'standard_price',
                     uom=expense.product_uom_id,
@@ -413,6 +416,11 @@ class HrExpense(models.Model):
                 )[product_id.id]
             else:
                 expense.price_unit = expense.company_currency_id.round(expense.total_amount / expense.quantity) if expense.quantity else 0.
+
+    def _needs_product_price_computation(self):
+        # Hook to be overridden.
+        self.ensure_one()
+        return self.product_has_cost
 
     @api.depends('product_id', 'company_id')
     def _compute_account_id(self):
@@ -553,6 +561,13 @@ class HrExpense(models.Model):
                 raise UserError(_('You cannot delete a posted or approved expense.'))
 
     def write(self, vals):
+        if (
+                'state' in vals
+                and vals['state'] not in ('draft', 'submitted')
+                and not self.user_has_groups('hr_expense.group_hr_expense_manager')
+                and any(state == 'draft' for state in self.mapped('state'))
+        ):
+            raise UserError(_("You don't have the rights to bypass the validation process of this expense."))
         expense_to_previous_sheet = {}
         if 'sheet_id' in vals:
             self.env['hr.expense.sheet'].browse(vals['sheet_id']).check_access_rule('write')
@@ -609,7 +624,7 @@ class HrExpense(models.Model):
     @api.model
     def _get_empty_list_mail_alias(self):
         use_mailgateway = self.env['ir.config_parameter'].sudo().get_param('hr_expense.use_mailgateway')
-        expense_alias = self.env.ref('hr_expense.mail_alias_expense') if use_mailgateway else False
+        expense_alias = self.env.ref('hr_expense.mail_alias_expense', raise_if_not_found=False) if use_mailgateway else False
         if expense_alias and expense_alias.alias_domain and expense_alias.alias_name:
             # encode, but force %20 encoding for space instead of a + (URL / mailto difference)
             params = werkzeug.urls.url_encode({'subject': _("Lunch with customer $12.32")}).replace('+', '%20')
@@ -642,7 +657,7 @@ class HrExpense(models.Model):
         expenses_with_amount = self.filtered(lambda expense: not (
             expense.currency_id.is_zero(expense.total_amount_currency)
             or expense.company_currency_id.is_zero(expense.total_amount)
-            or not float_round(expense.quantity, precision_rounding=expense.product_uom_id.rounding)
+            or (expense.product_id and not float_round(expense.quantity, precision_rounding=expense.product_uom_id.rounding))
         ))
 
         if any(expense.state != 'draft' or expense.sheet_id for expense in expenses_with_amount):
@@ -699,8 +714,7 @@ class HrExpense(models.Model):
                 ('state', '=', 'draft'),
                 ('sheet_id', '=', False),
                 ('employee_id', '=', self.env.user.employee_id.id),
-                ('is_editable', '=', True),
-            ])
+            ]).filtered(lambda expense: expense.is_editable)
 
         if not expenses:
             raise UserError(_('You have no expense to report'))
@@ -786,9 +800,10 @@ class HrExpense(models.Model):
         if not payment_method_line:
             raise UserError(_("You need to add a manual payment method on the journal (%s)", journal.name))
         move_lines = []
-        tax_data = self.env['account.tax']._compute_taxes([
-            self._convert_to_tax_base_line_dict(price_unit=self.total_amount_currency, currency=self.currency_id)
-        ])
+        tax_data = self.env['account.tax']._compute_taxes(
+            [self._convert_to_tax_base_line_dict(price_unit=self.total_amount_currency, currency=self.currency_id)],
+            include_caba_tags=(self.payment_mode == 'company_account')
+        )
         rate = abs(self.total_amount_currency / self.total_amount) if self.total_amount else 1.0
         base_line_data, to_update = tax_data['base_lines_to_update'][0]  # Add base line
         amount_currency = to_update['price_subtotal']
@@ -803,6 +818,7 @@ class HrExpense(models.Model):
             'tax_tag_ids': to_update['tax_tag_ids'],
             'amount_currency': amount_currency,
             'currency_id': self.currency_id.id,
+            'quantity': self.quantity,
         }
         move_lines.append(base_move_line)
         total_tax_line_balance = 0.0
@@ -920,11 +936,7 @@ class HrExpense(models.Model):
     @api.model
     def message_new(self, msg_dict, custom_values=None):
         email_address = email_split(msg_dict.get('email_from', False))[0]
-
-        employee = self.env['hr.employee'].search(
-            ['|', ('work_email', 'ilike', email_address), ('user_id.email', 'ilike', email_address)],
-            limit=1,
-        )
+        employee = self._get_employee_from_email(email_address)
 
         if not employee:
             return super().message_new(msg_dict, custom_values=custom_values)
@@ -965,6 +977,29 @@ class HrExpense(models.Model):
         expense = super().message_new(msg_dict, dict(custom_values or {}, **vals))
         self._send_expense_success_mail(msg_dict, expense)
         return expense
+
+    @api.model
+    def _get_employee_from_email(self, email_address):
+        employee = self.env['hr.employee'].search([
+            ('user_id', '!=', False),
+            '|',
+            ('work_email', 'ilike', email_address),
+            ('user_id.email', 'ilike', email_address),
+        ])
+
+        if len(employee) > 1:
+            # Several employees can be linked to the same user.
+            # In that case, we only keep the employee that matched the user's company.
+            return employee.filtered(lambda e: e.company_id == e.user_id.company_id)
+
+        if not employee:
+            # An employee does not always have a user.
+            return self.env['hr.employee'].search([
+                ('user_id', '=', False),
+                ('work_email', 'ilike', email_address),
+            ], limit=1)
+
+        return employee
 
     @api.model
     def _parse_product(self, expense_description):

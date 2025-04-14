@@ -181,6 +181,10 @@ For more specific needs, you may also assign custom-defined actions
             'mail/static/tests/**/*',
             ('remove', 'mail/static/tests/tours/**/*'),
             ('remove', 'mail/static/tests/helpers/**/*'),
+            ('remove', 'mail/static/tests/mobile/**/*'),
+        ],
+        'web.qunit_mobile_suite_tests': [
+            'mail/static/tests/mobile/**/*',
         ],
         'mail.assets_odoo_sfu': [
             'mail/static/lib/odoo_sfu/odoo_sfu.js',
@@ -213,6 +217,7 @@ For more specific needs, you may also assign custom-defined actions
             'mail/static/src/core/common/**/*',
             'mail/static/src/**/common/**/*',
             'mail/static/src/**/public/**/*',
+            'mail/static/lib/selfie_segmentation/selfie_segmentation.js',
             ('remove', 'mail/static/src/**/*.dark.scss'),
             # discuss (loaded last to fix dependencies)
             ('remove', 'mail/static/src/discuss/**/*'),
@@ -223,6 +228,7 @@ For more specific needs, you may also assign custom-defined actions
             'mail/static/src/discuss/**/public/**/*',
             'mail/static/src/discuss/**/public_web/**/*',
             ('remove', 'mail/static/src/discuss/**/*.dark.scss'),
+            ('remove', 'web/static/src/**/*.dark.scss'),
         ]
     },
     'license': 'LGPL-3',

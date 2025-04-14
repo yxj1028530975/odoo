@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Wil Odoo, 2023
+# Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2024
 # Larissa Manderfeld, 2024
 # 
 msgid ""
@@ -42,7 +43,7 @@ msgid ""
 msgstr ""
 "<div style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        Apreciable <t t-out=\"object.partner_id.name or ''\"></t><br><br>\n"
+"        Estimado/a <t t-out=\"object.partner_id.name or ''\"></t><br><br>\n"
 "        <t t-out=\"user.name  or ''\"></t> solicitó que active la autenticación en dos factores para proteger su cuenta.<br><br>\n"
 "        La autenticación de dos factores  (\"A2F\") es un sistema de doble autenticación.\n"
 "        El primer factor se hace con su contraseña y el segundo con un código que obtiene de una aplicación móvil. \n"
@@ -68,7 +69,7 @@ msgstr "<span>Considere</span>"
 #, python-format
 msgid "A trusted device has just been added to your account: %(device_name)s"
 msgstr ""
-"Se acaba de agregar un dispositivo de confianza a su cuenta: %(device_name)s"
+"Se acaba de añadir un dispositivo de confianza a su cuenta: %(device_name)s"
 
 #. module: auth_totp_mail
 #. odoo-python
@@ -148,7 +149,7 @@ msgstr "Actualización de seguridad: A2F desactivada "
 #: code:addons/auth_totp_mail/models/auth_totp_device.py:0
 #, python-format
 msgid "Security Update: Device Added"
-msgstr "Actualización de seguridad: dispositivo agregado"
+msgstr "Actualización de seguridad: dispositivo añadido"
 
 #. module: auth_totp_mail
 #. odoo-python

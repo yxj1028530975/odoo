@@ -3,18 +3,18 @@
 # 	* web
 # 
 # Translators:
-# Rasareeyar Lappiam, 2024
 # Khwunchai Jaengsawang <khwunchai.j@ku.th>, 2024
 # gsong <gsong2014@foxmail.com>, 2024
-# Wil Odoo, 2024
+# Rasareeyar Lappiam, 2025
+# Wil Odoo, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 10:46+0000\n"
+"POT-Creation-Date: 2025-02-10 10:35+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Wil Odoo, 2024\n"
+"Last-Translator: Wil Odoo, 2025\n"
 "Language-Team: Thai (https://app.transifex.com/odoo/teams/41243/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -891,6 +891,7 @@ msgstr "ไอดีการดำเนินการ:"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/search/action_menus/action_menus.xml:0
+#: code:addons/web/static/src/search/cog_menu/cog_menu.xml:0
 #, python-format
 msgid "Actions"
 msgstr "การดำเนินการ"
@@ -911,7 +912,6 @@ msgstr "เปิดใช้งานการทดสอบการดีบ
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/core/debug/debug_providers.js:0
 #: code:addons/web/static/src/core/debug/debug_providers.js:0
 #, python-format
 msgid "Activate debug mode (with assets)"
@@ -1017,6 +1017,7 @@ msgstr "เพิ่มสาขา"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
 #: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
 #, python-format
 msgid "Add column"
@@ -1305,6 +1306,7 @@ msgstr "เป็นข้อความเริ่มต้นเมื่อ
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Ascending"
 msgstr "จากน้อยไปมาก"
@@ -1328,6 +1330,7 @@ msgstr "มอบหมาย"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #, python-format
 msgid "Attach"
@@ -1412,6 +1415,13 @@ msgid "BACK arrow"
 msgstr "ลูกศรย้อนกลับ"
 
 #. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/search/control_panel/control_panel.js:0
+#, python-format
+msgid "Back to “%s”"
+msgstr ""
+
+#. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__layout_background_image
 msgid "Background Image"
 msgstr "ภาพพื้นหลัง"
@@ -1439,6 +1449,7 @@ msgstr "เหรียญรางวัล"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Bar Chart"
@@ -1807,7 +1818,10 @@ msgstr "ซานตาคลอส"
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/view_dialogs/select_create_dialog.xml:0
 #, python-format
@@ -1823,12 +1837,12 @@ msgstr "คลิกได้"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/datetime/datetime_picker_popover.xml:0
 #: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/core/domain_selector_dialog/domain_selector_dialog.xml:0
-#: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
 #: code:addons/web/static/src/core/errors/error_dialogs.xml:0
@@ -1944,7 +1958,6 @@ msgstr "ชื่อบริษัท"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.external_layout_bold
-#: model_terms:ir.ui.view,arch_db:web.external_layout_boxed
 #: model_terms:ir.ui.view,arch_db:web.external_layout_standard
 #: model_terms:ir.ui.view,arch_db:web.external_layout_striped
 msgid "Company tagline"
@@ -2124,7 +2137,6 @@ msgstr "สงวนลิขสิทธิ์ © 2004"
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/views/fields/image/image_field.js:0
 #: code:addons/web/static/src/views/fields/signature/signature_field.js:0
 #, python-format
 msgid "Could not display the selected image"
@@ -2139,10 +2151,10 @@ msgstr "ไม่สามารถแสดงไฟล์ PDF ที่เล�
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/views/fields/image_url/image_url_field.js:0
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.js:0
 #, python-format
-msgid "Could not display the specified image url."
-msgstr "ไม่สามารถแสดง URL รูปภาพที่ระบุ"
+msgid "Could not display the selected spreadsheet"
+msgstr "ไม่สามารถแสดงสเปรดชีตที่เลือกได้"
 
 #. module: web
 #. odoo-javascript
@@ -2239,6 +2251,7 @@ msgstr "ผู้ใช้ที่สร้าง:"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Cumulative"
@@ -2508,6 +2521,7 @@ msgstr "ลบแถว"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Descending"
 msgstr "จากมากไปน้อย"
@@ -2591,6 +2605,7 @@ msgstr "ละทิ้ง"
 #. odoo-javascript
 #: code:addons/web/static/src/views/form/form_error_dialog/form_error_dialog.xml:0
 #: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
 #, python-format
 msgid "Discard changes"
 msgstr "ยกเลิกการเปลี่ยนแปลง"
@@ -2637,6 +2652,13 @@ msgstr "แสดงโดเมนโดยใช้มุมต่างๆ"
 #, python-format
 msgid "Displays a warning icon if the input dates are in the future."
 msgstr "แสดงไอคอนคำเตือนหากวันที่ป้อนเป็นวันที่ในอนาคต"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
+#, python-format
+msgid "Displays or hides the time in the datetime value."
+msgstr "แสดงหรือซ่อนเวลาในค่าวันที่เวลา"
 
 #. module: web
 #. odoo-javascript
@@ -2711,6 +2733,7 @@ msgstr "อย่าเพิ่งไป"
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.xml:0
 #, python-format
 msgid "Download"
@@ -2728,6 +2751,7 @@ msgstr "ดาวน์โหลดตัวอย่าง PDF"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Download xlsx"
@@ -2789,7 +2813,10 @@ msgstr "วันที่ยอมรับเร็วที่สุด"
 #: code:addons/web/static/src/views/calendar/calendar_common/calendar_common_popover.xml:0
 #: code:addons/web/static/src/views/calendar/quick_create/calendar_quick_create.xml:0
 #: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
+#: code:addons/web/static/src/views/fields/binary/binary_field.xml:0
 #: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/image/image_field.xml:0
+#: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/fields/pdf_viewer/pdf_viewer_field.xml:0
 #: code:addons/web/static/src/views/kanban/kanban_header.js:0
 #: code:addons/web/static/src/views/kanban/kanban_record_quick_create.xml:0
@@ -2951,6 +2978,7 @@ msgstr "ทุกอย่าง"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Expand all"
@@ -3176,6 +3204,7 @@ msgstr "ตัวกรอง"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
+#: code:addons/web/static/src/views/pivot/pivot_controller.xml:0
 #, python-format
 msgid "Flip axis"
 msgstr "กลับแกน"
@@ -3378,9 +3407,18 @@ msgstr "รับฟีเจอร์นี้และฟีเจอร์อ
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/url/url_field.xml:0
+#: code:addons/web/static/src/views/fields/url/url_field.xml:0
 #, python-format
 msgid "Go to URL"
 msgstr "ไปที่ URL"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.js:0
+#: code:addons/web/static/src/views/fields/google_slide_viewer/google_slide_viewer.xml:0
+#, python-format
+msgid "Google Slide Viewer"
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -3555,7 +3593,7 @@ msgstr "ILY"
 #: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
 #, python-format
 msgid "ISO-formatted date (e.g. \"2018-12-31\") or \"%s\"."
-msgstr ""
+msgstr "วันที่ในรูปแบบ ISO (เช่น \"2018-12-31\") หรือ \"%s\""
 
 #. module: web
 #. odoo-javascript
@@ -3676,6 +3714,8 @@ msgstr "ตัวเลขจำนวนเต็ม"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
+#: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
+#: code:addons/web/static/src/views/fields/properties/property_value.xml:0
 #: code:addons/web/static/src/views/fields/properties/property_value.xml:0
 #, python-format
 msgid "Internal link"
@@ -4244,6 +4284,7 @@ msgstr "ราศีตุลย์"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Line Chart"
 msgstr "แผนภูมิเส้น"
@@ -4261,6 +4302,13 @@ msgstr "โหลด"
 #, python-format
 msgid "Load demo data"
 msgstr "ตัวอย่าง ข้อมูล"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#, python-format
+msgid "Load everything anyway."
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -4363,6 +4411,13 @@ msgstr "การดำเนินการหลัก"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/search/custom_favorite_item/custom_favorite_item.xml:0
+#, python-format
+msgid "Make this filter available to other users"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/debug_items.js:0
 #, python-format
 msgid "Manage Attachments"
@@ -4410,6 +4465,13 @@ msgstr "Many2one"
 #, python-format
 msgid "Match"
 msgstr "จับคู่"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/gauge/gauge_field.js:0
+#, python-format
+msgid "Max value"
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -4572,6 +4634,13 @@ msgstr "ปรับเปลี่ยนสภาพ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#, python-format
+msgid "Modify filter"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/widgets/week_days/week_days.js:0
 #, python-format
 msgid "Mon"
@@ -4599,6 +4668,14 @@ msgstr "เดือน"
 #, python-format
 msgid "More"
 msgstr "เพิ่มเติม"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#, python-format
+msgid "More..."
+msgstr "มากกว่า..."
 
 #. module: web
 #. odoo-javascript
@@ -4806,6 +4883,7 @@ msgstr "ใหม่: %s"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/file_viewer/file_viewer.xml:0
+#: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
@@ -5061,7 +5139,7 @@ msgstr "สถานะไม่ใช้งาน คลิกเพื่อ�
 #: code:addons/web/static/src/views/fields/many2many_binary/many2many_binary_field.js:0
 #, python-format
 msgid "Number of files"
-msgstr ""
+msgstr "จำนวนไฟล์"
 
 #. module: web
 #. odoo-javascript
@@ -5521,6 +5599,7 @@ msgstr "โทรศัพท์"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Pie Chart"
 msgstr "แผนภูมิวงกลม"
@@ -5695,6 +5774,7 @@ msgstr "ดูตัวอย่างโลโก้"
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector_popover.xml:0
 #: code:addons/web/static/src/core/model_field_selector/model_field_selector_popover.xml:0
 #: code:addons/web/static/src/core/pager/pager.xml:0
+#: code:addons/web/static/src/core/pager/pager.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
 #: code:addons/web/static/src/views/calendar/calendar_controller.xml:0
 #, python-format
@@ -5793,7 +5873,7 @@ msgstr "แถบความคืบหน้า"
 #: code:addons/web/static/src/views/view_components/column_progress.xml:0
 #, python-format
 msgid "Progress bar"
-msgstr ""
+msgstr "แถบความคืบหน้า"
 
 #. module: web
 #. odoo-javascript
@@ -6326,12 +6406,14 @@ msgstr "บันทึกค่าเริ่มต้น"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
 #, python-format
 msgid "Save manually"
 msgstr "บันทึกด้วยตนเอง"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.xml:0
 #, python-format
@@ -6513,6 +6595,13 @@ msgstr "เลือกทั้งหมด"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/list/list_controller.xml:0
+#, python-format
+msgid "Select all records matching the search"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/core/datetime/datetime_picker.js:0
 #, python-format
 msgid "Select century"
@@ -6578,6 +6667,7 @@ msgstr "การเลือก:"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/email/email_field.xml:0
 #: code:addons/web/static/src/views/fields/email/email_field.xml:0
 #, python-format
 msgid "Send Email"
@@ -6691,11 +6781,25 @@ msgstr "แสดงมุมมอง %s"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#, python-format
+msgid "Show matching records"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
 #: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
 #, python-format
 msgid "Show sub-fields"
 msgstr "แสดงฟิลด์ย่อย"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
+#, python-format
+msgid "Show time"
+msgstr "แสดงเวลา"
 
 #. module: web
 #. odoo-javascript
@@ -6761,6 +6865,8 @@ msgstr "พิเศษ:"
 #. odoo-javascript
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid "Stacked"
 msgstr "ซ้อนกัน"
@@ -6816,6 +6922,13 @@ msgstr "เทพีเสรีภาพ"
 #, python-format
 msgid "Status"
 msgstr "สถานะ"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/statusbar/statusbar_field.xml:0
+#, python-format
+msgid "Statusbar"
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -6906,6 +7019,7 @@ msgstr "เสื้อเชิ้ต"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
 #: code:addons/web/static/src/webclient/user_menu/user_menu_items.xml:0
 #, python-format
 msgid "TIP"
@@ -7105,15 +7219,14 @@ msgstr ""
 
 #. module: web
 #. odoo-javascript
-#: code:addons/web/static/src/core/errors/error_dialogs.xml:0
+#: code:addons/web/static/src/views/graph/graph_controller.xml:0
 #, python-format
 msgid ""
-"The style compilation failed, see the error below. This is an administrator "
-"or developer error that must be fixed for the entire database before "
-"continuing working."
+"There are too many data. The graph only shows a sample. Use the filters to "
+"refine the scope."
 msgstr ""
-"การรวบรวมสไตล์ล้มเหลว ดูข้อผิดพลาดด้านล่าง "
-"นี่เป็นข้อผิดพลาดของผู้ดูแลระบบหรือนักพัฒนาที่ต้องแก้ไขสำหรับฐานข้อมูลทั้งหมดก่อนที่จะดำเนินการต่อ"
+"มีข้อมูลมากเกินไป กราฟแสดงเฉพาะตัวอย่างเท่านั้น "
+"ใช้ตัวกรองเพื่อปรับแต่งขอบเขต"
 
 #. module: web
 #. odoo-python
@@ -7511,6 +7624,13 @@ msgstr "ไม่พบ Wkhtmltopdf ในระบบนี้ รายงา�
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/form/form_status_indicator/form_status_indicator.xml:0
+#, python-format
+msgid "Unable to save. Correct the issue or discard changes"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/form/form_controller.js:0
 #: code:addons/web/static/src/views/list/list_controller.js:0
 #, python-format
@@ -7682,6 +7802,13 @@ msgstr ""
 msgid ""
 "Use it with the 'User-friendly format' option to customize the formatting."
 msgstr "ใช้ร่วมกับตัวเลือก \"รูปแบบที่ใช้งานง่าย\" เพื่อปรับแต่งการจัดรูปแบบ"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/search/custom_favorite_item/custom_favorite_item.xml:0
+#, python-format
+msgid "Use this filter by default when opening this view"
+msgstr "ใช้ตัวกรองนี้ตามค่าเริ่มต้นเมื่อเปิดมุมมองนี้"
 
 #. module: web
 #. odoo-javascript
@@ -8478,6 +8605,7 @@ msgstr "สัตว์ต่างดาว"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 #, python-format
@@ -8576,6 +8704,7 @@ msgstr "สมอ"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
 #: code:addons/web/static/src/core/domain_selector/utils.js:0
 #: code:addons/web/static/src/core/tree_editor/utils.js:0
 #, python-format
@@ -22829,6 +22958,13 @@ msgstr "แท็บใหม่"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/view_dialogs/export_data_dialog.xml:0
+#, python-format
+msgid "new_template"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 #, python-format
@@ -27453,6 +27589,13 @@ msgstr "ถูกเลือก"
 #, python-format
 msgid "selected records,"
 msgstr "บันทึกที่ถูกเลือก"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/debug/debug_menu_items.xml:0
+#, python-format
+msgid "self"
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -33550,10 +33693,31 @@ msgstr "ซอมบี้"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/view_components/column_progress.xml:0
+#, python-format
+msgid "{{ bar.count }} {{ bar.string }}"
+msgstr ""
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_column_quick_create.xml:0
+#, python-format
+msgid "{{ relatedFieldName }}..."
+msgstr ""
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/webclient/user_menu/user_menu_items.xml:0
 #, python-format
 msgid "— press"
 msgstr "— กด"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/commands/command_items.xml:0
+#, python-format
+msgid "— search for"
+msgstr "— ค้นหา"
 
 #. module: web
 #. odoo-javascript

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models, _
+from odoo import api, fields, models, _
 
 
 class Partner(models.Model):
@@ -34,3 +34,35 @@ class Partner(models.Model):
             'res_id': self.employee_ids.id,
             'view_mode': 'form',
         }
+
+    def _get_all_addr(self):
+        self.ensure_one()
+        employee_id = self.env['hr.employee'].search(
+            [('id', 'in', self.employee_ids.ids)],
+            limit=1,
+        )
+        if not employee_id:
+            return super()._get_all_addr()
+
+        pstl_addr = {
+            'contact_type': 'employee',
+            'street': employee_id.private_street,
+            'zip': employee_id.private_zip,
+            'city': employee_id.private_city,
+            'country': employee_id.private_country_id.code,
+        }
+        return [pstl_addr] + super()._get_all_addr()
+
+
+class ResPartnerBank(models.Model):
+    _inherit = ['res.partner.bank']
+
+    @api.depends_context('uid')
+    def _compute_display_name(self):
+        account_employee = self.browse()
+        if not self.user_has_groups('hr.group_hr_user'):
+            account_employee = self.sudo().filtered("partner_id.employee_ids")
+            for account in account_employee:
+                account.sudo(self.env.su).display_name = \
+                    account.acc_number[:2] + "*" * len(account.acc_number[2:-4]) + account.acc_number[-4:]
+        super(ResPartnerBank, self - account_employee)._compute_display_name()

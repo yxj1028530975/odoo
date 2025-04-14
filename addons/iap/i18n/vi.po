@@ -207,6 +207,17 @@ msgstr "Start a Trial at Odoo"
 #: code:addons/iap/tools/iap_tools.py:0
 #, python-format
 msgid ""
+"The request to the service timed out. Please contact the author of the app. "
+"The URL it tried to contact was %s"
+msgstr ""
+"Yêu cầu dịch vụ đã hết thời gian. Vui lòng liên hệ với người tạo ứng dụng. "
+"URL mà ứng dụng đã cố gắng liên hệ là %s"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/tools/iap_tools.py:0
+#, python-format
+msgid ""
 "The url that this service requested returned an error. Please contact the "
 "author of the app. The url it tried to contact was %s"
 msgstr ""
@@ -235,7 +246,7 @@ msgstr "View My Services"
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "View your IAP Services and recharge your credits"
-msgstr "View your IAP Services and recharge your credits"
+msgstr "Xem Dịch vụ IAP của bạn và nạp lại tín dụng"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__warn_me
@@ -252,4 +263,4 @@ msgstr "Email cảnh báo"
 #. module: iap
 #: model:ir.model.fields,help:iap.field_iap_account__warn_me
 msgid "We will send you an email when your balance gets below that threshold"
-msgstr ""
+msgstr "Chúng tôi sẽ gửi email cho bạn khi số dư của bạn dưới ngưỡng đó"

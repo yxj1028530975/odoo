@@ -2,6 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from lxml import etree
+from unittest.mock import patch
+
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
@@ -29,6 +31,12 @@ class TestAccountEdiUblCii(AccountTestInvoicingCommon):
             'uom_id': cls.uom_units.id,
             'standard_price': 80.0,
         })
+
+    def import_attachment(self, attachment, journal=None):
+        journal = journal or self.company_data["default_journal_purchase"]
+        return self.env['account.journal'] \
+            .with_context(default_journal_id=journal.id) \
+            ._create_document_from_attachment(attachment.id)
 
     def test_import_product(self):
         line_vals = [
@@ -133,9 +141,7 @@ class TestAccountEdiUblCii(AccountTestInvoicingCommon):
             })
 
         # Import the document for the first time
-        bill = self.env['account.journal']\
-                .with_context(default_journal_id=self.company_data["default_journal_purchase"].id)\
-                ._create_document_from_attachment(xml_attachment.id)
+        bill = self.import_attachment(xml_attachment, self.company_data["default_journal_purchase"])
 
         # Ensure the first tax is retrieved as there isn't any prediction that could be leverage
         self.assertEqual(bill.invoice_line_ids.tax_ids, new_tax_1)
@@ -145,9 +151,7 @@ class TestAccountEdiUblCii(AccountTestInvoicingCommon):
         bill.action_post()
 
         # Import the bill again and ensure the prediction did his work
-        bill = self.env['account.journal']\
-                .with_context(default_journal_id=self.company_data["default_journal_purchase"].id)\
-                ._create_document_from_attachment(xml_attachment.id)
+        bill = self.import_attachment(xml_attachment, self.company_data["default_journal_purchase"])
         self.assertEqual(bill.invoice_line_ids.tax_ids, new_tax_2)
 
     def test_peppol_eas_endpoint_compute(self):
@@ -181,4 +185,130 @@ class TestAccountEdiUblCii(AccountTestInvoicingCommon):
         self.assertRecordValues(partner, [{
             'peppol_eas': '0208',
             'peppol_endpoint': '0477472701',
+        }])
+
+    def test_import_partner_peppol_fields(self):
+        """ Check that the peppol fields are used to retrieve the partner when importing a Bis 3 xml. """
+        partner = self.env['res.partner'].create({
+            'name': "My Belgian Partner",
+            'vat': "BE0477472701",
+            'peppol_eas': "0208",
+            'peppol_endpoint': "0477472701",
+            'email': "mypartner@email.com",
+        })
+        invoice = self.env['account.move'].create({
+            'partner_id': partner.id,
+            'move_type': 'out_invoice',
+            'invoice_line_ids': [Command.create({'product_id': self.product_a.id})]
+        })
+        invoice.action_post()
+        xml_attachment = self.env['ir.attachment'].create({
+            'raw': self.env['account.edi.xml.ubl_bis3']._export_invoice(invoice)[0],
+            'name': 'test_invoice.xml',
+        })
+
+        # There is a duplicated partner (with the same name and email)
+        self.env['res.partner'].create({
+            'name': "My Belgian Partner",
+            'email': "mypartner@email.com",
+        })
+        # Change the fields of the partner, keep the peppol fields
+        partner.update({
+            'name': "Turlututu",
+            'email': False,
+            'vat': False,
+        })
+        # The partner should be retrieved based on the peppol fields
+        imported_invoice = self.import_attachment(xml_attachment, self.company_data["default_journal_sale"])
+        self.assertEqual(imported_invoice.partner_id, partner)
+
+    def test_export_pdf_contains_facturx(self):
+        """ Check that we generate a Factur-x xml when we render the invoice action report. """
+        invoice = self.env['account.move'].create({
+            'partner_id': self.partner_a.id,
+            'move_type': 'out_invoice',
+            'invoice_line_ids': [Command.create({'product_id': self.product_a.id})]
+        })
+        invoice.action_post()
+
+        with patch(
+            'odoo.addons.account_edi_ubl_cii.models.account_edi_xml_cii_facturx.AccountEdiXmlCII._export_invoice',
+            side_effect=lambda m: (b'<xml>Tmp</xml>', {}),
+        ) as patched:
+            self.env['ir.actions.report']\
+                .with_context(force_report_rendering=True)\
+                ._render('account.account_invoices', invoice.ids)
+            patched.assert_called_once()
+
+    def test_actual_delivery_date_in_cii_xml(self):
+
+        invoice = self.env['account.move'].create({
+            'partner_id': self.partner_a.id,
+            'move_type': 'out_invoice',
+            'invoice_line_ids': [Command.create({'product_id': self.product_a.id})],
+            'delivery_date': "2024-12-31",
+        })
+        invoice.action_post()
+
+        xml_attachment = self.env['ir.attachment'].create({
+            'raw': self.env['account.edi.xml.cii']._export_invoice(invoice)[0],
+            'name': 'test_invoice.xml',
+        })
+        xml_tree = etree.fromstring(xml_attachment.raw)
+        actual_delivery_date = xml_tree.find('.//ram:ActualDeliverySupplyChainEvent/ram:OccurrenceDateTime/udt:DateTimeString', {
+            'rsm': "urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100",
+            'ram': "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100",
+            'udt': "urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100"
+        })
+        self.assertEqual(actual_delivery_date.text, '20241231')
+
+    def test_import_partner_fields(self):
+        """ We are going to import the e-invoice and check partner is correctly imported."""
+        self.env.ref('base.EUR').active = True  # EUR might not be active and is used in the xml testing file
+        file_path = "bis3_bill_example.xml"
+        file_path = f"{self.test_module}/tests/test_files/{file_path}"
+        with file_open(file_path, 'rb') as file:
+            xml_attachment = self.env['ir.attachment'].create({
+                'mimetype': 'application/xml',
+                'name': 'test_invoice.xml',
+                'raw': file.read(),
+            })
+
+        bill = self.import_attachment(xml_attachment, self.company_data["default_journal_purchase"])
+
+        self.assertRecordValues(bill.partner_id, [{
+            'name': "ALD Automotive LU",
+            'phone': False,
+            'email': 'adl@test.com',
+            'vat': 'LU12977109',
+            'street': '270 rte d\'Arlon',
+            'street2': False,
+            'city': 'Strassen',
+            'zip': '8010',
+        }])
+
+    def test_import_bill_without_tax(self):
+        """ Test that no tax is set (even the default one) when importing a bill without tax."""
+        self.env.ref('base.EUR').active = True  # EUR might not be active and is used in the xml testing file
+        file_path = "bis3_bill_without_tax.xml"
+        file_path = f"{self.test_module}/tests/test_files/{file_path}"
+        with file_open(file_path, 'rb') as file:
+            xml_attachment = self.env['ir.attachment'].create({
+                'mimetype': 'application/xml',
+                'name': 'test_invoice.xml',
+                'raw': file.read(),
+            })
+        purchase_tax = self.env['account.tax'].create({
+            'type_tax_use': 'purchase',
+            'name': 'purchase_tax_10',
+            'amount': 10,
+        })
+        self.company_data['default_account_expense'].tax_ids = purchase_tax.ids
+
+        bill = self.import_attachment(xml_attachment, self.company_data["default_journal_purchase"])
+
+        self.assertRecordValues(bill.invoice_line_ids, [{
+            'amount_currency': 100.00,
+            'quantity': 1.0,
+            'tax_ids': self.env['account.tax'],
         }])

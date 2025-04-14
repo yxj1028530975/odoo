@@ -9,25 +9,21 @@
 # matjaz k <matjaz@mentis.si>, 2023
 # Tomaž Jug <tomaz@editor.si>, 2023
 # Martin Trigaux, 2023
+# Gregor Flajs, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-26 21:56+0000\n"
+"POT-Creation-Date: 2025-02-10 10:35+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Martin Trigaux, 2023\n"
+"Last-Translator: Gregor Flajs, 2024\n"
 "Language-Team: Slovenian (https://app.transifex.com/odoo/teams/41243/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-
-#. module: website_mass_mailing
-#: model_terms:ir.ui.view,arch_db:website_mass_mailing.newsletter_subscribe_options
-msgid ", .o_newsletter_popup"
-msgstr ""
 
 #. module: website_mass_mailing
 #: model_terms:ir.ui.view,arch_db:website_mass_mailing.newsletter_subscribe_options
@@ -52,6 +48,8 @@ msgid ""
 "<span class=\"fa fa-check-circle\"/>\n"
 "                                Thank you for subscribing!"
 msgstr ""
+"<span class=\"fa fa-check-circle\"/>\n"
+"                                Hvala, ker ste se naročili!"
 
 #. module: website_mass_mailing
 #: model_terms:ir.ui.view,arch_db:website_mass_mailing.s_newsletter_block_form_template
@@ -244,7 +242,7 @@ msgstr ""
 #. module: website_mass_mailing
 #: model_terms:ir.ui.view,arch_db:website_mass_mailing.s_newsletter_block_form_template
 msgid "You will now be informed about the latest news.<br/>"
-msgstr ""
+msgstr "Sedaj boste obveščeni o zadnjih novicah.<br/>"
 
 #. module: website_mass_mailing
 #. odoo-javascript

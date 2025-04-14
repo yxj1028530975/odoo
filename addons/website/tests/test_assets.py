@@ -4,7 +4,7 @@ import re
 
 import odoo.tests
 
-from odoo.tools import config
+from odoo.tools import config, mute_logger
 
 
 @odoo.tests.common.tagged('post_install', '-at_install')
@@ -233,7 +233,7 @@ class TestWebAssets(odoo.tests.HttpCase):
     def test_ensure_correct_website_asset(self):
         # when searching for an attachment, if the unique a wildcard, we want to ensute that we don't match a website one when seraching a no website one.
         # this test should also wheck that the clean_attachement does not erase a website_attachement after generating a base attachment
-        website_id = self.env['website'].search([], limit=1, order='id desc').id
+        website_id = self.env['website'].search([], limit=1, order='id asc').id
         unique = self.env['ir.qweb']._get_asset_bundle('web.assets_frontend').get_version('js')
         base_url = self.env['ir.asset']._get_asset_bundle_url('web.assets_frontend.min.js', '%', {})
         base_url_versioned = self.env['ir.asset']._get_asset_bundle_url('web.assets_frontend.min.js', unique, {})
@@ -252,9 +252,24 @@ class TestWebAssets(odoo.tests.HttpCase):
         )
 
         # generate base assets
-        self.assertEqual(self.url_open(base_url, allow_redirects=False).status_code, 200)
+        with self.assertLogs() as logs:
+            self.assertEqual(self.url_open(base_url, allow_redirects=False).status_code, 200)
+        self.assertEqual(
+            f'Found a similar attachment for /web/assets/{unique}/web.assets_frontend.min.js, copying from /web/assets/{website_id}/{unique}/web.assets_frontend.min.js',
+            logs.records[0].message,
+            'The attachment was expected to be linked to an existing one')
         self.assertEqual(
             self.env['ir.attachment'].search([('url', '=like', '%web.assets_frontend.min.js')]).mapped('url'),
             [base_url_versioned, website_url_versioned],
             'base asset is expected to be present',
         )
+
+    def test_assets_bundle_css_error_frontend(self):
+        self.env['ir.qweb']._get_asset_bundle('web.assets_frontend', assets_params={'website_id': self.env['website'].search([], limit=1).id}).css()  # force pregeneration so that we have the base style
+        self.env['ir.asset'].create({
+            'name': 'Css error',
+            'bundle': 'web.assets_frontend',
+            'path': 'website/static/src/css/test_error.scss',
+        })
+        with mute_logger('odoo.addons.base.models.assetsbundle'):
+            self.start_tour('/', 'css_error_tour_frontend', login='admin')

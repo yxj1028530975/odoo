@@ -3,7 +3,7 @@
 
 {
     'name' : 'Analytic Accounting',
-    'version': '1.1',
+    'version': '1.2',
     'category': 'Accounting/Accounting',
     'depends' : ['base', 'mail', 'uom'],
     'description': """
@@ -29,6 +29,7 @@ that have no counterpart in the general financial accounts.
     'assets': {
         'web.assets_backend': [
             'analytic/static/src/components/**/*',
+            'analytic/static/src/services/**/*',
         ],
         'web.qunit_suite_tests': [
             'analytic/static/tests/*.js',

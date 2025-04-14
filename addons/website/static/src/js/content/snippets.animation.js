@@ -138,7 +138,7 @@ var AnimationEffect = Class.extend(mixins.ParentedMixin, {
         this.startEvents = startEvents || 'scroll';
         const modalEl = options.enableInModal ? parent.target.closest('.modal') : null;
         const mainScrollingElement = modalEl ? modalEl : $().getScrollingElement()[0];
-        const mainScrollingTarget = mainScrollingElement === document.documentElement ? window : mainScrollingElement;
+        const mainScrollingTarget = $().getScrollingTarget(mainScrollingElement)[0];
         this.$startTarget = $($startTarget ? $startTarget : this.startEvents === 'scroll' ? mainScrollingTarget : window);
         if (options.getStateCallback) {
             this._getStateCallback = options.getStateCallback;
@@ -465,13 +465,24 @@ registry.slider = publicWidget.Widget.extend({
         // Initialize carousel and pause if in edit mode.
         this.$el.carousel(this.editableMode ? 'pause' : undefined);
         $(window).on('resize.slider', debounce(() => this._computeHeights(), 250));
-        if (this.editableMode) {
-            // Prevent carousel slide to be an history step.
-            this.$el.on("slide.bs.carousel.slider", () => {
-                this.options.wysiwyg.odooEditor.observerUnactive();
-            });
-            this.$el.on("slid.bs.carousel.slider", () => {
-                this.options.wysiwyg.odooEditor.observerActive();
+
+        // Only for carousels having the `Carousel` and `CarouselItem` options
+        // (i.e. matching the `section > .carousel` selector).
+        if (this.editableMode && this.el.matches("section > .carousel")
+                && !this.options.wysiwyg.options.enableTranslation) {
+            this.controlEls = this.el.querySelectorAll(".carousel-control-prev, .carousel-control-next");
+            const indicatorEls = this.el.querySelectorAll(".carousel-indicators > li");
+            // Deactivate the carousel controls to handle the slides manually in
+            // edit mode (by the options).
+            this.options.wysiwyg.odooEditor.observerUnactive("disable_controls");
+            this.controlEls.forEach(controlEl => controlEl.removeAttribute("data-bs-slide"));
+            indicatorEls.forEach(indicatorEl => indicatorEl.removeAttribute("data-bs-slide-to"));
+            this.options.wysiwyg.odooEditor.observerActive("disable_controls");
+            // Redirect the clicks on the active slide, in order to start the
+            // carousel options.
+            this.__onControlClick = this._onControlClick.bind(this);
+            [...this.controlEls, ...indicatorEls].forEach(controlEl => {
+                controlEl.addEventListener("mousedown", this.__onControlClick);
             });
         }
         return this._super.apply(this, arguments);
@@ -484,13 +495,32 @@ registry.slider = publicWidget.Widget.extend({
         this.$('img').off('.slider');
         this.$el.carousel('pause');
         this.$el.removeData('bs.carousel');
+        this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive("destroy");
         this.$(".carousel-item")
             .toArray()
             .forEach((el) => {
                 $(el).css("min-height", "");
             });
+        this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive("destroy");
         $(window).off('.slider');
-        this.$el.off('.slider');
+        this.$el.off('.slider'); // TODO remove in master
+
+        if (this.editableMode && this.el.matches("section > .carousel")
+                && !this.options.wysiwyg.options.enableTranslation) {
+            // Restore the carousel controls.
+            const indicatorEls = this.el.querySelectorAll(".carousel-indicators > li");
+            this.options.wysiwyg.odooEditor.observerUnactive("restore_controls");
+            this.controlEls.forEach(controlEl => {
+                const direction = controlEl.classList.contains("carousel-control-prev") ?
+                    "prev" : "next";
+                controlEl.setAttribute("data-bs-slide", direction);
+            });
+            indicatorEls.forEach((indicatorEl, i) => indicatorEl.setAttribute("data-bs-slide-to", i));
+            this.options.wysiwyg.odooEditor.observerActive("restore_controls");
+            [...this.controlEls, ...indicatorEls].forEach(controlEl => {
+                controlEl.removeEventListener("mousedown", this.__onControlClick);
+            });
+        }
     },
 
     //--------------------------------------------------------------------------
@@ -503,22 +533,20 @@ registry.slider = publicWidget.Widget.extend({
     _computeHeights: function () {
         var maxHeight = 0;
         var $items = this.$('.carousel-item');
+        this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive("_computeHeights");
         $items.css('min-height', '');
         $items.toArray().forEach((el) => {
             var $item = $(el);
             var isActive = $item.hasClass('active');
-            this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive('_computeHeights');
             $item.addClass('active');
-            this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive('_computeHeights');
             var height = $item.outerHeight();
             if (height > maxHeight) {
                 maxHeight = height;
             }
-            this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive('_computeHeights');
             $item.toggleClass('active', isActive);
-            this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive('_computeHeights');
         });
         $items.css('min-height', maxHeight);
+        this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive("_computeHeights");
     },
 
     //--------------------------------------------------------------------------
@@ -530,6 +558,14 @@ registry.slider = publicWidget.Widget.extend({
      */
     _onContentChanged: function (ev) {
         this._computeHeights();
+    },
+    /**
+     * Redirects a carousel control click on the active slide.
+     *
+     * @private
+     */
+    _onControlClick() {
+        this.el.querySelector(".carousel-item.active").click();
     },
 });
 
@@ -843,6 +879,12 @@ registry.backgroundVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin
                 videoContainerEl.classList.remove('d-none');
             });
         }
+        this.__adjustIframe = debounce(() => this._adjustIframe(), 100);
+        const resizeObserver = new ResizeObserver(this.__adjustIframe.bind(this));
+        // A change in an element padding does not trigger the resizeObserver so
+        // both inner and outer element are observed for any resizing.
+        resizeObserver.observe(this.$target[0].parentElement);
+        resizeObserver.observe(this.$target[0]);
         return Promise.all(proms).then(() => this._appendBgVideo());
     },
     /**
@@ -1050,8 +1092,13 @@ registry.anchorSlide = publicWidget.Widget.extend({
      * @private
      */
     _onAnimateClick: function (ev) {
-        if (this.el.pathname !== window.location.pathname) {
+        const ensureSlash = path => path.endsWith("/") ? path : path + "/";
+        if (ensureSlash(this.el.pathname) !== ensureSlash(window.location.pathname)) {
             return;
+        }
+        // Avoid flicker at destination in case of ending "/" difference.
+        if (this.el.pathname !== window.location.pathname) {
+            this.el.pathname = window.location.pathname;
         }
         var hash = this.el.hash;
         if (!hash.length) {
@@ -1289,8 +1336,9 @@ registry.BottomFixedElement = publicWidget.Widget.extend({
      */
     async start() {
         this.$scrollingElement = $().getScrollingElement();
+        this.$scrollingTarget = $().getScrollingTarget(this.$scrollingElement);
         this.__hideBottomFixedElements = debounce(() => this._hideBottomFixedElements(), 100);
-        this.$scrollingElement.on('scroll.bottom_fixed_element', this.__hideBottomFixedElements);
+        this.$scrollingTarget.on('scroll.bottom_fixed_element', this.__hideBottomFixedElements);
         $(window).on('resize.bottom_fixed_element', this.__hideBottomFixedElements);
         return this._super(...arguments);
     },
@@ -1299,7 +1347,8 @@ registry.BottomFixedElement = publicWidget.Widget.extend({
      */
     destroy() {
         this._super(...arguments);
-        this.$scrollingElement.off('.bottom_fixed_element');
+        this.$scrollingElement.off('.bottom_fixed_element'); // TODO remove in master
+        this.$scrollingTarget.off('.bottom_fixed_element');
         $(window).off('.bottom_fixed_element');
         this._restoreBottomFixedElements($('.o_bottom_fixed_element'));
     },
@@ -1384,7 +1433,8 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
      */
     start() {
         this.lastScroll = 0;
-        this.$scrollingElement = $().getScrollingElement();
+        this.$scrollingElement = this.findScrollingElement();
+        this.$scrollingTarget = $().getScrollingTarget(this.$scrollingElement);
         this.$animatedElements = this.$('.o_animate');
 
         // Fix for "transform: none" not overriding keyframe transforms on
@@ -1422,7 +1472,7 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
         // for events that otherwise don’t support it. (e.g. useful when
         // scrolling a modal)
         this.__onScrollWebsiteAnimate = throttleForAnimation(this._onScrollWebsiteAnimate.bind(this));
-        this.$scrollingElement[0].addEventListener('scroll', this.__onScrollWebsiteAnimate, {capture: true});
+        this.$scrollingTarget[0].addEventListener('scroll', this.__onScrollWebsiteAnimate, {capture: true});
 
         $(window).on('resize.o_animate, shown.bs.modal.o_animate, slid.bs.carousel.o_animate, shown.bs.tab.o_animate, shown.bs.collapse.o_animate', () => {
             this.windowsHeight = $(window).height();
@@ -1445,8 +1495,12 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
             });
         $(window).off('.o_animate');
         this.__onScrollWebsiteAnimate.cancel();
-        this.$scrollingElement[0].removeEventListener('scroll', this.__onScrollWebsiteAnimate, {capture: true});
+        this.$scrollingTarget[0].removeEventListener('scroll', this.__onScrollWebsiteAnimate, {capture: true});
         this.$scrollingElement[0].classList.remove('o_wanim_overflow_xy_hidden');
+    },
+
+    findScrollingElement() {
+        return $().getScrollingElement();
     },
 
     //--------------------------------------------------------------------------
@@ -1604,7 +1658,8 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
      * @param {Event} ev
      */
     _onScrollWebsiteAnimate(ev) {
-        this._scrollWebsiteAnimate(ev.currentTarget);
+        // Note: Do not rely on ev.currentTarget which might be lost by Chrome.
+        this._scrollWebsiteAnimate(this.$scrollingElement[0]);
     },
 });
 
@@ -1637,10 +1692,7 @@ registry.ImagesLazyLoading = publicWidget.Widget.extend({
         // the image intrinsic min-height.
         const imgEls = this.el.querySelectorAll('img[loading="lazy"]');
         for (const imgEl of imgEls) {
-            // Write initial min-height on the dataset, so that it can also
-            // be properly restored on widget destroy.
-            imgEl.dataset.lazyLoadingInitialMinHeight = imgEl.style.minHeight;
-            imgEl.style.minHeight = '1px';
+            this._updateImgMinHeight(imgEl);
             wUtils.onceAllImagesLoaded($(imgEl)).then(() => {
                 if (this.isDestroyed()) {
                     return;
@@ -1670,8 +1722,34 @@ registry.ImagesLazyLoading = publicWidget.Widget.extend({
      * @param {HTMLImageElement} imgEl
      */
     _restoreImage(imgEl) {
-        imgEl.style.minHeight = imgEl.dataset.lazyLoadingInitialMinHeight;
-        delete imgEl.dataset.lazyLoadingInitialMinHeight;
+        this._updateImgMinHeight(imgEl, true);
+    },
+    /**
+     * Updates the image element style with the corresponding min-height.
+     * If the editor is enabled, it deactivates the observer during the CSS
+     * update.
+     *
+     * @param {HTMLElement} imgEl - The image element to update the minimum
+     *        height of.
+     * @param {boolean} [reset=false] - Whether to remove the minimum height
+     *        and restore the initial value.
+     */
+    _updateImgMinHeight(imgEl, reset = false) {
+        if (this.options.wysiwyg) {
+            this.options.wysiwyg.odooEditor.observerUnactive('_updateImgMinHeight');
+        }
+        if (reset) {
+            imgEl.style.minHeight = imgEl.dataset.lazyLoadingInitialMinHeight;
+            delete imgEl.dataset.lazyLoadingInitialMinHeight;
+        } else {
+            // Write initial min-height on the dataset, so that it can also
+            // be properly restored on widget destroy.
+            imgEl.dataset.lazyLoadingInitialMinHeight = imgEl.style.minHeight;
+            imgEl.style.minHeight = '1px';
+        }
+        if (this.options.wysiwyg) {
+            this.options.wysiwyg.odooEditor.observerActive('_updateImgMinHeight');
+        }
     },
 });
 
@@ -1786,9 +1864,14 @@ registry.ImageShapeHoverEffet = publicWidget.Widget.extend({
      */
     destroy() {
         this._super(...arguments);
-        if (this.originalImgSrc && (this.lastImgSrc === this.el.getAttribute('src'))) {
+        if (this.el.dataset.originalSrcBeforeHover && !this.el.classList.contains("o_modified_image_to_save")) {
+            // Replace the image source by its original one if it has not been
+            // modified in edit mode.
+            this.el.src = this.el.dataset.originalSrcBeforeHover;
+        } else if (this.originalImgSrc && (this.lastImgSrc === this.el.getAttribute("src"))) {
             this.el.src = this.originalImgSrc;
         }
+        delete this.el.dataset.originalSrcBeforeHover;
     },
 
     //--------------------------------------------------------------------------
@@ -1885,6 +1968,9 @@ registry.ImageShapeHoverEffet = publicWidget.Widget.extend({
                 return;
             }
             this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive("setImgHoverEffectSrc");
+            if (this.editableMode && !this.el.dataset.originalSrcBeforeHover) {
+                this.el.dataset.originalSrcBeforeHover = this.originalImgSrc;
+            }
             this.el.src = preloadedImg.getAttribute('src');
             this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive("setImgHoverEffectSrc");
             this.lastImgSrc = preloadedImg.getAttribute('src');
@@ -1912,6 +1998,13 @@ registry.TextHighlight = publicWidget.Widget.extend({
         // to block the callback on this first notification for observed items.
         this.observerLock = new Map();
         this.resizeObserver = new window.ResizeObserver(entries => {
+            // Some options, like the popup, trigger a resize after a delay
+            // before the page is saved. This causes the highlights to be added
+            // back to the DOM after the "TextHighlight" widget has been
+            // destroyed. This is why the following line is needed.
+            if (this.isDestroyed()) {
+                return;
+            }
             window.requestAnimationFrame(() => {
                 const textHighlightEls = new Set();
                 entries.forEach(entry => {
@@ -1988,6 +2081,9 @@ registry.TextHighlight = publicWidget.Widget.extend({
         // we use a lock map (`observerLocked`) to block the callback on this
         // first notification for observed items.
         this.resizeObserver = new window.ResizeObserver(entries => {
+            if (this.isDestroyed()) {
+                return;
+            }
             window.requestAnimationFrame(() => {
                 const topTextEls = new Set();
                 entries.forEach(entry => {

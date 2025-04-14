@@ -93,7 +93,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p><a href="#" target="_blank">#</a><br></p>`
+                `<p>\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeff#\ufeff</a>\ufeff<br></p>`
             );
         });
 
@@ -112,7 +112,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p><a href="#" target="_blank">#</a><br></p>`
+                `<p>\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeff#\ufeff</a>\ufeff<br></p>`
             );
         });
 
@@ -135,7 +135,7 @@ QUnit.module(
                 await nextTick();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>H<a href="#" target="_blank">el</a>lo</p>`
+                    `<p>H\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeffel\ufeff</a>\ufefflo</p>`
                 );
             }
         );
@@ -187,7 +187,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p><a href="#" target="_blank">Hello</a></p>`
+                `<p>\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeffHello\ufeff</a>\ufeff</p>`
             );
         });
 
@@ -207,7 +207,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p>H<a href="#" target="_blank">el</a>lo</p>`
+                `<p>H\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeffel\ufeff</a>\ufefflo</p>`
             );
         });
 
@@ -229,7 +229,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p><a href="#" target="_blank">#</a><br></p>`
+                `<p>\ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufeff#\ufeff</a>\ufeff<br></p>`
             );
         });
 
@@ -258,7 +258,7 @@ QUnit.module(
             await nextTick();
             assert.strictEqual(
                 editable.innerHTML,
-                `<p>a <a href="#" target="_blank">link</a>&nbsp;&nbsp;b</p>`
+                `<p>a \ufeff<a class="o_translate_inline o_link_in_selection" href="#" target="_blank">\ufefflink\ufeff</a>\ufeff&nbsp;&nbsp;b</p>`
             );
         });
 
@@ -284,7 +284,7 @@ QUnit.module(
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>a<a href="#" target="_blank">#D</a>b</p>`
+                    `<p>a<a class="o_translate_inline" href="#" target="_blank">#D</a>b</p>`
                 );
             }
         );
@@ -313,7 +313,7 @@ QUnit.module(
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>a<a href="#" target="_blank">#ED</a>b</p>`
+                    `<p>a<a class="o_translate_inline" href="#" target="_blank">#ED</a>b</p>`
                 );
             }
         );
@@ -343,7 +343,7 @@ QUnit.module(
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>ab<a href="#" target="_blank">linkE</a></p><p><br></p>`
+                    `<p>ab<a class="o_translate_inline" href="#" target="_blank">linkE</a></p><p><br></p>`
                 );
             }
         );
@@ -375,7 +375,7 @@ QUnit.module(
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>a<a href="#" target="_blank">linkE</a></p><p>Db</p>`
+                    `<p>a<a class="o_translate_inline" href="#" target="_blank">linkE</a></p><p>Db</p>`
                 );
             }
         );
@@ -402,11 +402,11 @@ QUnit.module(
                 await nextTick();
                 editor.document.getSelection().collapseToEnd();
                 insertText(editor, "E");
-                triggerEvent(node, "keydown", { key: "Enter", shiftKey: true });
+                triggerEvent(node, "input", { inputType: "insertLineBreak" });
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>a<a href="#" target="_blank">linkE<br></a>b</p>`
+                    `<p>a<a class="o_translate_inline" href="#" target="_blank">linkE</a><br>b</p>`
                 );
             }
         );
@@ -433,12 +433,12 @@ QUnit.module(
                 await nextTick();
                 editor.document.getSelection().collapseToEnd();
                 insertText(editor, "E");
-                triggerEvent(node, "keydown", { key: "Enter", shiftKey: true });
+                triggerEvent(node, "input", { inputType: "insertLineBreak" });
                 insertText(editor, "D");
                 editor.clean();
                 assert.strictEqual(
                     editable.innerHTML,
-                    `<p>a<a href="#" target="_blank">linkE<br>D</a>b</p>`
+                    `<p>a<a class="o_translate_inline" href="#" target="_blank">linkE</a><br>Db</p>`
                 );
             }
         );

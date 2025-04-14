@@ -11,16 +11,16 @@
 # Martin Trigaux, 2023
 # Tadej Lupšina <tadej@hbs.si>, 2023
 # Matjaz Mozetic <m.mozetic@matmoz.si>, 2023
-# Katja Deržič, 2024
 # Grega Vavtar <grega@hbs.si>, 2024
+# Katja Deržič, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-26 21:55+0000\n"
+"POT-Creation-Date: 2025-02-10 10:34+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Grega Vavtar <grega@hbs.si>, 2024\n"
+"Last-Translator: Katja Deržič, 2024\n"
 "Language-Team: Slovenian (https://app.transifex.com/odoo/teams/41243/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,13 +89,6 @@ msgstr "Ustvaril"
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 msgid "Customer"
 msgstr "Stranka"
-
-#. module: rating
-#. odoo-python
-#: code:addons/rating/controllers/main.py:0
-#, python-format
-msgid "Customer rated %r."
-msgstr ""
 
 #. module: rating
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
@@ -316,7 +309,7 @@ msgstr "Število sporočil, ki niso bila pravilno dostavljena."
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 #, python-format
 msgid "Okay"
-msgstr ""
+msgstr "Okej"
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__parent_res_id
@@ -351,7 +344,7 @@ msgstr ""
 #. module: rating
 #: model:ir.model.fields,help:rating.field_rating_parent_mixin__rating_percentage_satisfaction
 msgid "Percentage of happy ratings"
-msgstr ""
+msgstr "Odstotek zadovoljnih ocen"
 
 #. module: rating
 #. odoo-python

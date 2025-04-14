@@ -3,16 +3,16 @@
 # 	* account_edi_ubl_cii
 # 
 # Translators:
-# Wil Odoo, 2023
 # Alina Lisnenko <alina.lisnenko@erp.co.ua>, 2024
+# Wil Odoo, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 12:31+0000\n"
+"POT-Creation-Date: 2025-02-10 10:33+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Alina Lisnenko <alina.lisnenko@erp.co.ua>, 2024\n"
+"Last-Translator: Wil Odoo, 2025\n"
 "Language-Team: Ukrainian (https://app.transifex.com/odoo/teams/41243/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -443,8 +443,8 @@ msgstr "9951 - Податковий номер Сан Маріно"
 
 #. module: account_edi_ubl_cii
 #: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__peppol_eas__9952
-msgid "9952 - Turkey VAT number"
-msgstr "9952 - Податковий номер Туреччини"
+msgid "9952 - Türkiye VAT number"
+msgstr "9952 - Номер ПДВ Туреччини"
 
 #. module: account_edi_ubl_cii
 #: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__peppol_eas__9953
@@ -566,6 +566,11 @@ msgid "Companies"
 msgstr "Компанії"
 
 #. module: account_edi_ubl_cii
+#: model:ir.model.fields,field_description:account_edi_ubl_cii.field_account_move_send__show_ubl_company_warning
+msgid "Company warning"
+msgstr "Сповіщення компанії"
+
+#. module: account_edi_ubl_cii
 #. odoo-python
 #: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_20.py:0
 #: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_20.py:0
@@ -659,7 +664,7 @@ msgstr "Увімкнути Ubl Cii Xml"
 
 #. module: account_edi_ubl_cii
 #. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_move_send.py:0
+#: code:addons/account_edi_ubl_cii/wizard/account_move_send.py:0
 #, python-format
 msgid "Errors occurred while creating the EDI document (format: %s):"
 msgstr "Під час створення документа EDI виникли помилки (формат: %s):"
@@ -719,6 +724,12 @@ msgid "Generate Peppol format by default"
 msgstr "За замовчуванням генерувати формат Peppol"
 
 #. module: account_edi_ubl_cii
+#: model:ir.model.fields,field_description:account_edi_ubl_cii.field_res_partner__hide_peppol_fields
+#: model:ir.model.fields,field_description:account_edi_ubl_cii.field_res_users__hide_peppol_fields
+msgid "Hide Peppol Fields"
+msgstr ""
+
+#. module: account_edi_ubl_cii
 #. odoo-python
 #: code:addons/account_edi_ubl_cii/models/account_edi_common.py:0
 #, python-format
@@ -756,6 +767,40 @@ msgid "Odoo"
 msgstr "Odoo"
 
 #. module: account_edi_ubl_cii
+#: model:ir.model.fields,field_description:account_edi_ubl_cii.field_account_move_send__ubl_partner_warning
+msgid "Partner warning"
+msgstr "Сповіщення партнера"
+
+#. module: account_edi_ubl_cii
+#. odoo-python
+#: code:addons/account_edi_ubl_cii/models/res_partner.py:0
+#, python-format
+msgid ""
+"Peppol EAS code 9901 is deprecated. Please use a different Danish EAS code "
+"instead."
+msgstr ""
+"Код Peppol EAS 9901 застарів. Натомість використовуйте інший данський код "
+"EAS."
+
+#. module: account_edi_ubl_cii
+#. odoo-python
+#: code:addons/account_edi_ubl_cii/models/res_partner.py:0
+#, python-format
+msgid "Peppol EAS code 9955 is deprecated. Please use 0007 instead."
+msgstr "Код Peppol EAS 9955 застарів. Натомість використовуйте 0007."
+
+#. module: account_edi_ubl_cii
+#. odoo-python
+#: code:addons/account_edi_ubl_cii/models/res_partner.py:0
+#, python-format
+msgid ""
+"Peppol EAS codes 0037, 0212, 0213, 0215 are deprecated. Please use 0216 "
+"instead."
+msgstr ""
+"Коди Peppol EAS 0037, 0212, 0213, 0215 застарілі. Використайте натомість "
+"0216."
+
+#. module: account_edi_ubl_cii
 #: model:ir.model.fields,field_description:account_edi_ubl_cii.field_res_partner__peppol_endpoint
 #: model:ir.model.fields,field_description:account_edi_ubl_cii.field_res_users__peppol_endpoint
 msgid "Peppol Endpoint"
@@ -773,6 +818,20 @@ msgid "Peppol format"
 msgstr "Формат Peppol"
 
 #. module: account_edi_ubl_cii
+#: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_move_send_form
+msgid ""
+"Please fill in Peppol EAS and Peppol Endpoint in your company form to "
+"generate a complete file."
+msgstr ""
+"Будь ласка, заповніть Peppol EAS і Peppol Endpoint у формі вашої компанії, "
+"щоб створити повний файл."
+
+#. module: account_edi_ubl_cii
+#: model:ir.model,name:account_edi_ubl_cii.model_ir_actions_report
+msgid "Report Action"
+msgstr "Дія звіту"
+
+#. module: account_edi_ubl_cii
 #: model:ir.model,name:account_edi_ubl_cii.model_account_edi_xml_ubl_sg
 msgid "SG BIS Billing 3.0"
 msgstr "SG BIS Billing 3.0"
@@ -788,6 +847,17 @@ msgstr "SI-UBL 2.0 (NLCIUS)"
 #, python-format
 msgid "Tax '%s' is invalid: %s"
 msgstr "Податок '%s' недійсний: %s"
+
+#. module: account_edi_ubl_cii
+#. odoo-python
+#: code:addons/account_edi_ubl_cii/models/res_partner.py:0
+#, python-format
+msgid ""
+"The Peppol endpoint is not valid. It should contain exactly 10 digits "
+"(Company Registry number).The expected format is: 1234567890"
+msgstr ""
+"The Peppol endpoint недійсний. Він має містити рівно 10 цифр (реєстраційний "
+"номер компанії). Очікуваний формат: 1234567890"
 
 #. module: account_edi_ubl_cii
 #. odoo-python
@@ -824,6 +894,13 @@ msgstr "ПДВ %s повинен мати префікс коду країни."
 
 #. module: account_edi_ubl_cii
 #. odoo-python
+#: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_bis3.py:0
+#, python-format
+msgid "The country is required for the %s."
+msgstr "Необхідна країна для %s."
+
+#. module: account_edi_ubl_cii
+#. odoo-python
 #: code:addons/account_edi_ubl_cii/models/account_edi_xml_cii_facturx.py:0
 #: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_20.py:0
 #, python-format
@@ -855,7 +932,7 @@ msgstr "Поле «Чистий Номер Р'ахунку» є обов’яз�
 
 #. module: account_edi_ubl_cii
 #. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_move_send.py:0
+#: code:addons/account_edi_ubl_cii/wizard/account_move_send.py:0
 #, python-format
 msgid ""
 "The following partners are missing Peppol EAS or Peppol Endpoint field: %s. "
@@ -864,17 +941,6 @@ msgid ""
 msgstr ""
 "У наступних партнерів відсутні поля Peppol EAS або Peppol Endpoint: %s. "
 "Перевірте їх на вкладці Бухоблік. Інакше створені файли будуть неповними."
-
-#. module: account_edi_ubl_cii
-#. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_bis3.py:0
-#, python-format
-msgid ""
-"The invoice contains line(s) with a negative unit price, which is not "
-"allowed. You might need to set a negative quantity instead."
-msgstr ""
-"Рахунок-фактура містить рядки з від’ємною ціною за одиницю, що неприпустимо."
-" Натомість вам може знадобитися встановити від’ємну кількість."
 
 #. module: account_edi_ubl_cii
 #. odoo-python
@@ -888,7 +954,7 @@ msgstr "Рахунок-фактуру перетворено на сторно, 
 
 #. module: account_edi_ubl_cii
 #. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_move_send.py:0
+#: code:addons/account_edi_ubl_cii/wizard/account_move_send.py:0
 #, python-format
 msgid ""
 "This partner is missing Peppol EAS or Peppol Endpoint field. Please check "
@@ -896,14 +962,6 @@ msgid ""
 msgstr ""
 "У цього партнера відсутнє поле Peppol EAS або Peppol Endpoint. Перевірте їх "
 "на вкладці Бухоблік, інакше створений файл буде неповним."
-
-#. module: account_edi_ubl_cii
-#. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_bis3.py:0
-#: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_bis3.py:0
-#, python-format
-msgid "The supplier %s must have a Bronnoysund company registry."
-msgstr "Постачальник %s повинен мати реєстрацію компанії Bronnoysund."
 
 #. module: account_edi_ubl_cii
 #: model:ir.model,name:account_edi_ubl_cii.model_account_edi_xml_ubl_20
@@ -970,11 +1028,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_pdfa_3_facturx_metadata
 msgid "factur-x.xml"
 msgstr "factur-x.xml"
-
-#. module: account_edi_ubl_cii
-#: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_line_facturx_export_22
-msgid "false"
-msgstr "помилка"
 
 #. module: account_edi_ubl_cii
 #: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_pdfa_3_facturx_metadata

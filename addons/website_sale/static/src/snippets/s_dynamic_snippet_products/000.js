@@ -57,8 +57,9 @@ const DynamicSnippetProducts = DynamicSnippetCarousel.extend({
     _getTagSearchDomain() {
         const searchDomain = [];
         let productTagIds = this.$el.get(0).dataset.productTagIds;
-        if (productTagIds) {
-            searchDomain.push(['all_product_tag_ids', 'in', JSON.parse(productTagIds).map(productTag => productTag.id)]);
+        productTagIds = productTagIds ? JSON.parse(productTagIds) : [];
+        if (productTagIds.length) {
+            searchDomain.push(['all_product_tag_ids', 'in', productTagIds.map(productTag => productTag.id)]);
         }
         return searchDomain;
     },
@@ -95,7 +96,13 @@ const DynamicSnippetProducts = DynamicSnippetCarousel.extend({
         return searchDomain;
     },
     /**
+     * Add `productTemplateId` for product snippets (Accessories, Alternatives and Recently sold).
+     *
+     * See `dynamic_snippet_accessories_action`, `dynamic_snippet_recently_sold_with_action` and
+     * `dynamic_snippet_alternative_products`.
+     *
      * @override
+     * @private
      */
     _getRpcParameters: function () {
         const productTemplateId = $("#product_details").find(".product_template_id");

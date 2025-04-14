@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from odoo import Command
 from odoo.exceptions import UserError, AccessError
 from odoo.tests import common
 from odoo.tools import frozendict
@@ -49,6 +50,7 @@ class TestCompanyCheck(common.TransactionCase):
             'name': 'M1',
             'company_id': self.company_a.id,
             'parent_id': self.parent_a.id,
+            'parent_ids': [Command.link(self.parent_a.id)],
         })
 
     def test_company_and_different_company(self):
@@ -59,12 +61,19 @@ class TestCompanyCheck(common.TransactionCase):
                 'company_id': self.company_b.id,
                 'parent_id': self.parent_a.id,
             })
+        with self.assertRaises(UserError):
+            self.env['test_new_api.model_child'].create({
+                'name': 'M1',
+                'company_id': self.company_b.id,
+                'parent_ids': [Command.link(self.parent_a.id), Command.link(self.parent_b.id)],
+            })
 
     def test_company_and_no_company(self):
         self.env['test_new_api.model_child'].create({
             'name': 'M1',
             'company_id': self.company_a.id,
             'parent_id': self.parent_0.id,
+            'parent_ids': [Command.link(self.parent_0.id)],
         })
 
     def test_no_company_and_no_company(self):
@@ -72,6 +81,7 @@ class TestCompanyCheck(common.TransactionCase):
             'name': 'M1',
             'company_id': False,
             'parent_id': self.parent_0.id,
+            'parent_ids': [Command.link(self.parent_0.id)],
         })
 
     def test_no_company_and_some_company(self):
@@ -80,6 +90,12 @@ class TestCompanyCheck(common.TransactionCase):
                 'name': 'M1',
                 'company_id': False,
                 'parent_id': self.parent_a.id,
+            })
+        with self.assertRaises(UserError):
+            self.env['test_new_api.model_child'].create({
+                'name': 'M1',
+                'company_id': False,
+                'parent_ids': [Command.link(self.parent_0.id), Command.link(self.parent_a.id)],
             })
 
     def test_no_company_check(self):
@@ -96,6 +112,7 @@ class TestCompanyCheck(common.TransactionCase):
             'name': 'M1',
             'company_id': self.company_a.id,
             'parent_id': self.parent_a.id,
+            'parent_ids': [Command.link(self.parent_a.id)],
         })
 
         with self.assertRaises(UserError):
@@ -104,8 +121,12 @@ class TestCompanyCheck(common.TransactionCase):
         with self.assertRaises(UserError):
             child.parent_id = self.parent_b.id
 
+        with self.assertRaises(UserError):
+            child.parent_ids = [Command.link(self.parent_b.id)]
+
         child.write({
             'parent_id': self.parent_b.id,
+            'parent_ids': [Command.unlink(self.parent_a.id), Command.link(self.parent_b.id)],
             'company_id': self.company_b.id,
         })
 
@@ -200,6 +221,16 @@ class TestCompanyCheck(common.TransactionCase):
             comp_a_c_user.env.context['allowed_company_ids'],
             [self.company_a.id, self.company_c.id],
         )
+
+        # Special case: _flush() can create a context with allowed_company_ids
+        # being None; it should be interpreted as [].
+        none_user = user.with_context(allowed_company_ids=None)
+        self.assertEqual(none_user.env.company, user.company_id)
+        self.assertEqual(none_user.env.companies, user.company_ids)
+
+        comp_user = none_user.with_company(user.company_id)
+        self.assertEqual(comp_user.env.company, user.company_id)
+        self.assertEqual(comp_user.env.companies, user.company_id)
 
     def test_company_sticky_with_context(self):
         context = frozendict({'nothing_to_see_here': True})

@@ -137,7 +137,8 @@ class TestCIIFR(TestUBLCommon):
         )
 
         pdf_attachment = invoice.ubl_cii_xml_id
-        self.assertEqual(pdf_attachment['name'], 'factur-x.xml')
+        facturx_filename = self.env['account.edi.xml.cii']._export_invoice_filename(invoice)
+        self.assertEqual(pdf_attachment['name'], facturx_filename)
 
     def test_export_import_invoice(self):
         invoice = self._generate_move(
@@ -184,7 +185,8 @@ class TestCIIFR(TestUBLCommon):
             ''',
             expected_file_path='from_odoo/facturx_out_invoice.xml',
         )
-        self.assertEqual(attachment.name, "factur-x.xml")
+        facturx_filename = self.env['account.edi.xml.cii']._export_invoice_filename(invoice)
+        self.assertEqual(attachment.name, facturx_filename)
         self._assert_imported_invoice_from_etree(invoice, attachment)
 
     def test_export_import_refund(self):
@@ -229,7 +231,8 @@ class TestCIIFR(TestUBLCommon):
             ''',
             expected_file_path='from_odoo/facturx_out_refund.xml'
         )
-        self.assertEqual(attachment.name, "factur-x.xml")
+        facturx_filename = self.env['account.edi.xml.cii']._export_invoice_filename(refund)
+        self.assertEqual(attachment.name, facturx_filename)
         self._assert_imported_invoice_from_etree(refund, attachment)
 
     def test_export_tax_included(self):
@@ -290,7 +293,8 @@ class TestCIIFR(TestUBLCommon):
             move_type='out_invoice',
             invoice_line_ids=[{'product_id': self.product_a.id}],
         )
-        self._test_encoding_in_attachment(invoice.ubl_cii_xml_id, 'factur-x.xml')
+        facturx_filename = self.env['account.edi.xml.cii']._export_invoice_filename(invoice)
+        self._test_encoding_in_attachment(invoice.ubl_cii_xml_id, facturx_filename)
 
     def test_export_with_fixed_taxes_case1(self):
         # CASE 1: simple invoice with a recupel tax
@@ -476,3 +480,20 @@ class TestCIIFR(TestUBLCommon):
             list_line_subtotals=[99], currency_id=self.currency_data['currency'].id, list_line_price_unit=[99],
             list_line_discount=[0], list_line_taxes=[self.tax_21+self.recupel], move_type='out_invoice',
         )
+
+    def test_facturx_has_no_negative_lines(self):
+        """
+        Test that the is no negative ChargeAmount in the facturx xml
+        """
+        invoice = self._generate_move(
+            seller=self.partner_1,
+            buyer=self.partner_2,
+            move_type='out_invoice',
+            invoice_line_ids=[
+                {'product_id': self.product_a.id, 'quantity': 1, 'price_unit': 100.0, 'tax_ids': [(6, 0, [self.tax_sale_a.id])],},
+                {'product_id': self.product_b.id, 'quantity': 1, 'price_unit': -50.0, 'tax_ids': [(6, 0, [self.tax_sale_a.id])],}
+            ],
+        )
+
+        self._assert_invoice_attachment(invoice.ubl_cii_xml_id, None, 'from_odoo/facturx_positive_discount_price_unit.xml')
+

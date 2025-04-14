@@ -33,7 +33,7 @@ class Applicant(models.Model):
     _primary_email = 'email_from'
 
     name = fields.Char("Subject / Application", required=True, help="Email subject for applications sent via email", index='trigram')
-    active = fields.Boolean("Active", default=True, help="If the active field is set to false, it will allow you to hide the case without removing it.")
+    active = fields.Boolean("Active", default=True, help="If the active field is set to false, it will allow you to hide the case without removing it.", index=True)
     description = fields.Html("Description")
     email_from = fields.Char("Email", size=128, compute='_compute_partner_phone_email',
         inverse='_inverse_partner_email', store=True, index='trigram')
@@ -53,7 +53,7 @@ class Applicant(models.Model):
     user_id = fields.Many2one(
         'res.users', "Recruiter", compute='_compute_user', domain="[('share', '=', False), ('company_ids', 'in', company_id)]",
         tracking=True, store=True, readonly=False)
-    date_closed = fields.Datetime("Hire Date", compute='_compute_date_closed', store=True, readonly=False, tracking=True)
+    date_closed = fields.Datetime("Hire Date", compute='_compute_date_closed', store=True, readonly=False, tracking=True, copy=False)
     date_open = fields.Datetime("Assigned", readonly=True)
     date_last_stage_update = fields.Datetime("Last Stage Update", index=True, default=fields.Datetime.now)
     priority = fields.Selection(AVAILABLE_PRIORITIES, "Evaluation", default='0')
@@ -102,7 +102,7 @@ class Applicant(models.Model):
     medium_id = fields.Many2one(ondelete='set null')
     source_id = fields.Many2one(ondelete='set null')
     interviewer_ids = fields.Many2many('res.users', 'hr_applicant_res_users_interviewers_rel',
-        string='Interviewers', index=True, tracking=True,
+        string='Interviewers', index=True, tracking=True, copy=False,
         domain="[('share', '=', False), ('company_ids', 'in', company_id)]")
     linkedin_profile = fields.Char('LinkedIn Profile')
     application_status = fields.Selection([
@@ -114,6 +114,7 @@ class Applicant(models.Model):
     applicant_properties = fields.Properties('Properties', definition='job_id.applicant_properties_definition', copy=True)
 
     def init(self):
+        super().init()
         self.env.cr.execute("""
             CREATE INDEX IF NOT EXISTS hr_applicant_job_id_stage_id_idx
             ON hr_applicant(job_id, stage_id)
@@ -320,16 +321,16 @@ class Applicant(models.Model):
             if not applicant.partner_id:
                 if not applicant.partner_name:
                     raise UserError(_('You must define a Contact Name for this applicant.'))
-                applicant.partner_id = self.env['res.partner'].create({
-                    'is_company': False,
-                    'name': applicant.partner_name,
-                    'email': applicant.email_from,
-                    'mobile': applicant.partner_mobile,
-                    'phone': applicant.partner_phone,
-                })
-            else:
+                applicant.partner_id = self.env['res.partner'].with_context(default_lang=self.env.lang).find_or_create(applicant.email_from)
+            if applicant.partner_name and not applicant.partner_id.name:
+                applicant.partner_id.name = applicant.partner_name
+            if tools.email_normalize(applicant.email_from) != tools.email_normalize(applicant.partner_id.email):
+                # change email on a partner will trigger other heavy code, so avoid to change the email when
+                # it is the same. E.g. "email@example.com" vs "My Email" <email@example.com>""
                 applicant.partner_id.email = applicant.email_from
+            if applicant.partner_mobile:
                 applicant.partner_id.mobile = applicant.partner_mobile
+            if applicant.partner_phone:
                 applicant.partner_id.phone = applicant.partner_phone
 
     @api.depends('partner_phone')
@@ -446,17 +447,6 @@ class Applicant(models.Model):
             and not self.user_has_groups('hr_recruitment.group_hr_recruitment_user'):
             view_id = self.env.ref('hr_recruitment.hr_applicant_view_form_interviewer').id
         return super().get_view(view_id, view_type, **options)
-
-    def _notify_get_recipients(self, message, msg_vals, **kwargs):
-        """
-            Do not notify members of the Recruitment Interviewer group that are not part of
-            Recruitment User group as well, as this
-            might leak some data they shouldn't have access to.
-        """
-        recipients = super()._notify_get_recipients(message, msg_vals, **kwargs)
-        interviewer_group = self.env.ref('hr_recruitment.group_hr_recruitment_interviewer').id
-        user_group = self.env.ref('hr_recruitment.group_hr_recruitment_user').id
-        return [recipient for recipient in recipients if not (interviewer_group in recipient['groups'] and user_group not in recipient['groups'])]
 
     def action_makeMeeting(self):
         """ This opens Meeting's calendar view to schedule meeting on current applicant
@@ -603,7 +593,7 @@ class Applicant(models.Model):
         # do not want to explicitly set user_id to False; however we do not
         # want the gateway user to be responsible if no other responsible is
         # found.
-        self = self.with_context(default_user_id=False)
+        self = self.with_context(default_user_id=False, mail_notify_author=True)  # Allows sending stage updates to the author
         stage = False
         if custom_values and 'job_id' in custom_values:
             stage = self.env['hr.job'].browse(custom_values['job_id'])._get_first_stage()
@@ -623,7 +613,9 @@ class Applicant(models.Model):
             defaults['stage_id'] = stage.id
         if custom_values:
             defaults.update(custom_values)
-        return super(Applicant, self).message_new(msg, custom_values=defaults)
+        res = super().message_new(msg, custom_values=defaults)
+        res._compute_partner_phone_email()
+        return res
 
     def _message_post_after_hook(self, message, msg_vals):
         if self.email_from and not self.partner_id:

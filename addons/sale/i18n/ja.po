@@ -5,17 +5,17 @@
 # Translators:
 # Martin Trigaux, 2023
 # Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2023
-# Wil Odoo, 2024
 # Ryoko Tsuda <ryoko@quartile.co>, 2024
-# Junko Augias, 2024
+# Wil Odoo, 2025
+# Junko Augias, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 10:45+0000\n"
+"POT-Creation-Date: 2025-02-10 10:34+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Junko Augias, 2024\n"
+"Last-Translator: Junko Augias, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -962,7 +962,7 @@ msgstr "<strong>この見積は取り消されました。</strong>"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "<strong>Your Reference:</strong><br/>"
-msgstr "<strong>あなたの参照:</strong><br/>"
+msgstr "<strong>参照番号:</strong><br/>"
 
 #. module: sale
 #: model:ir.model.constraint,message:sale.constraint_sale_order_date_order_conditional_required
@@ -1154,15 +1154,9 @@ msgid ""
 "e.g. this option can be useful to share Product description files.\n"
 "Confirmed order: the document will be sent to and accessible by customers.\n"
 "e.g. this option can be useful to share User Manual or digital content bought on ecommerce. \n"
-"Inside quote: The document will be included in the pdf of the quotation between the header pages and the quote table. "
+"Inside quote: The document will be included in the pdf of the quotation \n"
+"and sale order between the header pages and the quote table. "
 msgstr ""
-"販売中の顧客とドキュメントを共有できます。\n"
-"顧客とドキュメントを共有したくない場合は空欄にして下さい。\n"
-"見積書: ドキュメントは顧客に送信され、顧客はいつでもアクセスできます。\n"
-"例: このオプションはプロダクト説明ファイルを共有するのに便利です。\n"
-"確定オーダ: ドキュメントが顧客に送信され、顧客がアクセスできるようになります。\n"
-"例: このオプションは、ユーザマニュアルやeコマースで購入したデジタルコンテンツを共有するのに便利です。\n"
-"引用の内側: ドキュメントは見出しページと見積書テーブルの間の見積書PDFに含まれます。"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_payment_link_wizard__amount_paid
@@ -1222,7 +1216,7 @@ msgstr "分析勘定"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_distribution
 msgid "Analytic Distribution"
-msgstr "分析用配分"
+msgstr "分析分配"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_distribution_search
@@ -1288,7 +1282,7 @@ msgstr "承認されたトランザクションを無効にしますか?この�
 msgid ""
 "As an example, if you sell pre-paid hours of services, Odoo recommends you\n"
 "            to sell extra hours when all ordered hours have been consumed."
-msgstr "例えば、プリペイドのサービス時間を販売する場合、オーダされた時間がすべて消費された時点で追加時間を販売することをOdooは推奨しています。"
+msgstr "例えば、サービス時間を前払いで販売する場合、オーダされた時間がすべて消費された時点で追加時間を販売することをOdooは推奨しています。"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__product_template__expense_policy__cost
@@ -1371,7 +1365,7 @@ msgstr ""
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "By paying this <u>down payment</u> of"
-msgstr "以下の<u>頭金</u> を払うことで: "
+msgstr "以下の<u>前受金</u> を払うことで: "
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -1616,7 +1610,7 @@ msgstr "確認済オーダ"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Connectors"
-msgstr "コネクター"
+msgstr "コネクタ"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__consolidated_billing
@@ -1649,7 +1643,7 @@ msgstr "国コード"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_loyalty
 msgid "Coupons & Loyalty"
-msgstr "クーポン＆ロイヤルティ"
+msgstr "クーポン＆ロイヤリティ"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_view_search_inherit_quotation
@@ -1659,7 +1653,7 @@ msgstr "作成日"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
 msgid "Create Draft Invoice"
-msgstr "請求書ドラフトを作成する"
+msgstr "ドラフト請求書作成"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__advance_payment_method
@@ -1939,7 +1933,7 @@ msgstr "配送済数量"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__partner_shipping_id
 msgid "Delivery Address"
-msgstr "配送住所"
+msgstr "配送先住所"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__commitment_date
@@ -2060,7 +2054,7 @@ msgstr "値引: %(percent)s%%- 以下の税のプロダクトにおいて%(taxes
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Discounts, Loyalty & Gift Card"
-msgstr "値引・ロイヤルティ・ギフトカード"
+msgstr "値引・ロイヤリティ・ギフトカード"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__display_draft_invoice_warning
@@ -2233,7 +2227,7 @@ msgstr "予想:"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__validity_date
 msgid "Expiration"
-msgstr "有効期限日"
+msgstr "有効期限"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -2471,7 +2465,7 @@ msgstr "販売がロックされている場合は、これ以上修正するこ
 #. module: sale
 #: model:ir.model.fields,help:sale.field_product_packaging__sales
 msgid "If true, the packaging can be used for sales orders"
-msgstr "Trueの場合、梱包を販売オーダに使用できます"
+msgstr "Trueの場合、パッケージングを販売オーダに使用できます"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order__pricelist_id
@@ -2536,7 +2530,7 @@ msgstr "請求書 %s 支払済"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__partner_invoice_id
 msgid "Invoice Address"
-msgstr "請求先"
+msgstr "請求先住所"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__display_invoice_alert
@@ -2691,17 +2685,17 @@ msgstr "請求・お届け先:"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_move_line__is_downpayment
 msgid "Is Downpayment"
-msgstr "前払金は"
+msgstr "前受金"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__is_mail_template_editor
 msgid "Is Editor"
-msgstr "編集者であり"
+msgstr "編集者である"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__is_expired
 msgid "Is Expired"
-msgstr "期限切れです"
+msgstr "期限切れである"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__message_is_follower
@@ -2711,7 +2705,7 @@ msgstr "フォロー中　"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__is_downpayment
 msgid "Is a down payment"
-msgstr "前受金ですか"
+msgstr "前受金です"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__is_expense
@@ -3376,17 +3370,17 @@ msgstr "見積送状"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_packaging_id
 msgid "Packaging"
-msgstr "梱包"
+msgstr "パッケージング"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_packaging_qty
 msgid "Packaging Quantity"
-msgstr "梱包数量"
+msgstr "パッケージング数量"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__partner_credit_warning
 msgid "Partner Credit Warning"
-msgstr "取引先与信限度警告"
+msgstr "取引先信用限度警告"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -3412,7 +3406,7 @@ msgstr "PayPal"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard__manual_post_msg
 msgid "Payment Instructions"
-msgstr "お支払い方法"
+msgstr "支払方法"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard__payment_method
@@ -3598,7 +3592,7 @@ msgstr "プロダクトドキュメント"
 #. module: sale
 #: model:ir.model,name:sale.model_product_packaging
 msgid "Product Packaging"
-msgstr "プロダクト梱包"
+msgstr "プロダクトパッケージング"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_template_id
@@ -4051,14 +4045,14 @@ msgid "Sales Analysis"
 msgstr "販売分析"
 
 #. module: sale
-#: model:ir.actions.act_window,name:sale.action_order_report_customers
-msgid "Sales Analysis By Customers"
-msgstr "顧客別販売分析"
-
-#. module: sale
 #: model:ir.actions.act_window,name:sale.action_order_report_salesperson
 msgid "Sales Analysis By Salespersons"
 msgstr "販売担当者別販売分析"
+
+#. module: sale
+#: model:ir.actions.act_window,name:sale.action_order_report_customers
+msgid "Sales Analysis Per Customers"
+msgstr "顧客別販売分析"
 
 #. module: sale
 #: model:ir.actions.act_window,name:sale.action_order_report_products
@@ -4144,7 +4138,6 @@ msgstr "販売オーダ"
 #: model:ir.ui.menu,name:sale.menu_sales_config
 #: model_terms:ir.ui.view,arch_db:sale.crm_team_view_kanban_dashboard
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_home_menu_sale
-#: model_terms:ir.ui.view,arch_db:sale.portal_my_home_sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_tree
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_view_search_inherit_quotation
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
@@ -4309,7 +4302,7 @@ msgstr "荷姿あたりのユニット数の倍数で製品を販売"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Sell variants of a product using attributes (size, color, etc.)"
-msgstr "属性（サイズ、色など）を使用して製品のバリエーションを販売"
+msgstr "属性（サイズ、色など）を使用してプロダクトのバリエーションを販売"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -4319,7 +4312,7 @@ msgstr "見積送状を送付"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Send a product-specific email once the invoice is validated"
-msgstr "請求書検証の際に製品に関するEメールを送信"
+msgstr "請求書検証の際にプロダクトに関するEメールを送信"
 
 #. module: sale
 #: model:onboarding.onboarding.step,description:sale.onboarding_onboarding_step_sample_quotation
@@ -4605,7 +4598,7 @@ msgstr "課税国"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Tax ID"
-msgstr "納税者番号"
+msgstr "登録番号"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_tree
@@ -4771,13 +4764,13 @@ msgstr "以下のオーダは確認を要求するステータスにはありま
 #: code:addons/sale/models/product_template.py:0
 #, python-format
 msgid ""
-"The following products cannot be restricted to the company %s because they have already been used in quotations or sales orders in another company:\n"
-"%s\n"
+"The following products cannot be restricted to the company %(company)s because they have already been used in quotations or sales orders in another company:\n"
+"%(used_products)s\n"
 "You can archive these products and recreate them with your company restriction instead, or leave them as shared product."
 msgstr ""
-"次の製品は、別の会社の見積または受注ですでに使用されているため、会社%sに制限することはできません。\n"
-"%s\n"
-"これらの製品をアーカイブして、代わりに会社の制限付きで再作成するか、共有製品のままにすることができます。"
+"次の製品は、別の会社の見積または販売オーダですでに使用されているため、会社%(company)sに制限することはできません。\n"
+"%(used_products)s\n"
+"これらのプロダクトをアーカイブして、代わりに会社の制限付きで再作成するか、共有プロダクトのままにすることができます。"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_config_settings__automatic_invoice
@@ -4851,7 +4844,6 @@ msgstr "見積書を確定するために顧客が支払わなければならな
 
 #. module: sale
 #. odoo-python
-#. odoo-python
 #: code:addons/sale/models/product_template.py:0
 #, python-format
 msgid "The product (%s) has incompatible values: %s"
@@ -4895,11 +4887,6 @@ msgid "The value of the down payment amount must be positive."
 msgstr "前受金の金額は正の値でなければなりません。"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
-msgid "There are currently no orders for your account."
-msgstr "現在、あなたのアカウントの注文はありません。"
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
 msgid "There are currently no quotations for your account."
 msgstr "現在自分の見積はありません。"
@@ -4913,6 +4900,16 @@ msgstr "現在、あなたのアカウントの販売オーダはありません
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
 msgid "There are existing"
 msgstr "これらは存在する"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/wizard/sale_order_discount.py:0
+#, python-format
+msgid ""
+"There does not seem to be any discount product configured for this company "
+"yet. You can either use a per-line discount, or ask an administrator to "
+"grant the discount the first time."
+msgstr "この会社向けに設定された割引プロダクトはまだないようです。明細ごとの割引を利用するか、または管理者に割引を付与するよう依頼して下さい。"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -5252,7 +5249,7 @@ msgstr "有効期限日"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Validate Order"
-msgstr "注文を検証"
+msgstr "オーダを検証"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_product_product__expense_policy
@@ -5318,6 +5315,7 @@ msgstr "警告"
 
 #. module: sale
 #. odoo-python
+#: code:addons/sale/models/product_template.py:0
 #: code:addons/sale/models/sale_order.py:0
 #: code:addons/sale/models/sale_order_line.py:0
 #, python-format
@@ -5402,7 +5400,7 @@ msgstr "ロックされたオーダを取消できません。先にロック解
 #: code:addons/sale/models/sale_order.py:0
 #, python-format
 msgid "You cannot change the pricelist of a confirmed order !"
-msgstr ""
+msgstr "確認済オーダの価格表を変えることはできません！"
 
 #. module: sale
 #. odoo-python
@@ -5438,6 +5436,7 @@ msgid ""
 msgstr "販売または購買するもの(在庫品、消耗品、サービス品等)は、プロダクトとして登録する必要があります。"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.portal_my_home_sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
 msgid "Your Orders"
 msgstr "自分のオーダ"
@@ -5445,7 +5444,7 @@ msgstr "自分のオーダ"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Your Reference:"
-msgstr "自分の参照:"
+msgstr "参照番号:"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template

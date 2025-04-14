@@ -1206,7 +1206,7 @@ const UnitUserValueWidget = UserValueWidget.extend({
         const activeValue = this._super(...arguments);
 
         const params = this._methodsParams;
-        if (!params.unit) {
+        if (!this._isNumeric()) {
             return activeValue;
         }
 
@@ -1230,7 +1230,7 @@ const UnitUserValueWidget = UserValueWidget.extend({
         const defaultValue = this._super(...arguments);
 
         const params = this._methodsParams;
-        if (!params.unit) {
+        if (!this._isNumeric()) {
             return defaultValue;
         }
 
@@ -1246,8 +1246,7 @@ const UnitUserValueWidget = UserValueWidget.extend({
      */
     isActive: function () {
         const isSuperActive = this._super(...arguments);
-        const params = this._methodsParams;
-        if (!params.unit) {
+        if (!this._isNumeric()) {
             return isSuperActive;
         }
         return isSuperActive && (
@@ -1261,7 +1260,7 @@ const UnitUserValueWidget = UserValueWidget.extend({
      */
     async setValue(value, methodName) {
         const params = this._methodsParams;
-        if (params.unit) {
+        if (this._isNumeric()) {
             value = value.split(' ').map(v => {
                 const numValue = weUtils.convertValueToUnit(v, params.unit, params.cssProperty, this.$target);
                 if (isNaN(numValue)) {
@@ -1287,6 +1286,16 @@ const UnitUserValueWidget = UserValueWidget.extend({
     _floatToStr: function (value) {
         return `${parseFloat(value.toFixed(5))}`;
     },
+    /**
+     * Checks whether the widget contains a numeric value.
+     *
+     * @private
+     * @returns {Boolean} true if the value is numeric, false otherwise.
+     */
+    _isNumeric() {
+        const params = this._methodsParams || this.el.dataset;
+        return !!params.unit;
+    },
 });
 
 const InputUserValueWidget = UnitUserValueWidget.extend({
@@ -1305,12 +1314,11 @@ const InputUserValueWidget = UnitUserValueWidget.extend({
         await this._super(...arguments);
 
         const unit = this.el.dataset.unit;
-        const step = this.el.dataset.step;
         this.inputEl = document.createElement('input');
         this.inputEl.setAttribute('type', 'text');
         this.inputEl.setAttribute('autocomplete', 'chrome-off');
         this.inputEl.setAttribute('placeholder', this.el.getAttribute('placeholder') || '');
-        const useNumberAlignment = !!step || !!unit || !!this.el.dataset.fakeUnit || !!this.el.dataset.hideUnit;
+        const useNumberAlignment = this._isNumeric() || !!this.el.dataset.hideUnit;
         this.inputEl.classList.toggle('text-start', !useNumberAlignment);
         this.inputEl.classList.toggle('text-end', useNumberAlignment);
         this.containerEl.appendChild(this.inputEl);
@@ -1349,6 +1357,14 @@ const InputUserValueWidget = UnitUserValueWidget.extend({
      */
     _getFocusableElement() {
         return this.inputEl;
+    },
+    /**
+     * @override
+     */
+    _isNumeric() {
+        const isNumeric = this._super(...arguments);
+        const params = this._methodsParams || this.el.dataset;
+        return isNumeric || !!params.fakeUnit || !!params.step;
     },
 
     //--------------------------------------------------------------------------
@@ -1423,7 +1439,7 @@ const InputUserValueWidget = UnitUserValueWidget.extend({
      */
     _onInputKeydown: function (ev) {
         const params = this._methodsParams;
-        if (!params.unit && !params.step) {
+        if (!this._isNumeric()) {
             return;
         }
         switch (ev.key) {
@@ -1778,7 +1794,7 @@ const ColorpickerUserValueWidget = SelectUserValueWidget.extend({
             options.excluded = this.options.dataAttributes.excluded.replace(/ /g, '').split(',');
         }
         if (this.options.dataAttributes.opacity) {
-            options.opacity = this.options.dataAttributes.opacity;
+            options.opacity = parseFloat(this.options.dataAttributes.opacity);
         }
         if (this.options.dataAttributes.withCombinations) {
             options.withCombinations = !!this.options.dataAttributes.withCombinations;
@@ -1941,8 +1957,8 @@ const MediapickerUserValueWidget = UserValueWidget.extend({
             noIcons: true,
             noDocuments: true,
             isForBgVideo: true,
-            vimeoPreviewIds: ['299225971', '414790269', '420192073', '368484050', '334729960', '417478345',
-                '312451183', '415226028', '367762632', '340475898', '374265101', '370467553'],
+            vimeoPreviewIds: ['528686125', '430330731', '509869821', '397142251', '763851966', '486931161',
+                '499761556', '392935303', '728584384', '865314310', '511727912', '466830211'],
             'res_model': $editable.data('oe-model'),
             'res_id': $editable.data('oe-id'),
             save,
@@ -2133,6 +2149,7 @@ const ListUserValueWidget = UserValueWidget.extend({
         'click we-button.o_we_checkbox_wrapper': '_onAddItemCheckboxClick',
         'input table input': '_onListItemBlurInput',
         'blur table input': '_onListItemBlurInput',
+        'mousedown': '_onWeListMousedown',
     },
 
     /**
@@ -2360,22 +2377,21 @@ const ListUserValueWidget = UserValueWidget.extend({
      * @param {Boolean} [preview]
      */
     _notifyCurrentState(preview = false) {
+        const isIdModeName = this.el.dataset.idMode === "name" || !this.isCustom;
+        const trimmed = (str) => str.trim().replace(/\s+/g, " ");
         const values = [...this.listTable.querySelectorAll('.o_we_list_record_name input')].map(el => {
-            let id = this.isCustom ? el.value : el.name;
-            if (this.el.dataset.idMode && this.el.dataset.idMode === "name") {
-                id = el.name;
-            }
+            const id = trimmed(isIdModeName ? el.name : el.value);
             return Object.assign({
                 id: /^-?[0-9]{1,15}$/.test(id) ? parseInt(id) : id,
-                name: el.value,
-                display_name: el.value,
+                name: trimmed(el.value),
+                display_name: trimmed(el.value),
             }, el.dataset);
         });
         if (this.hasDefault) {
             const checkboxes = [...this.listTable.querySelectorAll('we-button.o_we_checkbox_wrapper.active')];
             this.selected = checkboxes.map(el => {
                 const input = el.parentElement.previousSibling.firstChild;
-                const id = input.name || input.value;
+                const id = trimmed(isIdModeName ? input.name : input.value);
                 return /^-?[0-9]{1,15}$/.test(id) ? parseInt(id) : id;
             });
             values.forEach(v => {
@@ -2479,8 +2495,24 @@ const ListUserValueWidget = UserValueWidget.extend({
             // from one input to another in the list. This behavior can be
             // cancelled if the widget has reloadOnInputBlur = "true" in its
             // dataset.
-            this._notifyCurrentState(preview);
+            const timeSinceMousedown = ev.timeStamp - this.mousedownTime;
+            if (timeSinceMousedown < 500) {
+                // Without this "setTimeOut", "click" events are not triggered when
+                // clicking directly on a "we-button" of the "we-list" without first
+                // focusing out the input.
+                setTimeout(() => {
+                    this._notifyCurrentState(preview);
+                }, 500);
+            } else {
+                this._notifyCurrentState(preview);
+            }
         }
+    },
+    /**
+     * @private
+     */
+    _onWeListMousedown(ev) {
+        this.mousedownTime = ev.timeStamp;
     },
     /**
      * @private
@@ -4630,7 +4662,7 @@ registry.sizing = SnippetOptionWidget.extend({
                 resize[0].forEach((val, key) => {
                     if (self.$target.hasClass(val)) {
                         current = key;
-                    } else if (resize[1][key] === cssPropertyValue) {
+                    } else if (parseInt(resize[1][key]) === cssPropertyValue) {
                         current = key;
                     }
                 });
@@ -5945,6 +5977,11 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
         this._deactivateLinkTool = this._deactivateLinkTool.bind(this);
     },
 
+    destroy: function () {
+        this._clearListeners();
+        return this._super(...arguments);
+    },
+
     /**
      * @override
      */
@@ -5959,8 +5996,7 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @override
      */
     onBlur() {
-        this.options.wysiwyg.odooEditor.removeEventListener('activate_image_link_tool', this._activateLinkTool);
-        this.options.wysiwyg.odooEditor.removeEventListener('deactivate_image_link_tool', this._deactivateLinkTool);
+        this._clearListeners();
     },
 
     //--------------------------------------------------------------------------
@@ -5983,7 +6019,7 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @see this.selectClass for parameters
      */
     setLink(previewMode, widgetValue, params) {
-        const parentEl = this.$target[0].parentNode;
+        const parentEl = this._searchSupportedParentLinkEl();
         if (parentEl.tagName !== 'A') {
             const wrapperEl = document.createElement('a');
             this.$target[0].after(wrapperEl);
@@ -6008,7 +6044,7 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @see this.selectClass for parameters
      */
     setNewWindow(previewMode, widgetValue, params) {
-        const linkEl = this.$target[0].parentElement;
+        const linkEl = this._searchSupportedParentLinkEl();
         if (widgetValue) {
             linkEl.setAttribute('target', '_blank');
         } else {
@@ -6021,7 +6057,7 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @see this.selectClass for parameters
      */
     setUrl(previewMode, widgetValue, params) {
-        const linkEl = this.$target[0].parentElement;
+        const linkEl = this._searchSupportedParentLinkEl();
         let url = widgetValue;
         if (!url) {
             // As long as there is no URL, the image is not considered a link.
@@ -6059,7 +6095,8 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @private
      */
     _activateLinkTool() {
-        if (this.$target[0].parentElement.tagName === 'A') {
+        const parentEl = this._searchSupportedParentLinkEl();
+        if (parentEl.tagName === 'A') {
             this._requestUserValueWidgets('media_url_opt')[0].focus();
         } else {
             this._requestUserValueWidgets('media_link_opt')[0].enable();
@@ -6068,8 +6105,15 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
     /**
      * @private
      */
+    _clearListeners() {
+        this.options.wysiwyg.odooEditor.removeEventListener('activate_image_link_tool', this._activateLinkTool);
+        this.options.wysiwyg.odooEditor.removeEventListener('deactivate_image_link_tool', this._deactivateLinkTool);
+    },
+    /**
+     * @private
+     */
     _deactivateLinkTool() {
-        const parentEl = this.$target[0].parentNode;
+        const parentEl = this._searchSupportedParentLinkEl();
         if (parentEl.tagName === 'A') {
             this._requestUserValueWidgets('media_link_opt')[0].enable();
         }
@@ -6078,7 +6122,7 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
      * @override
      */
     _computeWidgetState(methodName, params) {
-        const parentEl = this.$target[0].parentElement;
+        const parentEl = this._searchSupportedParentLinkEl();
         const linkEl = parentEl.tagName === 'A' ? parentEl : null;
         switch (methodName) {
             case 'setLink': {
@@ -6101,11 +6145,20 @@ registry.ReplaceMedia = SnippetOptionWidget.extend({
     async _computeWidgetVisibility(widgetName, params) {
         if (widgetName === 'media_link_opt') {
             if (this.$target[0].matches('img')) {
-                return isImageSupportedForStyle(this.$target[0]);
+                return isImageSupportedForStyle(this.$target[0])
+                    && !this._searchSupportedParentLinkEl().matches("a[data-oe-xpath]");
             }
             return !this.$target[0].classList.contains('media_iframe_video');
         }
         return this._super(...arguments);
+    },
+    /**
+     * @private
+     * @returns {Element} The "closest" element that can be supported as a <a>.
+     */
+    _searchSupportedParentLinkEl() {
+        const parentEl = this.$target[0].parentElement;
+        return parentEl.matches("figure") ? parentEl.parentElement : parentEl;
     },
 });
 
@@ -6360,6 +6413,8 @@ const ImageHandlerOption = SnippetOptionWidget.extend({
             img.classList.add('o_modified_image_to_save');
             const loadedImg = await loadImage(dataURL, img);
             this._applyImage(loadedImg);
+            // Also apply to carousel thumbnail if applicable.
+            weUtils.forwardToThumbnail(img);
             return loadedImg;
         }
         return img;
@@ -6547,6 +6602,18 @@ registry.ImageTools = ImageHandlerOption.extend({
         const document = this.$el[0].ownerDocument;
         const imageCropWrapperElement = document.createElement('div');
         document.body.append(imageCropWrapperElement);
+
+        // Attach the event listener before attaching the component
+        const cropperPromise = new Promise(resolve => {
+            this.$target.one("image_cropper_destroyed", async () => {
+                if (isGif(this._getImageMimetype(img))) {
+                    img.dataset[img.dataset.shape ? "originalMimetype" : "mimetype"] = "image/png";
+                }
+                await this._reapplyCurrentShape();
+                resolve();
+            });
+        });
+
         const imageCropWrapper = await attachComponent(this, imageCropWrapperElement, ImageCrop, {
             rpc: this.rpc,
             activeOnStart: true,
@@ -6554,15 +6621,8 @@ registry.ImageTools = ImageHandlerOption.extend({
             mimetype: this._getImageMimetype(img),
         });
 
-        await new Promise(resolve => {
-            this.$target.one('image_cropper_destroyed', async () => {
-                if (isGif(this._getImageMimetype(img))) {
-                    img.dataset[img.dataset.shape ? 'originalMimetype' : 'mimetype'] = 'image/png';
-                }
-                await this._reapplyCurrentShape();
-                resolve();
-            });
-        });
+        await cropperPromise;
+
         imageCropWrapperElement.remove();
         imageCropWrapper.destroy();
         this.trigger_up('enable_loading_effect');
@@ -6580,10 +6640,14 @@ registry.ImageTools = ImageHandlerOption.extend({
         const playState = this.$target[0].style.animationPlayState;
         const transition = this.$target[0].style.transition;
         this.$target.transfo({document});
+        const destroyTransfo = () => {
+            this.$target.transfo('destroy');
+            $(document).off('mousedown', mousedown);
+            window.document.removeEventListener('keydown', keydown);
+        }
         const mousedown = mousedownEvent => {
             if (!$(mousedownEvent.target).closest('.transfo-container').length) {
-                this.$target.transfo('destroy');
-                $(document).off('mousedown', mousedown);
+                destroyTransfo();
                 // Restore animation css properties potentially affected by the
                 // jQuery transfo plugin.
                 this.$target[0].style.animationPlayState = playState;
@@ -6591,6 +6655,13 @@ registry.ImageTools = ImageHandlerOption.extend({
             }
         };
         $(document).on('mousedown', mousedown);
+        const keydown = keydownEvent => {
+            if (keydownEvent.key === 'Escape') {
+                keydownEvent.stopImmediatePropagation();
+                destroyTransfo();
+            }
+        };
+        window.document.addEventListener('keydown', keydown);
 
         await new Promise(resolve => {
             document.addEventListener('mouseup', resolve, {once: true});
@@ -6688,6 +6759,8 @@ registry.ImageTools = ImageHandlerOption.extend({
                 img.dataset.mimetype = img.dataset.originalMimetype;
                 delete img.dataset.originalMimetype;
             }
+            // Also apply to carousel thumbnail if applicable.
+            weUtils.forwardToThumbnail(img);
         }
         img.classList.add('o_modified_image_to_save');
     },
@@ -6777,6 +6850,9 @@ registry.ImageTools = ImageHandlerOption.extend({
             }
         }
         await this._reapplyCurrentShape();
+        // TODO in master, adapt the '_reapplyCurrentShape()' method to add the
+        // 'o_modified_image_to_save' class on the image.
+        imgEl.classList.add("o_modified_image_to_save");
         // When the hover effects are first activated from the "animationMode"
         // function of the "WebsiteAnimate" class, the history was paused to
         // avoid recording intermediate steps. That's why we unpause it here.
@@ -6792,6 +6868,7 @@ registry.ImageTools = ImageHandlerOption.extend({
         await this._super(...arguments);
         if (["hoverEffectIntensity", "hoverEffectStrokeWidth"].includes(params.attributeName)) {
             await this._reapplyCurrentShape();
+            this._getImg().classList.add("o_modified_image_to_save");
         }
     },
     /**
@@ -6808,6 +6885,7 @@ registry.ImageTools = ImageHandlerOption.extend({
             defaultColor = "primary";
         }
         img.dataset.hoverEffectColor = this._getCSSColorValue(widgetValue || defaultColor);
+        img.classList.add("o_modified_image_to_save");
         await this._reapplyCurrentShape();
     },
 
@@ -6944,6 +7022,8 @@ registry.ImageTools = ImageHandlerOption.extend({
         if (save) {
             img.dataset.shapeColors = newColors.join(';');
         }
+        // Also apply to carousel thumbnail if applicable.
+        weUtils.forwardToThumbnail(img);
     },
     /**
      * Sets the image in the supplied SVG and replace the src with a dataURL
@@ -6954,9 +7034,54 @@ registry.ImageTools = ImageHandlerOption.extend({
      */
     async _writeShape(svgText) {
         const img = this._getImg();
-        const initialImageWidth = img.naturalWidth;
         let needToRefreshPublicWidgets = false;
         let hasHoverEffect = false;
+
+        // Add shape animations on hover.
+        if (img.dataset.hoverEffect && this._canHaveHoverEffect()) {
+            // The "ImageShapeHoverEffet" public widget needs to restart
+            // (e.g. image replacement).
+            needToRefreshPublicWidgets = true;
+            hasHoverEffect = true;
+        }
+
+        const dataURL = await this.computeShape(svgText, img);
+
+        let clonedImgEl = null;
+        if (hasHoverEffect) {
+            // This is useful during hover effects previews. Without this, in
+            // Chrome, the 'mouse out' animation is triggered very briefly when
+            // previewMode === 'reset' (when transitioning from one hover effect
+            // to another), causing a visual glitch. To avoid this, we hide the
+            // image with its clone when the source is set.
+            clonedImgEl = img.cloneNode(true);
+            this.options.wysiwyg.odooEditor.observerUnactive("addClonedImgForHoverEffectPreview");
+            img.classList.add("d-none");
+            img.insertAdjacentElement("afterend", clonedImgEl);
+            this.options.wysiwyg.odooEditor.observerActive("addClonedImgForHoverEffectPreview");
+        }
+        const loadedImg = await loadImage(dataURL, img);
+        if (hasHoverEffect) {
+            this.options.wysiwyg.odooEditor.observerUnactive("removeClonedImgForHoverEffectPreview");
+            clonedImgEl.remove();
+            img.classList.remove("d-none");
+            this.options.wysiwyg.odooEditor.observerActive("removeClonedImgForHoverEffectPreview");
+        }
+        if (needToRefreshPublicWidgets) {
+            await this._refreshPublicWidgets();
+        }
+        return loadedImg;
+    },
+    /**
+     * Sets the image in the supplied SVG and replace the src with a dataURL
+     *
+     * @param {string} svgText svg text file
+     * @param img JQuery image
+     * @returns {Promise} resolved once the svg is properly loaded
+     * in the document
+     */
+    async computeShape(svgText, img) {
+        const initialImageWidth = img.naturalWidth;
 
         const svg = new DOMParser().parseFromString(svgText, 'image/svg+xml').documentElement;
 
@@ -6982,10 +7107,6 @@ registry.ImageTools = ImageHandlerOption.extend({
         // Add shape animations on hover.
         if (img.dataset.hoverEffect && this._canHaveHoverEffect()) {
             this._addImageShapeHoverEffect(svg, img);
-            // The "ImageShapeHoverEffet" public widget needs to restart
-            // (e.g. image replacement).
-            needToRefreshPublicWidgets = true;
-            hasHoverEffect = true;
         }
 
         const svgAspectRatio = parseInt(svg.getAttribute('width')) / parseInt(svg.getAttribute('height'));
@@ -7025,30 +7146,7 @@ registry.ImageTools = ImageHandlerOption.extend({
         const dataURL = await createDataURL(blob);
         const imgFilename = (img.dataset.originalSrc.split('/').pop()).split('.')[0];
         img.dataset.fileName = `${imgFilename}.svg`;
-        let clonedImgEl = null;
-        if (hasHoverEffect) {
-            // This is useful during hover effects previews. Without this, in
-            // Chrome, the 'mouse out' animation is triggered very briefly when
-            // previewMode === 'reset' (when transitioning from one hover effect
-            // to another), causing a visual glitch. To avoid this, we hide the
-            // image with its clone when the source is set.
-            clonedImgEl = img.cloneNode(true);
-            this.options.wysiwyg.odooEditor.observerUnactive("addClonedImgForHoverEffectPreview");
-            img.classList.add("d-none");
-            img.insertAdjacentElement("afterend", clonedImgEl);
-            this.options.wysiwyg.odooEditor.observerActive("addClonedImgForHoverEffectPreview");
-        }
-        const loadedImg = await loadImage(dataURL, img);
-        if (hasHoverEffect) {
-            this.options.wysiwyg.odooEditor.observerUnactive("removeClonedImgForHoverEffectPreview");
-            clonedImgEl.remove();
-            img.classList.remove("d-none");
-            this.options.wysiwyg.odooEditor.observerActive("removeClonedImgForHoverEffectPreview");
-        }
-        if (needToRefreshPublicWidgets) {
-            await this._refreshPublicWidgets();
-        }
-        return loadedImg;
+        return dataURL;
     },
     /**
      * @override
@@ -7618,6 +7716,9 @@ registry.ImageTools = ImageHandlerOption.extend({
         this.trigger_up('snippet_edition_request', {exec: async () => {
             await this._autoOptimizeImage();
             this.trigger_up('cover_update');
+            if (ev._complete) {
+                ev._complete();
+            }
         }});
     },
     /**
@@ -8003,17 +8104,19 @@ registry.BackgroundImage = SnippetOptionWidget.extend({
         const parts = backgroundImageCssToParts(this.$target.css('background-image'));
         if (backgroundURL) {
             parts.url = `url('${backgroundURL}')`;
-            this.$target.addClass('oe_img_bg o_bg_img_center');
+            this.$target.addClass('oe_img_bg o_bg_img_center o_bg_img_origin_border_box');
         } else {
             delete parts.url;
             this.$target[0].classList.remove(
                 "oe_img_bg",
                 "o_bg_img_center",
+                "o_bg_img_origin_border_box",
                 "o_modified_image_to_save",
             );
         }
         const combined = backgroundImagePartsToCss(parts);
         this.$target.css('background-image', combined);
+        this.options.wysiwyg.odooEditor.editable.focus();
     },
 });
 
@@ -9130,6 +9233,17 @@ registry.SnippetSave = SnippetOptionWidget.extend({
                                 : _t("Custom Button");
                             const targetCopyEl = this.$target[0].cloneNode(true);
                             targetCopyEl.classList.add('s_custom_snippet');
+                            // when cloning the snippets which has o_snippet_invisible, o_snippet_mobile_invisible or
+                            // o_snippet_desktop_invisible class will be hidden because of d-none class added on it,
+                            // so we needs to remove `d-none` explicity in such case from the target.
+                            const isTargetHidden = [
+                                "o_snippet_invisible",
+                                "o_snippet_mobile_invisible",
+                                "o_snippet_desktop_invisible"
+                            ].some(className => this.$target[0].classList.contains(className));
+                            if (isTargetHidden) {
+                                targetCopyEl.classList.remove("d-none");
+                            }
                             delete targetCopyEl.dataset.name;
                             if (isButton) {
                                 targetCopyEl.classList.remove("mb-2");
@@ -9542,16 +9656,17 @@ registry.CarouselHandler = registry.GalleryHandler.extend({
             : this.$target[0].querySelector(".carousel");
         carouselEl.classList.remove("slide");
         $(carouselEl).carousel(position);
-        for (const indicatorEl of this.$target[0].querySelectorAll(".carousel-indicators li")) {
-            indicatorEl.classList.remove("active");
-        }
-        this.$target[0].querySelector(`.carousel-indicators li[data-bs-slide-to="${position}"]`)
-                    .classList.add("active");
+        const indicatorEls = this.$target[0].querySelectorAll(".carousel-indicators li");
+        indicatorEls.forEach((indicatorEl, i) => {
+            indicatorEl.classList.toggle("active", i === position);
+        });
         this.trigger_up("activate_snippet", {
             $snippet: $(this.$target[0].querySelector(".carousel-item.active img")),
             ifInactiveOptions: true,
         });
         carouselEl.classList.add("slide");
+        // Prevent the carousel from automatically sliding afterwards.
+        $(carouselEl).carousel("pause");
     },
 });
 

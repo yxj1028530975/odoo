@@ -268,7 +268,7 @@ class ProductTemplate(models.Model):
         for template in self:
             price_reduce = sales_prices[template.id]
 
-            product_taxes = template.sudo().taxes_id.filtered(lambda t: t.company_id in t.env.company.parent_ids)
+            product_taxes = template.sudo().taxes_id._filter_taxes_by_company(self.env.company)
             taxes = fiscal_position.map_tax(product_taxes)
 
             base_price = None
@@ -294,11 +294,11 @@ class ProductTemplate(models.Model):
 
                 # Compare_list_price are never tax included
                 base_price = self._apply_taxes_to_price(
-                    base_price, currency, product_taxes, taxes, self,
+                    base_price, currency, product_taxes, taxes, template,
                 )
 
             price_reduce = self._apply_taxes_to_price(
-                price_reduce, currency, product_taxes, taxes, self,
+                price_reduce, currency, product_taxes, taxes, template,
             )
 
             template_price_vals = {
@@ -457,7 +457,9 @@ class ProductTemplate(models.Model):
         pricelist = website.pricelist_id
         currency = website.currency_id
 
-        compare_list_price = product_or_template.compare_list_price
+        compare_list_price = product_or_template.compare_list_price if self.env.user.has_group(
+            'website_sale.group_product_price_comparison'
+        ) else None
         list_price = product_or_template._price_compute('list_price')[product_or_template.id]
         price_extra = product_or_template._get_attributes_extra_price()
         if product_or_template.currency_id != currency:
@@ -503,9 +505,7 @@ class ProductTemplate(models.Model):
         # Apply taxes
         fiscal_position = website.fiscal_position_id.sudo()
 
-
-        product_taxes = product_or_template.sudo().taxes_id.filtered(
-            lambda t: t.company_id == self.env.company)
+        product_taxes = product_or_template.sudo().taxes_id._filter_taxes_by_company(self.env.company)
         taxes = self.env['account.tax']
         if product_taxes:
             taxes = fiscal_position.map_tax(product_taxes)
@@ -535,6 +535,9 @@ class ProductTemplate(models.Model):
             'product_taxes': product_taxes,  # taxes before fpos mapping
             'taxes': taxes,  # taxes after fpos mapping
         })
+
+        if combination_info['prevent_zero_price_sale']:
+            combination_info['compare_list_price'] = 0
 
         if pricelist.discount_policy != 'without_discount':
             # Leftover from before cleanup, different behavior between ecommerce & backend configurator
@@ -808,14 +811,15 @@ class ProductTemplate(models.Model):
         return results_data
 
     def _search_render_results_prices(self, mapping, combination_info):
-        monetary_options = {'display_currency': mapping['detail']['display_currency']}
         if combination_info.get('prevent_zero_price_sale'):
             website = self.env['website'].get_current_website()
-            price = website.prevent_zero_price_sale_text
-        else:
-            price = self.env['ir.qweb.field.monetary'].value_to_html(
-                combination_info['price'], monetary_options
-            )
+            return website.prevent_zero_price_sale_text, None
+
+        monetary_options = {'display_currency': mapping['detail']['display_currency']}
+        price = self.env['ir.qweb.field.monetary'].value_to_html(
+            combination_info['price'], monetary_options
+        )
+        list_price = None
         if combination_info['has_discounted_price']:
             list_price = self.env['ir.qweb.field.monetary'].value_to_html(
                 combination_info['list_price'], monetary_options
@@ -825,7 +829,7 @@ class ProductTemplate(models.Model):
                 combination_info['compare_list_price'], monetary_options
             )
 
-        return price, list_price if combination_info['has_discounted_price'] else None
+        return price, list_price
 
     def _get_google_analytics_data(self, product, combination_info):
         self.ensure_one()

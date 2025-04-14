@@ -9,7 +9,7 @@
 # Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2023
 # Sandra Franch <sandra.franch@upc.edu>, 2023
 # Pere Martínez, 2023
-# Harcogourmet, 2023
+# Xavier, 2023
 # martioodo hola, 2023
 # M Palau <mpalau@tda.ad>, 2023
 # jabiri7, 2023
@@ -17,25 +17,28 @@
 # Jonatan Gk, 2023
 # Carles Antoli <carlesantoli@hotmail.com>, 2023
 # José Cabrera Lozano <jose.cabrera@edukative.es>, 2023
-# Josep Sànchez <papapep@gmx.com>, 2023
-# Quim - eccit <quim@eccit.com>, 2023
+# Josep Sànchez <papapep@pinatell.net>, 2023
+# Quim - coopdevs <quim.rebull@coopdevs.org>, 2023
 # Martin Trigaux, 2023
-# Ivan Espinola, 2023
 # Eric Antones <eantones@users.noreply.github.com>, 2023
 # RGB Consulting <odoo@rgbconsulting.com>, 2023
 # eriiikgt, 2023
-# marcescu, 2024
 # Manel Fernandez Ramirez <manelfera@outlook.com>, 2024
 # Arnau Ros, 2024
+# marcescu, 2024
 # Josep Anton Belchi, 2024
+# Ivan Espinola, 2024
+# Wil Odoo, 2025
+# EstudiTIC - estuditic.com <odoo@estuditic.com>, 2025
+# Noemi Pla, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 10:44+0000\n"
+"POT-Creation-Date: 2025-02-10 10:33+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Josep Anton Belchi, 2024\n"
+"Last-Translator: Noemi Pla, 2025\n"
 "Language-Team: Catalan (https://app.transifex.com/odoo/teams/41243/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,6 +78,23 @@ msgstr ""
 #, python-format
 msgid "\"URL to\" can not be empty."
 msgstr "La \"URL a\" no pot estar buida."
+
+#. module: website
+#. odoo-python
+#: code:addons/website/models/website_rewrite.py:0
+#, python-format
+msgid ""
+"\"URL to\" cannot be set to \"/\". To change the homepage content, use the "
+"\"Homepage URL\" field in the website settings or the page properties on any"
+" custom page."
+msgstr ""
+
+#. module: website
+#. odoo-python
+#: code:addons/website/models/website_rewrite.py:0
+#, python-format
+msgid "\"URL to\" cannot be set to an existing page."
+msgstr ""
 
 #. module: website
 #. odoo-python
@@ -237,19 +257,13 @@ msgstr "+ Lloc web nou"
 #: model_terms:ir.ui.view,arch_db:website.template_footer_contact
 #: model_terms:ir.ui.view,arch_db:website.template_footer_descriptive
 #: model_terms:ir.ui.view,arch_db:website.template_footer_headline
+msgid "+1 555-555-5556"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_links
-msgid "+1 (650) 555-0111"
-msgstr "+1 (650) 555-0111"
-
-#. module: website
-#: model_terms:ir.ui.view,arch_db:website.searchbar_input_snippet_options
-msgid ", .s_searchbar_input"
-msgstr ", .s_searchbar_input"
-
-#. module: website
-#: model_terms:ir.ui.view,arch_db:website.s_website_form_options
-msgid ", .s_website_form"
-msgstr ", .s_website_form"
+msgid "+1 555-555-5556\""
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.show_website_info
@@ -476,7 +490,7 @@ msgstr "404 No trobat"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown
 msgid "45"
-msgstr ""
+msgstr "5"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_map_options
@@ -719,7 +733,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
 msgid ""
 "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>\n"
-"                        <span class=\"o_force_ltr\"><small>+1 (650) 555-0111</small></span>"
+"                        <span class=\"o_force_ltr\"><small>+1 555-555-5556</small></span>"
 msgstr ""
 
 #. module: website
@@ -760,7 +774,7 @@ msgstr "<i class=\"fa fa-fw fa-thumbs-up\"/> Colzes"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_form
 msgid "<i class=\"fa fa-fw o_button_icon fa-circle text-danger\" title=\"Offline\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-fw o_button_icon fa-circle text-danger\" title=\"Offline\"/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_form
@@ -768,6 +782,8 @@ msgid ""
 "<i class=\"fa fa-fw o_button_icon fa-circle text-success\" "
 "title=\"Connected\"/>"
 msgstr ""
+"<i class=\"fa fa-fw o_button_icon fa-circle text-success\" "
+"title=\"Connected\"/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_pages_kanban_view
@@ -815,11 +831,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.contactus
 #: model_terms:ir.ui.view,arch_db:website.contactus_thanks_ir_ui_view
 msgid ""
-"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 (650) "
-"555-0111</span>"
+"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 "
+"555-555-5556</span>"
 msgstr ""
-"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 (650) "
-"555-0111</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -1152,7 +1166,7 @@ msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
-msgid "<span class=\"o_force_ltr\">+1 (650) 555-0111</span>"
+msgid "<span class=\"o_force_ltr\">+1 555-555-5556</span>"
 msgstr ""
 
 #. module: website
@@ -1838,8 +1852,8 @@ msgstr "Afegeix llengües"
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/options.js:0
 #, python-format
-msgid "Add new %s"
-msgstr " Afegir nou %s"
+msgid "Add option"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -2409,6 +2423,7 @@ msgstr "Dorsal"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: code:addons/website/static/src/xml/website.editor.xml:0
 #: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.s_chart_options
@@ -3029,6 +3044,13 @@ msgid "Checkbox"
 msgstr "Casella de selecció"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Checkbox List"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "Cheese Onion Rings"
 msgstr "Anells de ceba de formatge"
@@ -3176,6 +3198,7 @@ msgstr ""
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/resource_editor/resource_editor.xml:0
+#: code:addons/website/static/src/components/views/theme_preview.xml:0
 #: code:addons/website/static/src/components/views/theme_preview.xml:0
 #: code:addons/website/static/src/snippets/s_image_gallery/000.xml:0
 #: code:addons/website/static/src/xml/website.xml:0
@@ -3769,6 +3792,14 @@ msgstr "Codi personalitzat"
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Custom Key"
 msgstr "Clau personalitzada"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Custom Text"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -4613,6 +4644,13 @@ msgstr ""
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/components/edit_head_body_dialog/edit_head_body_dialog.xml:0
+#, python-format
+msgid "Edit Head and Body Code"
+msgstr ""
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/components/dialog/edit_menu.js:0
 #: code:addons/website/static/src/js/widgets/link_popover_widget.js:0
 #: model:ir.ui.menu,name:website.custom_menu_edit_menu
@@ -4895,6 +4933,13 @@ msgstr "Exemples"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Existing Fields"
+msgstr "Camps existents"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/components/resource_editor/utils.js:0
 #, python-format
 msgid "Expected "
@@ -5101,6 +5146,13 @@ msgstr "Característiques de la graella"
 #: model_terms:ir.ui.view,arch_db:website.s_dynamic_snippet_options_template
 msgid "Fetched elements"
 msgstr "Elements de la col·lecció"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Field"
+msgstr "Camp"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_snippet_filter__field_names
@@ -5872,6 +5924,7 @@ msgstr "Encapçalament 1"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/js/editor/snippets.editor.js:0
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #, python-format
 msgid "Headings"
 msgstr "Encapçalaments"
@@ -5882,27 +5935,42 @@ msgid "Headings 1"
 msgstr "Títol 1"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 2"
 msgstr "Títol 2"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 3"
 msgstr "Títol 3"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 4"
 msgstr "Títol 4"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 5"
 msgstr "Títol 5"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, python-format
 msgid "Headings 6"
 msgstr "Títol 6"
 
@@ -5970,6 +6038,13 @@ msgstr "Oculta"
 #: model_terms:ir.ui.view,arch_db:website.s_popup_options
 msgid "Hide For"
 msgstr "Ocultar per a"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_popup/000.js:0
+#, python-format
+msgid "Hide the cookies bar"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_page_properties_view_form
@@ -6254,15 +6329,6 @@ msgstr ""
 msgid ""
 "If you need to add analytics or marketing tags, inject code in your <head> "
 "or <body> instead."
-msgstr ""
-
-#. module: website
-#. odoo-javascript
-#: code:addons/website/static/src/components/resource_editor/resource_editor_warning.xml:0
-#, python-format
-msgid ""
-"If you need to add analytics or marketing tags, inject code in your header "
-"or body instead."
 msgstr ""
 
 #. module: website
@@ -7281,7 +7347,10 @@ msgid "Linkedin"
 msgstr "Linkedin"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
+#, python-format
 msgid "Links"
 msgstr "Enllaços"
 
@@ -8559,6 +8628,13 @@ msgid "Option 3"
 msgstr "Opció 3"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Option List"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 msgid "Optional"
 msgstr "Opcional"
@@ -8801,7 +8877,10 @@ msgid "Page Layout"
 msgstr "Disseny de pàgina"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/components/dialog/page_properties.xml:0
 #: model_terms:ir.ui.view,arch_db:website.website_page_properties_view_form
+#, python-format
 msgid "Page Name"
 msgstr "Nom de la pàgina"
 
@@ -9115,6 +9194,11 @@ msgid "Popup"
 msgstr "Finestra emergent"
 
 #. module: website
+#: model:ir.model,name:website.model_portal_wizard_user
+msgid "Portal User Config"
+msgstr "Configuració d'usuaris de portal"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_big_icons_subtitles
 msgid "Portfolio"
 msgstr "Portfolio"
@@ -9151,6 +9235,13 @@ msgstr "Anteposa"
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
 msgid "Preset"
 msgstr "Preestablert"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/components/fullscreen_indication/fullscreen_indication.js:0
+#, python-format
+msgid "Press %(key)s to exit full screen"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -9220,6 +9311,13 @@ msgstr "Plans de preu"
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Primary"
 msgstr "Primari"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
+#, python-format
+msgid "Primary Buttons"
+msgstr "Botons primaris"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -9446,6 +9544,13 @@ msgstr "Camp Qweb HTML"
 #: model_terms:ir.ui.view,arch_db:website.s_chart_options
 msgid "Radar"
 msgstr "Radar"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_website_form/options.js:0
+#, python-format
+msgid "Radio Button List"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
@@ -10053,6 +10158,13 @@ msgid "Secondary"
 msgstr "Secundari"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
+#, python-format
+msgid "Secondary Buttons"
+msgstr "Botons secundaris"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Secondary Style"
 msgstr "Estil secundari"
@@ -10366,6 +10478,13 @@ msgstr "Mostra la política de reCaptcha"
 #: model_terms:ir.ui.view,arch_db:website.view_view_form_extend
 msgid "Show site map"
 msgstr "Mostra el mapa del lloc"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_popup/000.js:0
+#, python-format
+msgid "Show the cookies bar"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -11021,10 +11140,13 @@ msgid "Test your robots.txt with Google Search Console"
 msgstr "Prova els teus robots.txt amb la consola de cerca de Google"
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/xml/website.editor.xml:0
 #: model_terms:ir.ui.view,arch_db:website.grid_layout_options
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 #: model_terms:ir.ui.view,arch_db:website.snippets
+#, python-format
 msgid "Text"
 msgstr "Text"
 
@@ -11410,8 +11532,8 @@ msgstr "Tercer menú"
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/page_properties.xml:0
 #, python-format
-msgid "This URL is contained in the '%s' of the following '%s'"
-msgstr "Aquesta URL està continguda en «%s» de «%s» següent"
+msgid "This URL is contained in the “%(field)s” of the following “%(model)s”"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.new_page_template_services_0_s_three_columns
@@ -11590,7 +11712,7 @@ msgstr "Aquest arc de visió s'ha modificat"
 
 #. module: website
 #. odoo-javascript
-#: code:addons/website/static/src/systray_items/website_switcher.xml:0
+#: code:addons/website/static/src/systray_items/website_switcher.js:0
 #, python-format
 msgid "This website does not have a domain configured."
 msgstr ""
@@ -11616,7 +11738,7 @@ msgstr "Miniatures"
 #: model_terms:ir.ui.view,arch_db:website.s_social_media
 #, python-format
 msgid "TikTok"
-msgstr ""
+msgstr "TikTok"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website__social_tiktok
@@ -12608,6 +12730,13 @@ msgid ""
 msgstr ""
 
 #. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_facebook_page/options.js:0
+#, python-format
+msgid "We couldn't find the Facebook page"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy
 msgid ""
 "We do not currently support Do Not Track signals, as there is no industry "
@@ -12965,7 +13094,7 @@ msgstr "Imatge del lloc web"
 #. module: website
 #: model:ir.model,name:website.model_website_rewrite
 msgid "Website rewrite"
-msgstr "Reescriptura del lloc web"
+msgstr "Reescriptura d'URL del lloc web"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.view_website_rewrite_form
@@ -13142,6 +13271,13 @@ msgstr "Any"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/xml/website_form_editor.xml:0
+#, python-format
+msgid "Yes"
+msgstr "Sí"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/website_preview.js:0
 #, python-format
 msgid ""
@@ -13220,6 +13356,15 @@ msgstr ""
 "configuració"
 
 #. module: website
+#. odoo-python
+#: code:addons/website/models/website_menu.py:0
+#, python-format
+msgid ""
+"You cannot delete this website menu as this serves as the default parent "
+"menu for new websites (e.g., /shop, /event, ...)."
+msgstr ""
+
+#. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/options.js:0
 #, python-format
@@ -13227,11 +13372,10 @@ msgid "You cannot duplicate this field."
 msgstr ""
 
 #. module: website
-#: code:addons/website/models/website_menu.py:0
+#. odoo-javascript
+#: code:addons/website/static/src/snippets/s_facebook_page/options.js:0
 #, python-format
-msgid ""
-"You cannot delete this website menu as this serves as the default parent "
-"menu for new websites (e.g., /shop, /event, ...)."
+msgid "You didn't provide a valid Facebook link"
 msgstr ""
 
 #. module: website
@@ -13258,13 +13402,6 @@ msgid ""
 msgstr ""
 "Has amagat aquesta pàgina de la cerca de resultats. No serà indexada pels "
 "motors de cerca."
-
-#. module: website
-#. odoo-python
-#: code:addons/website/models/res_config_settings.py:0
-#, python-format
-msgid "You haven't defined your domain"
-msgstr "No heu definit el vostre domini"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy

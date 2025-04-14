@@ -174,6 +174,12 @@ class AccountAnalyticPlan(models.Model):
         for plan in self:
             plan.children_count = len(plan.children_ids)
 
+    @api.onchange('parent_id')
+    def _onchange_parent_id(self):
+        project_plan, __ = self._get_all_plans()
+        if self._origin.id == project_plan.id:
+            raise UserError(_("You cannot add a parent to the base plan '%s'", project_plan.name))
+
     def action_view_analytical_accounts(self):
         result = {
             "type": "ir.actions.act_window",
@@ -233,7 +239,12 @@ class AccountAnalyticPlan(models.Model):
         else:
             score = 0
             applicability = self.default_applicability
-            for applicability_rule in self.applicability_ids.filtered(lambda rule: rule.company_id == self.env.company):
+            for applicability_rule in self.applicability_ids.filtered(
+                    lambda rule:
+                    not rule.company_id
+                    or not kwargs.get('company_id')
+                    or rule.company_id.id == kwargs.get('company_id')
+            ):
                 score_rule = applicability_rule._get_score(**kwargs)
                 if score_rule > score:
                     applicability = applicability_rule.applicability
@@ -261,7 +272,7 @@ class AccountAnalyticPlan(models.Model):
                 prev.field_description = plan.name
             elif not plan.parent_id:
                 column = plan._strict_column_name()
-                self.env['ir.model.fields'].with_context(update_custom_fields=True).sudo().create({
+                field = self.env['ir.model.fields'].with_context(update_custom_fields=True).sudo().create({
                     'name': column,
                     'field_description': plan.name,
                     'state': 'manual',
@@ -269,15 +280,46 @@ class AccountAnalyticPlan(models.Model):
                     'model_id': self.env['ir.model']._get_id('account.analytic.line'),
                     'ttype': 'many2one',
                     'relation': 'account.analytic.account',
+                    'store': True,
+                    'on_delete': 'restrict',
                 })
                 tablename = self.env['account.analytic.line']._table
                 indexname = make_index_name(tablename, column)
                 create_index(self.env.cr, indexname, tablename, [column], 'btree', f'{column} IS NOT NULL')
+                field.write({
+                    'index': True,
+                })
+
+    def write(self, vals):
+        new_parent = self.env['account.analytic.plan'].browse(vals.get('parent_id'))
+        plan2previous_parent = {plan: plan.parent_id for plan in self if plan.parent_id}
+        if 'parent_id' in vals and new_parent:
+            # Update accounts in analytic lines before _sync_plan_column() unlinks child plan's column
+            for plan in self:
+                self.env['account.analytic.account']._update_accounts_in_analytic_lines(
+                    new_fname=new_parent._column_name(),
+                    current_fname=plan._column_name(),
+                    accounts=plan.account_ids,
+                )
+
+        res = super().write(vals)
+
+        if 'parent_id' in vals and not new_parent:
+            # Update accounts in analytic lines after _sync_plan_column() creates the new column
+            for plan, previous_parent in plan2previous_parent.items():
+                self.env['account.analytic.account']._update_accounts_in_analytic_lines(
+                    new_fname=plan._column_name(),
+                    current_fname=previous_parent._column_name(),
+                    accounts=plan.account_ids,
+                )
+        return res
 
 
 class AccountAnalyticApplicability(models.Model):
     _name = 'account.analytic.applicability'
     _description = "Analytic Plan's Applicabilities"
+    _check_company_auto = True
+    _check_company_domain = models.check_company_domain_parent_of
 
     analytic_plan_id = fields.Many2one('account.analytic.plan')
     business_domain = fields.Selection(
@@ -304,7 +346,10 @@ class AccountAnalyticApplicability(models.Model):
     def _get_score(self, **kwargs):
         """ Gives the score of an applicability with the parameters of kwargs """
         self.ensure_one()
+        # 0.5 is because company is less important than other fields for an equal number of valid fields
+        # No company on the applicability and the kwargs together are not considered a more fitting rule
+        score = 0.5 if self.company_id and kwargs.get('company_id') else 0
         if not kwargs.get('business_domain'):
-            return 0
+            return score
         else:
-            return 1 if kwargs.get('business_domain') == self.business_domain else -1
+            return score + 1 if kwargs.get('business_domain') == self.business_domain else -1

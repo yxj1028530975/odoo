@@ -21,7 +21,7 @@ class AccountEdiXmlUBLPINTMY(models.AbstractModel):
         vals = super()._export_invoice_vals(invoice)
         vals['vals'].update({
             # see https://docs.peppol.eu/poac/my/pint-my/bis/#profiles
-            'customization_id': 'urn:peppol:pint:billing-1@my-1',
+            'customization_id': self._get_customization_ids()['pint_my'],
             'profile_id': 'urn:peppol:bis:billing',
         })
         if invoice.currency_id != invoice.company_id.currency_id:
